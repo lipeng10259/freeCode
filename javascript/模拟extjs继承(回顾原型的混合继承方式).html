@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 混合继承: 原型对象和借用构造函数继承
+
+        function Person (name , age) {
+            this.name = name ;
+            this.age = age ;
+        }
+
+        Person.prototypoe = {
+            sayHello : function () {
+                alert('hello world')
+            }
+        }
+
+        function Boy (name ,age , sex){
+            //call 绑定类的模板函数， 实现借用构造函数继承(只复制了父类的模板)
+            Person.call(this, name , age)
+            this.sex = sex
+        }
+
+        // 原型继承的方式: 既继承了父类的模板 又继承了父类的原型对象
+
+        Boy.prototype = new Person()
+
+
+        // 混合继承方式的缺点 总共继承了两次父类的模板 继承了一次原型对象
+        // 一次通过new Person() 的方式继承了父类的模板
+        // 一次通过 Person.call(this , name , age , sex) 的方式继承了父类的模板
+        // 原型对象通过 Boy.prototype = new Person()的方式继承了父类的原型对象
+
+        var b = new Boy('张三' , 20 , '男')
+
+        alert(b.name)
+
+
+
+
+
+
+    
+    
+    </script>
+</body>
+</html>

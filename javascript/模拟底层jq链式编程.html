@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script> 
+        // 模拟jq底层链式编程
+        // 块级作用域
+        // 特点一 程序启动之后立即执行 二 内部成员变量外部无法访问
+        (function (window, undefined) {// 立即执行函数（块级作用域）无法被外部访问
+
+            // $ 返回给外界 在大型程序的开发中一般使用'_'作为私用的对象
+            
+            function _$(arguments){
+
+            };
+
+            // 在Function 类上扩展一个可以实现链式编程的方法
+
+            Function.prototype.method = function (methodName , fn){
+                this.prototype[methodName] = fn
+                return this// 链式编程的关键
+
+            }
+
+            // 在_$的原型对象上 加一些公共的方法
+
+            _$.prototype = {
+                constructor : _$,
+                addEvent : function (){
+                    alert('addEvent')
+                    return this;
+                },
+                setStyle : function () {
+                    alert('setStyle')
+                    return this;
+                }
+
+            }
+
+
+
+
+            //window 上先注册一个全局变量 
+                window.$ = _$;
+            // 写一个准备方法
+            _$.onReady =  function (fn){
+
+                //1. 实例化出来_$对象 真正的注册到window 上
+                    window.$ = function (){
+                        return new _$(arguments);
+                    }
+
+                //2 执行传入进来的代码
+                    fn()
+
+                //3 实现链式编程
+                // _$.method('addEvent' , function () {
+
+                // })
+                // .method('setStyle' , function () {
+
+                // })
+            }
+
+
+
+
+
+        })(window)// 程序入口 window 传入作用域中 
+    
+        $.onReady(function () {
+            $().addEvent().setStyle()
+        })
+        
+    </script>
+
+</body>
+</html>

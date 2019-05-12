@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+        function extend (sub , sup){
+            // sub传入的子类 sup 传入的父类
+            // 目的: 实现继承父类的原型对象
+            
+
+            var F = new Function ();//1. 创建一个空函数 目的: 空函数继承中转
+
+            F.prototype = sup.prototype // 2.实现空函数的原型对象和超类的原型对象转换
+
+            sub.prototype = new F() //3. 实现原型继承
+
+            sub.prototype.constructor = sub;//4. 还原子类的构造器
+
+            // 保存一下父类的原型对象： 一方面方便解耦 另一方面获得父类的原型对象          
+            
+            sub.superClass  = sup.prototype// 自定义一个子类的静态属性 接收父类的原型对象
+
+            // 判断父类的原型对象的构造器
+            
+            if(sup.prototype.constructor == Object.prototype.constructor){
+                sup.prototype.constructor = sup
+            }
+
+
+        }
+
+
+
+
+        // 混合继承: 原型对象和借用构造函数继承
+
+        function Person (name , age) {
+            this.name = name ;
+            this.age = age ;
+        }
+
+        Person.prototype = {
+            constructor : Person,
+            sayHello : function () {
+                alert('hello world')
+            }
+        }
+
+        function Boy (name ,age , sex){
+            //call 绑定类的模板函数， 实现借用构造函数继承(只复制了父类的模板)
+            // Person.call(this, name , age)
+        
+            Boy.superClass.constructor.call(this, name , age)
+            this.sex = sex
+        }
+
+        // 原型继承的方式: 既继承了父类的模板 又继承了父类的原型对象
+
+        // Boy.prototype = new Person()
+
+
+        // 混合继承方式的缺点 总共继承了两次父类的模板 继承了一次原型对象
+        // 一次通过new Person() 的方式继承了父类的模板
+        // 一次通过 Person.call(this , name , age , sex) 的方式继承了父类的模板
+        // 原型对象通过 Boy.prototype = new Person()的方式继承了父类的原型对象
+
+        
+        extend(Boy , Person)
+        //  给子类加一个原型对象的方法
+
+
+
+        Boy.prototype.sayHello = function () {
+            alert('我是子类的方法')
+        }
+        
+
+
+
+        var b = new Boy('张三' , 20 , '男')
+
+        b.sayHello()
+        Boy.superClass.sayHello.call(b)
+
+
+
+
+
+    
+    
+    </script>
+</body>
+</html>

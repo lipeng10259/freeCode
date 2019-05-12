@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var Ext = {};
+        Ext.Base = (function () {
+            // 私有变量 控制返回的单体对象
+            let uniqInstance ;// undefined
+            // 需要你个构造器init 初始化单体对象的方法
+            function init () {
+                var a1 = 10 ;
+                var a2 = true ;
+                var fn1 = function () {
+                    alert('fn1')
+                }
+                var fn2 = function () {
+                    alert('fn2')
+                }
+                return {
+                    attr1 : a1,
+                    attr2 : a2,
+                    method1: function () {
+                        return fn1() 
+                    },
+                    method2: function () {
+                        return fn2();
+                    }
+                }
+            }
+            return {
+                getInstance : function () {
+                    if(!uniqInstance){// 如果不存在穿件单体
+                        uniqInstance = init()
+                    }
+                    return uniqInstance 
+                   
+                }
+            }
+        })()
+        console.log(Ext.Base.getInstance().attr1)
+
+        // 分支单体
+
+        let def = false 
+
+        Ext.more = (function () {
+            let objA = {
+               attr1: 'FF属性1' 
+            };
+            let objB = {
+                attr1: 'google'
+            }
+
+            return (def) ? objA:objB
+
+        })()
+
+        console.log(Ext.more.attr1)
+
+
+
+
+
+
+
+
+
+    
+    </script>
+</body>
+</html>

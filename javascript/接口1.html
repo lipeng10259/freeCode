@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+            // javascript 定义接口有三种方式 
+           // 优点程序员可以有一个参考 
+            //缺点 还是属于文档的范畴 没有对接口进行检查，如果接口少写了一个方法，程序照样可以运行
+
+            //1 直接描述的方式
+
+            // interface Composite{
+            //     function add() {obj}
+            //     function remove(){obj}
+            //     function update(obj)
+            // }
+            
+            // var  CompositeImpl = function () {
+            //         this.add=function(){
+            //             console.log('qqq')
+            //         };
+            //         this.remove=function (){
+            //             console.log('obj')
+            //         }
+            // }
+
+            // 优化
+
+    var  CompositeImpl = function () {
+       
+        
+        }
+        CompositeImpl.prototype = {
+            constructor: CompositeImpl,
+            add : function () {
+                console.log('add')
+            },
+            remove : function () {
+
+            }
+        }
+            
+            var c1 = new CompositeImpl('我是注释接口')
+            c1.add()
+            // 属性检测的方式
+
+
+            // 鸭式变形法
+
+
+
+    </script>
+</body>
+</html>

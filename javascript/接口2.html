@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+            // javascript 定义接口有三种方式 
+           // 优点程序员可以有一个参考 
+            //缺点 还是属于文档的范畴 没有对接口进行检查，如果接口少写了一个方法，程序照样可以运行
+
+            //1 直接描述的方式
+
+            // interface Composite{
+            //     function add() {obj}
+            //     function remove(){obj}
+            //     function update(obj)
+            // }
+            
+            // var  CompositeImpl = function () {
+            //         this.add=function(){
+            //             console.log('qqq')
+            //         };
+            //         this.remove=function (){
+            //             console.log('obj')
+            //         }
+            // }
+
+            // 优化
+
+            // var  CompositeImpl = function () {
+            
+                
+            //     }
+            //     CompositeImpl.prototype = {
+            //         constructor: CompositeImpl,
+            //         add : function () {
+            //             console.log('add')
+            //         },
+            //         remove : function () {
+
+            //         }
+            //     }
+                    
+            //         var c1 = new CompositeImpl('我是注释接口')
+            //         c1.add()
+            // 属性检测的方式
+
+            // interface Composite{  基础接口
+            //     function add() {obj}
+            //     function remove(){obj}
+            //     function update(obj)
+            // }
+
+            // interface FormItem { 验证接口
+            //     function select (obj) {
+
+            //     }
+            // }
+                // compositeImpl 
+                var CompositeImpl = function () {
+                    // 显示的在类的内部 接受所实现的接口 
+                    // 一般来说我们项目经理，在类的内部定义一个变量（名字要固定，方便其他程序员使用）
+                    this.implementInterfaces = ['Composite','FormItem']// 我们要实现的接口 'Composite','FormItem'
+                }
+
+              CompositeImpl.prototype.add = function () {
+                        console.log('add')
+                }
+               
+                
+                CompositeImpl.prototype.remove = function () {
+
+                }
+                
+
+                CompositeImpl.prototype.update = function () {
+
+                }
+                
+
+                CompositeImpl.prototype.select = function () {
+                        
+                }
+                // 检测CompositeImpl 类的对象
+                function CheckCompositeImpl (instance) {
+                    // 判断当前对象是否实现了所有接口
+                    if(!IsImplements(instance,'Composite','FormItem')){
+                        throw new Error('这个实力对象没有继承')
+                    }
+
+                }
+                // 公共的具体检测方法 这方法的主要目的就是判断实例对象有没有实现接口
+                function IsImplements (object) {
+              
+                    // arguments 对象 获得函数的实际参数====
+                    for(var i = 1; i < arguments.length;i++){
+                        //接收所实现的每一个接口的名字
+                        var interfanceName = arguments[i];
+                        // 判断此方法是否成功
+                        var instanceFound =false;
+                        for (var j = 0;j < object.implementInterfaces.length;j++) {
+                            
+                            if(object.implementInterfaces[j] == interfanceName){
+                                instanceFound = true;
+                                break;
+                            }
+                        }
+                        if(!instanceFound) {
+                            return false
+                        }
+
+                    }
+                    return true
+
+                }
+
+                var c1 = new CompositeImpl();
+                CheckCompositeImpl(c1)
+                c1.add()
+            // 鸭式变形法
+
+
+
+    </script>
+</body>
+</html>
