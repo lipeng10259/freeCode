@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src = "CommonUtil.js"></script>
+</head>
+<body>
+    <script>
+        // 先搭建一个工厂环境
+
+        // 优化  所有的 车都有run 和 start 的方法 可以声明一个父类 拥有此方法 然后去继承
+        
+        function CarShop () {}
+
+
+        CarShop.prototype ={
+            constructor : CarShop,
+            sellCar : function (type) {
+                var car ;// 声明一个变量
+
+                switch (type) {
+                    case 'Benz' :
+                    car = new Benz();
+                    break;
+                    case 'Bmw' :
+                    car = new Bmw();
+                    break;
+                    case 'Audi' :
+                    car = new Audi();
+                    break;
+                }
+
+                BH.Interface.ensureImplements(car , CarInterface)
+
+                return car;
+            }
+        }
+    
+        var CarInterface = new BH.Interface('CarInterface' , ['start' , 'run'])
+
+        // 超类 或者是父类
+        function BaseCar () {}
+
+        BaseCar.prototype = {
+            constructor : BaseCar , 
+            start : function () {
+                
+                alert(this.constructor.name + '...start')
+            },
+            run : function () {
+                console.log(this)
+                alert(this.constructor.name + '...run')
+            }
+        }
+
+
+        // Class  benz bmw audi
+
+
+        function Benz () {}
+
+        BH.extend(Benz , BaseCar)
+
+        Benz.prototype.driveBenz = function () {
+            alert('driveBenz')
+        }
+
+
+        // Benz.prototype.run = function () {
+        //     alert('run')
+        // }
+
+
+        function Bmw () {}
+
+        BH.extend(Bmw , BaseCar)
+
+
+        Bmw.prototype.driveBmw = function () {
+            alert('driveBmw')
+        }
+
+
+        // Bmw.prototype.run = function () {
+        //     alert('run')
+        // }
+
+
+        function Audi () {}
+
+        BH.extend(Audi , BaseCar)
+
+        Audi.prototype.driveAudi = function () {
+            alert('driveAudi')
+        }
+
+
+        // Audi.prototype.run = function () {
+        //     alert('run')
+        // }
+
+
+        var shop = new CarShop()
+
+        var car =  shop.sellCar('Benz')
+        car.run()
+        car.driveBenz()
+
+
+
+
+    
+    </script>
+</body>

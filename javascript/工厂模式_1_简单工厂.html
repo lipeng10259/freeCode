@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src = "CommonUtil.js"></script>
+</head>
+<body>
+    <script>
+        // 先搭建一个工厂环境
+        
+        function CarShop () {}
+
+
+        CarShop.prototype ={
+            constructor : CarShop,
+            sellCar : function (type) {
+                var car ;// 声明一个变量
+
+                switch (type) {
+                    case 'Benz' :
+                    car = new Benz();
+                    break;
+                    case 'Bmw' :
+                    car = new Bmw();
+                    break;
+                    case 'Audi' :
+                    car = new Audi();
+                    break;
+                }
+
+                BH.Interface.ensureImplements(car , CarInterface)
+
+                return car;
+            }
+        }
+    
+        var CarInterface = new BH.Interface('CarInterface' , ['start' , 'run'])
+
+
+        // Class  benz bmw audi
+
+
+        function Benz () {}
+
+        Benz.prototype.start = function () {
+            alert('start')
+        }
+
+
+        Benz.prototype.run = function () {
+            alert('run')
+        }
+
+
+        function Bmw () {}
+
+
+        Bmw.prototype.start = function () {
+            alert('start')
+        }
+
+
+        Bmw.prototype.run = function () {
+            alert('run')
+        }
+
+
+        function Audi () {}
+
+
+        Audi.prototype.start = function () {
+            alert('start')
+        }
+
+
+        Audi.prototype.run = function () {
+            alert('run')
+        }
+
+
+        var shop = new CarShop()
+
+        shop.sellCar('Benz').run()
+
+
+
+
+    
+    </script>
+</body>

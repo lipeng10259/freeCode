@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src = "CommonUtil.js"></script>
+</head>
+<body>
+    <script>
+
+        // 工厂函数的 细粒度和粗粒度
+
+        // 万事万物皆是Objext  : 买车的商店-> 卖车 -> 生产车 -> Factory 
+
+
+        // 先搭建一个工厂环境
+
+        // 优化  所有的 车都有run 和 start 的方法 可以声明一个父类 拥有此方法 然后去继承
+        
+        // 卖车的商店 可能有 奥迪 奔驰 宝马
+
+
+        // super Car 卖车
+
+        // abstact class 
+
+
+
+        function CarShop () {}
+
+        CarShop.prototype ={
+            constructor : CarShop,
+            sellCar : function (type) {
+                // var car = CarFactory.CarFactory(type)
+                // return car;
+                this.abstractSellCar(type)
+            },
+            abstractSellCar : function () {
+                throw new Error('this method is abstact ...')
+            }
+        }
+
+        // Benz 4s 店
+
+        function BenzCarShop () {}
+        BH.extend(BenzCarShop , CarShop)
+        BenzCarShop.prototype = {
+            constructor : BenzCarShop ,
+            sellCar : function  (type) {
+                var car // 声明一个变量
+                var types = ['Benz']// 所有的benz类型的车
+                for (t in types) {
+                    // 如果我的商店里面有你想要的汽车型号
+                    if(types[t] === type){
+                        car = CarFactory.createCar(type)
+                    }else{
+                        alert('没有你要的型号')
+                    }
+                }
+                return car;
+            }
+        }
+
+        // Bmw 4s 店
+        function BmwCarShop () {}
+        BH.extend(BmwCarShop , CarShop)
+        BmwCarShop.prototype = {
+            constructor : BmwCarShop ,
+            sellCar : function  (type) {
+                var car = CarFactory.createCar(type)
+                return car;
+            }
+        }
+
+        // Audi 4s 店
+
+        function AudiCarShop () {}
+        BH.extend(AudiCarShop , CarShop)
+        AudiCarShop.prototype = {
+            constructor : AudiCarShop ,
+            sellCar : function  (type) {
+                var car = CarFactory.createCar(type)
+                return car;
+            }
+        }
+
+
+
+
+        // 生产车的工厂 目的是为了生产车
+        // 单体工厂
+        var CarFactory = {
+            createCar : function (type) {
+                // 利用eval 动态创建类型
+                var car = eval ('new '+type+' ()')
+       
+                // 检验接口实现
+                BH.Interface.ensureImplements(car , CarInterface)
+
+                return car;
+
+            }
+        }
+
+           
+    
+        var CarInterface = new BH.Interface('CarInterface' , ['start' , 'run'])
+
+        // 超类 或者是父类
+        function BaseCar () {}
+
+        BaseCar.prototype = {
+            constructor : BaseCar , 
+            start : function () {
+                
+                alert(this.constructor.name + '...start')
+            },
+            run : function () {
+              
+                alert(this.constructor.name + '...run')
+            }
+        }
+
+
+        // Class  benz bmw audi
+
+
+        function Benz () {}
+
+        BH.extend(Benz , BaseCar)
+
+        Benz.prototype.driveBenz = function () {
+            alert('driveBenz')
+        }
+
+
+        function Bmw () {}
+
+        BH.extend(Bmw , BaseCar)
+
+
+        Bmw.prototype.driveBmw = function () {
+            alert('driveBmw')
+        }
+
+
+
+        function Audi () {}
+
+        BH.extend(Audi , BaseCar)
+
+        Audi.prototype.driveAudi = function () {
+            alert('driveAudi')
+        }
+
+
+
+
+        var shop = new BenzCarShop()
+
+        var car =  shop.sellCar('Benz')
+        car.run()
+        car.driveBenz()
+
+
+
+
+    
+    </script>
+</body>
