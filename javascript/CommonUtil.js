@@ -51,7 +51,7 @@
                 var methodName = instanceInterface.methods[j]
 
                 if(!object[methodName] || typeof object[methodName] !== 'function'){
-                    throw new Error('the method"' + methodName + '"is not found')
+                    throw new Error('the method "' + methodName + '" is not found')
                 }
 
             }

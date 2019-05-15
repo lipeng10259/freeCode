@@ -24,14 +24,14 @@
         CarShop.prototype ={
             constructor : CarShop,
             sellCar : function (type) {
-                var car = CarFactory.CarFactory(type)
+                var car = CarFactory.createCar(type)
                 return car;
             }
         }
         // 生产车的工厂 目的是为了生产车
         // 
         var CarFactory = {
-            createCar : function () {
+            createCar : function (type) {
                 var car ;// 声明一个变量
                 switch (type) {
                     case 'Benz' :
@@ -66,8 +66,9 @@
                 alert(this.constructor.name + '...start')
             },
             run : function () {
-                console.log(this)
+           
                 alert(this.constructor.name + '...run')
+                
             }
         }
 
