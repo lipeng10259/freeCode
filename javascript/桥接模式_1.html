@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src = "CommonUtil.js"></script>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    
+    <input id = 'ipt' type="button" value = "我是点击的按钮">
+    <script>
+        //  桥接模式 ： 主要作用就是把抽象和现实分离出来 使他们可以完全独立变化
+
+        // 应用场景： 事件监听回调机制 （用户点击一个按钮 ， 向服务器发送信息）
+            $(function () {
+                // 1 前台业务逻辑
+                var ipt = document.getElementById('ipt')
+                //--------------------------------------------------
+                // 用事件注册的方式 在元素上添加事件
+                BH.EventUtil.addHandler(ipt , 'click' , sendReq)
+
+                // 2 后台业务逻辑
+                // 处理后台的模式
+
+                function sendReq () {
+
+                    alert(this.value)
+
+                }
+
+            })
+
+
+    </script>
+
+
+</body>
+</html>

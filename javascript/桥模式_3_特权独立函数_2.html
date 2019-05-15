@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        var PublicClass = function () {
+           var privateMethod = function () {
+               alert('执行了一个复杂的操作')
+           }
+
+           // 通过特权函数去访问这个私有的独立单元
+
+           this.bridgeMethod = function () {
+               privateMethod()
+           }
+
+        }
+
+        var p1 = new PublicClass()
+        p1.bridgeMethod()
+        
+        
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        var PublicClass = function () {
+            // private variable
+            var name = '张三'
+            
+            // getter 访问私有成员变量
+
+            this.getName = function () {
+
+                return name;
+
+            }
+        }
+
+        var p1 = new PublicClass()
+        alert(p1.getName())
+        
+        
+    </script>
+
+</body>
+</html>
