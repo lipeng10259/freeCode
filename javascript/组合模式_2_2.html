@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src = 'CommonUtil.js'></script>
+</head>
+<body>
+    
+    <script>
+
+        var CompositeInterface = new BH.Interface ('CompositeInterface' , ['addChild' , 'getChild'])
+        var LeafInterface = new BH.Interface ('LeafInterface' , ['hardworking' , 'sleeping'])
+        
+        var Composite = function (name) {
+            this.name = name ;
+            this.type = 'Composite' ;
+            this.children = [];
+        } 
+
+        Composite.prototype = {
+            constructor : Composite ,
+            addChild : function (child) {
+                this.children.push(child) ;
+                return this ;
+            } ,
+            getChild : function  (name) {
+                let elements = [] ;
+                // 判断对象是否是Leaf类型的 ， 如果是直接加到elments 数组中
+                let pushLeaf = function (item) {
+                        if(item.type === 'Composite'){
+                            item.children.forEach(arguments.callee)
+                        }else if(item.type === 'leaf'){
+                            elements.push(item)
+                        }
+                 
+                    }
+                if (name && this.name !== name) {// 根据name 让指定name下的所有类型为leaf的对象去执行操作
+                    this.children.forEach(function (item) {
+                        // 如果传递的是2级节点名称
+                        if(item.name == name && item.type === 'Composite') {
+                            item.children.forEach(pushLeaf)
+                        }
+                        // 如果传递是name 是3级节点或者4级节点或者是N级节点
+                        if(item.name!==name && item.type === 'Composite'){
+                            item.children.forEach(arguments.callee)
+                        }
+                        // 如果传递的是叶子节点
+                        if(item.name === name && item.type === 'leaf'){
+                            elements.push(item)
+                        }
+                    })
+
+
+
+
+                } else {// 不传递name的时候 让整个公司所有类型为leaf的对象去执行操作
+                    this.children.forEach(pushLeaf)
+                }
+                return elements ;
+            } ,
+            hardworking : function (name) { // 此处的hardworking 方法并没有实际的方法 叶子的hardworking才有具体的方法
+                // 得到所有的Leaf类型的对象
+                let leafObjects = this.getChild(name);
+                for (var i = 0 ;i < leafObjects.length ; i++){
+                    leafObjects[i].hardworking() ;
+                }
+
+
+            } ,
+            sleeping : function (name) {} ,
+        }
+
+        var Leaf = function (name) {
+            this.name = name ;
+            this.type = 'leaf' ;
+        }
+
+        Leaf.prototype = {
+            constructor : Leaf ,
+            addChild : function (child) {
+                throw new Error('this method is disabled...')
+            } ,
+            getChild : function  (name) {
+                if(this.name = name) {
+                    return this ;
+                }
+                return null ;
+
+            } ,
+            hardworking : function (name) {
+                document.write(this.name + '... 努力工作')
+            } ,
+            sleeping : function (name) {
+                document.write(this.name + '...努力睡觉')
+            } 
+        }
+
+        //测试数据
+
+        var p1 = new Leaf ('张1')
+        var p2 = new Leaf ('张2')
+        var p3 = new Leaf ('张3')
+        var p4 = new Leaf ('张4')
+        var p5 = new Leaf ('张5')
+        var p6 = new Leaf ('张6')
+        var p7 = new Leaf ('张7')
+        var p8 = new Leaf ('张8')
+        var p9 = new Leaf ('张9')
+        var p10 = new Leaf ('张10')
+        var p11 = new Leaf ('张11')
+        var p12 = new Leaf ('张12')
+
+        var dept1 = new Composite('北京开发部门') ;
+        dept1.addChild(p1).addChild(p2).addChild(p3) ;
+        var dept2 = new Composite('北京销售部门') ;
+        dept2.addChild(p4).addChild(p5).addChild(p6)
+
+
+        var dept3 = new Composite('长沙开发部门') ;
+        dept3.addChild(p7).addChild(p8).addChild(p9) ;
+        var dept4 = new Composite('长沙销售部门') ;
+        dept4.addChild(p10).addChild(p11).addChild(p12)
+
+        var org1 = new Composite('北京分公司')
+
+        org1.addChild(dept1).addChild(dept2)
+
+        var org2 = new Composite('长沙分公司')
+
+        org2.addChild(dept3).addChild(dept4)
+
+        var org = new Composite('尚学堂总部') ;
+
+        org.addChild(org1).addChild(org2) ;
+
+        org.hardworking('张1')
+
+
+        
+    </script>
+
+
+
+</body>
+</html>
