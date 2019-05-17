@@ -12,7 +12,7 @@
 
         // 工厂函数的 细粒度和粗粒度
 
-        // 万事万物皆是Objext  : 买车的商店-> 卖车 -> 生产车 -> Factory 
+        // 万事万物皆是Object  : 买车的商店-> 卖车 -> 生产车 -> Factory 
 
 
         // 先搭建一个工厂环境
@@ -50,7 +50,7 @@
             constructor : BenzCarShop ,
             sellCar : function  (type) {
                 var car // 声明一个变量
-                var types = ['Benz']// 所有的benz类型的车
+                var types = ['Benz' , 'BenzC260']// 所有的benz类型的车
                 for (t in types) {
                     // 如果我的商店里面有你想要的汽车型号
                     if(types[t] === type){
@@ -135,6 +135,9 @@
             alert('driveBenz')
         }
 
+        function BenzC260 () {}
+
+        BH.extend(BenzC260 , BaseCar)
 
         function Bmw () {}
 
@@ -160,7 +163,7 @@
 
         var shop = new BenzCarShop()
 
-        var car =  shop.sellCar('Benz')
+        var car =  shop.sellCar('BenzC260')
         car.run()
         car.driveBenz()
 

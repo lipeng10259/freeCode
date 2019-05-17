@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script charset="utf-8">
+        // 组合模式
+        
+
+                 
+        var Org = function (name) {
+            this.name = name ;
+            this.depts = [] ;
+        }
+
+        Org.prototype = {
+            constructor : Org ,
+            addDepts : function (child) {
+                this.depts.push(child)
+                return this ;
+            },
+            getDepts : function () {
+                return this.depts;
+            }
+        }
+
+        var Dept = function (name) {
+            this.name = name ;
+            this.persons = [] ;
+        }
+
+        Dept.prototype = {
+            constructor : Dept ,
+            addPersons : function (child) {
+                this.persons.push(child) ;
+                return this ;
+            },
+            getPersons : function () {
+                return this.persons ;
+            }
+        }
+
+        var Person = function (name) {
+            this.name = name
+        }
+
+        Person.prototype = {
+            constructor : Person ,
+            hardworking : function () {
+                document.write(this.name + '...努力工作!')
+            },
+            sleeping : function () {
+                document.write(this.name + '...努力睡觉!')
+            }
+        };
+
+
+       var p1 = new Person('张1')
+       var p2 = new Person('张2')
+       var p3 = new Person('张3')
+       var p4 = new Person('张4')
+       var p5 = new Person('张5')
+       var p6 = new Person('张6')
+
+        var dept1 = new Dept('开发部门');
+
+        dept1.addPersons(p1).addPersons(p2).addPersons(p3)
+
+        var dept2 = new Dept('销售部门')
+
+        dept2.addPersons(p4).addPersons(p5).addPersons(p6)
+
+        var org = new Org ('bjsxt')
+
+        org.addDepts(dept1).addDepts(dept2);
+
+
+        // 需求让一个人去工作
+
+        console.log(org.getDepts())
+
+        for(var i = 0 , depts = org.getDepts(); i < depts.length ; i++) {
+            
+            for (var j = 0 ,persons = depts[i].getPersons() ; j < persons.length ; j++) {
+        
+                if(persons[j].name == '张3') {
+                    persons[j].hardworking()
+                }
+            }
+        }
+
+        /**
+         *  场景模拟 
+         *          ----> 公司
+         *                     ---> 财务部门 
+         *                                      ---> 张一
+         *                                      ---> 张二
+         *                                      ---> 张三
+         *                     ---> 销售部门 
+         *                                      ---> 张四
+         *                                      ---> 张五
+         *                                      ---> 张六
+         * 
+         * 
+         * 
+         *           实际的任务具体是落实到人上去实施 也就是说只有人才具有具体的方法实现
+         *           组合模式应用的场景和特点
+         *              场景1 存在一批组织成某种层次体系的对象
+         *              场景2 希望对这批对象或其中的一部分对象实施一个操作
+         *           应用特点 :
+         *               一种叫做组合对象 一种叫做叶子对象
+         *              这两种类型使用同一批接口
+         *              一般我们会在组合对象中调用其他方法并隐式调用'下级对象'的方法（这里我们一般采用递归的形式调用）
+        */
+
+
+
+    </script>
+</body>
+</html>
