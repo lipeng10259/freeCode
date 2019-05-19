@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+      // 返回一个时间的当前字符串
+      // 装饰者模式就是在保证不改变原有对象的基础上， 去扩展一些想要的方法或者需求 
+        function getDate () {
+            return (new Date()).toString()
+        }  
+        
+        function upperCaseDecorator (fn) {
+            return function () {
+                return fn.apply(this).toUpperCase()
+            }
+        }
+
+        alert(getDate())
+
+        var getDecoratorDate = new upperCaseDecorator(getDate)
+
+        alert(getDecoratorDate())
+
+
+        function Num () {
+            return 12;
+        }
+
+        var Num_1 = function (fn) {
+            return (function () {
+               return  fn.apply(this)+10;
+            })()
+        }
+
+        console.log(Num_1(Num))
+    </script>
+    
+</body>
+</html>
+

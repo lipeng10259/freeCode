@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src = "CommonUtil.js"></script>
+</head>
+<body>
+    <script>
+        let orgInterface = new BH.Interface('orgInterface' , ['hardWorking' , 'goodSleeping'])
+
+        let middleOrg = function (name) {
+            this.name = name ;
+            this.type = 'middleOrg';
+            this.children = []
+        }
+        
+        middleOrg.prototype ={
+            consructor : middleOrg,
+            addChild : function (child) {
+                this.children.push(child)
+                return this;
+            },
+            getChild : function (name) { 
+                let elements = []
+                let eachOrg = function (item) {
+                    if(item.type === 'middleOrg'){
+                        item.children.forEach(arguments.callee)
+                    }else{
+                        elements.push(item)
+                    }
+                }
+                if(name&&this.name!==name){
+                    this.children.forEach(function (item){
+                        if(item.name !== name && item.type === 'middleOrg'){
+                            item.children.forEach(arguments.callee)
+                        } else if(item.name === name && item.type === 'middleOrg') {
+                            item.children.forEach(eachOrg)
+                        }else if(item.name === name && item.type === 'bottomOrg'){
+                            elements.push(item)
+                        }
+                    })
+
+                }else{
+                    this.children.forEach(eachOrg)
+                }
+                console.log(elements)
+                return elements ;
+    
+            },
+            hardWorking : function (name) {
+                let totalChild = this.getChild(name)
+                for(var i = 0,len = totalChild.length ; i < len ; i++){
+                    totalChild[i].hardWorking()
+                }
+            },
+            goodSleeping : function () {
+                let totalChild = this.getChild(name)
+                for(var i = 0,len = totalChild.length ; i < len ; i++){
+                    totalChild[i].goodSleeping()
+                }
+            }
+        }
+
+
+        let bottomOrg = function (name) {
+            this.name = name ;
+            this.type = 'bottomOrg'
+        }
+
+        bottomOrg.prototype = {
+            consructor : bottomOrg,
+            addChild : function () {
+                throw new Error('此函数没有子节点')
+            },
+            getChild : function () {
+                return this.children ;
+            },
+            hardWorking : function () {
+                console.log(this.name + ' 好好工作!')
+            },
+            goodSleeping : function () {
+                console.log(this.name + ' 好好睡觉')
+            }
+        } 
+
+
+        let child_1 =  new bottomOrg('child_1')
+        let child_2 =  new bottomOrg('child_2')
+        let child_3 =  new bottomOrg('child_3')
+        let child_4 =  new bottomOrg('child_4')
+        let child_5 =  new bottomOrg('child_5')
+        let child_6 =  new bottomOrg('child_6')
+        let child_7 =  new bottomOrg('child_7')
+        let child_8 =  new bottomOrg('child_8')
+        let child_9 =  new bottomOrg('child_9')
+        let child_10 =  new bottomOrg('child_10')
+        let child_11 =  new bottomOrg('child_11')
+        let child_12 =  new bottomOrg('child_12')
+
+        let org_1_1 = new middleOrg('组织_1_1');
+
+        org_1_1.addChild(child_1).addChild(child_2).addChild(child_3)
+
+        
+        let org_1_2 = new middleOrg('组织_1_2');
+
+        org_1_2.addChild(child_4).addChild(child_5).addChild(child_6)
+
+        let org_2_1 = new middleOrg('组织_2_1');
+
+        org_2_1.addChild(child_7).addChild(child_8).addChild(child_9)
+
+
+        let org_2_2 = new middleOrg('组织_2_2');
+
+        org_2_2.addChild(child_10).addChild(child_11).addChild(child_12)
+
+
+
+
+        let org_1 = new middleOrg('组织_1')
+
+        org_1.addChild(org_1_1).addChild(org_1_2)
+
+        let org_2 = new middleOrg('组织_2')
+
+        org_2.addChild(org_2_1).addChild(org_2_2)
+
+
+        let org = new middleOrg('组织');
+
+        org.addChild(org_1).addChild(org_2)
+
+
+        org.goodSleeping('child_1')
+
+    
+    
+    
+    
+    
+    
+    
+    </script>
+    
+</body>
+</html>

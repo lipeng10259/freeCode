@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>享元模式优化</title>
+    <script src = "CommonUtil.js  "></script>
+</head>
+<body>
+    <script>
+        // 享元模式 : 优化的设计模式 （优化 ：时间[代码的运行时间] 空间[web浏览器内存] ）
+        // 享元模式： 内在数据static （出厂商 ， 型号 ， 出厂日期） 外在数据（拥有者 ， 车牌号 ， 最近的登记日期）
+        // 内在数据 可以理解为公共数据 不改变的 如出厂商 型号 和出厂日期 等
+        
+        
+        
+        // 车的属性 出厂商  型号 出厂日期 拥有者 车牌号 登记日期
+        var Car = function (make , model , year){
+            this.make = make ;
+            this.model = model ;
+            this.year = year ;
+
+        } 
+
+        Car.prototype = {
+            constructor : Car, 
+            getMake : function () {
+
+            },
+            getModel : function () {
+
+            },
+            getYear : function () {
+
+            }
+      
+        };
+
+        // 利用闭包工厂包静态的东西初始化出来  
+
+        var CarFactory = (function () {
+            // 已经生产好的车
+            var  createdCars = {} ;
+
+            return {
+                createCar : function (make , model , year) {
+                // 如果createdCars 对象里面已经存在当前的make model year
+                    if(createdCars[make + model + year]){
+                        return createdCars[make + model + year]
+                    }else{
+                        let car = new Car(make , model , year)
+                        
+                        createdCars[make + model + year] = car ;
+
+                        return car ; 
+                    }
+
+                }
+            }
+
+        })()
+
+
+          // 在利用单体模式 把外在的数据和内在的数据联系在一起
+
+
+          var CarRecordManager = (function () {
+            var CarRecordDataBase = {} ;
+            return {
+                addCarRecord : function (make , model , year , owner , tag ,renewDate){
+                    var car =CarFactory.createCar (make , model , year);
+
+                    CarRecordDataBase[tag] = {
+                        owner : owner ,
+                        renewDate : renewDate ,
+                        car : car
+                    }
+
+                } , 
+                renewRegistration : function (tag , newRenewDate) {
+                    CarRecordDataBase[tag].renewDate = newRenewDate ;
+                } 
+            } 
+
+          })()
+
+
+
+
+
+
+
+
+        var arr = [] ;
+
+        var stime = new Date().getTime() ;
+
+        for (var i = 0 ; i < 500000;i++ ){
+            // arr.push(new Car ('上海大众' , '迈腾' , '2012-02-03' , 'bhx' , 'bj0011' , '2013-04-01'))
+            // 享元模式的测试  消耗时间 1.5s左右
+            arr.push (CarRecordManager.addCarRecord('上海大众' , '迈腾' , '2012-02-03' , 'bhx' , 'bj0011' , '2013-04-01'))
+        }
+
+        var etime = new Date().getTime();
+
+        alert(etime - stime)// 使用for循环500000次的时间差 大概在300  到900毫秒之间
+
+    </script>
+    
+</body>
+</html>

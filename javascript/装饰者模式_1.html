@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src = "CommonUtil.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * 装饰者模式 是一种为对象添加新特性的技术。它并不适合创建新子类的这种手段 。
+         * 装饰者模式可以用来透明把原始对象包装在具有同样接口的另一个对象之中 。 
+         * 这样我们就可以为对象添加一个方法或者一些行为吗，然后将方法调用传递给原始对象
+         * 
+         * 实现同样的接口
+         * 需要有子类
+         * 
+         * 
+         * 
+         * 
+         * 
+         * **/ 
+        let  CarInterface = new BH.Interface ('CarInterface' , ['getPrice' , 'assemble'])
+        
+        let Car = function (car) {
+            // 这里是为了让子类多一个父类的引用
+            this.car  = car ;
+            // 检查接口
+            BH.Interface.ensureImplements(this , CarInterface)
+        } ;
+        Car.prototype = {
+            constructor : Car ,
+            getPrice : function () {
+                return 2000 ;
+            },
+            assemble : function () {
+                console.log('组装汽车')
+            }
+        }
+
+        // 新的需求 升级车灯  icebox ...
+
+        let LightDecorator = function (car) {// 原始对象
+            console.log(car)
+            // 此处是继承父类的模板 this.car = car   BH.Interface.ensureImplements(this , CarInterface)
+            LightDecorator.superClass.constructor.call(this , car)
+
+        }
+        
+        BH.extend(LightDecorator , Car)
+
+        LightDecorator.prototype = {//子类新增加的方法可能会影响父类 ，如增加了东西父类中的价格可能会变
+             constructor : LightDecorator,  
+            getPrice : function () {
+                return this.car.getPrice() +1000;
+            },
+            assemble : function () {
+                console.log('组装车灯')
+            }
+        }
+
+
+        let iceboxDecorator = function (car) {// 原始对象
+            console.log(car)
+            // 此处是继承父类的模板 this.car = car   BH.Interface.ensureImplements(this , CarInterface)
+            iceboxDecorator.superClass.constructor.call(this , car)
+
+        }
+        
+        BH.extend(iceboxDecorator , Car)
+
+        iceboxDecorator.prototype = {//子类新增加的方法可能会影响父类 ，如增加了东西父类中的价格可能会变
+             constructor : iceboxDecorator,  
+            getPrice : function () {
+                return this.car.getPrice() +2000;
+            },
+            assemble : function () {
+                console.log('组装车灯')
+            }
+        }
+
+        var car = new Car()
+        alert(car.getPrice())
+        
+        car = new LightDecorator(car);
+        alert(car.getPrice())
+        //继承
+        car = new iceboxDecorator(car);
+        alert(car.getPrice())
+    </script>
+    
+</body>
+</html>
