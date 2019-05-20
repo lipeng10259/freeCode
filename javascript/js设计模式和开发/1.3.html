@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /***
+         *  Object 是Animal 的原型，而Animal 是Dog 的原型，它们之间形成了一
+            条原型链。这个原型链是很有用处的，当我们尝试调用Dog 对象的某个方法时，而它本身却没有
+            这个方法，那么Dog 对象会把这个请求委托给它的原型Animal 对象，如果Animal 对象也没有这
+            个属性，那么请求会顺着原型链继续被委托给Animal 对象的原型Object 对象，这样一来便能得
+            到继承的效果，看起来就像Animal 是Dog 的“父类”，Object 是Animal 的“父类”。
+            这个机制并不复杂，却非常强大，Io 和JavaScript 一样，基于原型链的委托机制就是原型继
+            承的本质。
+         * 
+         * 
+         * 
+         * 
+         * 
+         *  现在我们明白了原型编程中的一个重要特性，即当对象无法响应某个请求时，会把该请求委
+            托给它自己的原型。
+            最后整理一下本节的描述，我们可以发现原型编程范型至少包括以下基本规则。
+             所有的数据都是对象。
+             要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆它。
+             对象会记住它的原型。
+             如果对象无法响应某个请求，它会把这个请求委托给它自己的原型。
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         *  事实上，JavaScript 中的根对象是Object.prototype 对象。Object.prototype 对象是一个空的
+            对象。我们在JavaScript 遇到的每个对象，实际上都是从Object.prototype 对象克隆而来的，
+            Object.prototype 对象就是它们的原型
+         *
+         *
+         * 
+         *  var obj1 = new Object();
+            var obj2 = {};
+            可以利用ECMAScript 5 提供的Object.getPrototypeOf 来查看这两个对象的原型：
+            console.log( Object.getPrototypeOf( obj1 ) === Object.prototype ); // 输出：true
+            console.log( Object.getPrototypeOf( obj2 ) === Object.prototype ); // 输出：true
+         * 
+         * 
+         * 
+         * 
+         *  但在JavaScript 语言里，我们并不需要关心克隆的细节，因为这是引擎内部负责实现的。我
+            们所需要做的只是显式地调用var obj1 = new Object()或者var obj2 = {}。此时，引擎内部会从
+            Object.prototype 上面克隆一个对象出来，我们最终得到的就是这个对象。 
+         * 
+         * 
+         * 
+         * 
+         * JavaScript 给对象提供了一个名为__proto__的隐藏属性，某个对象的__proto__属性默认会指
+            向它的构造器的原型对象，即{Constructor}.prototype。
+         * 
+         * 
+         * 
+         * 
+         *  实际上，虽然JavaScript 的对象最初都是由Object.prototype 对象克隆而来的，但对象构造
+            器的原型并不仅限于Object.prototype 上，而是可以动态指向其他对象。这样一来，当对象a 需
+            要借用对象b 的能力时，可以有选择性地把对象a 的构造器的原型指向对象b，从而达到继承的
+            效果。下面的代码是我们最常用的原型继承方式：
+            var obj = { name: 'sven' };
+            var A = function(){};
+            A.prototype = obj;
+            var a = new A();
+            console.log( a.name ); // 输出：sven
+            我们来看看执行这段代码的时候，引擎做了哪些事情。
+             首先，尝试遍历对象a 中的所有属性，但没有找到name 这个属性。
+             查找name 属性的这个请求被委托给对象a 的构造器的原型，它被a.__proto__ 记录着并且
+            指向A.prototype，而A.prototype 被设置为对象obj。
+             在对象obj 中找到了name 属性，并返回它的值。
+         * 
+         * 
+         * 
+         *  当我们期望得到一个“类”继承自另外一个“类”的效果时，往往会用下面的代码来模拟实现：
+            var A = function(){};
+            A.prototype = { name: 'sven' };
+            var B = function(){};
+            B.prototype = new A();
+            var b = new B();
+            console.log( b.name ); // 输出：sven
+            再看这段代码执行的时候，引擎做了什么事情。
+             首先，尝试遍历对象b 中的所有属性，但没有找到name 这个属性。
+             查找name 属性的请求被委托给对象b 的构造器的原型，它被b.__proto__ 记录着并且指向
+            B.prototype，而B.prototype 被设置为一个通过new A()创建出来的对象。
+             在该对象中依然没有找到name 属性，于是请求被继续委托给这个对象构造器的原型
+            A.prototype。
+             在A.prototype 中找到了name 属性，并返回它的值。
+            和把B.prototype 直接指向一个字面量对象相比，通过B.prototype = new A()形成的原型链比
+            之前多了一层。但二者之间没有本质上的区别，都是将对象构造器的原型指向另外一个对象，继
+            承总是发生在对象和对象之间。
+            最后还要留意一点，原型链并不是无限长的。现在我们尝试访问对象a 的address 属性。而
+            对象b 和它构造器的原型上都没有address 属性，那么这个请求会被最终传递到哪里呢？
+            实际上，当请求达到A.prototype，并且在A.prototype 中也没有找到address 属性的时候，
+            请求会被传递给A.prototype 的构造器原型Object.prototype，显然Object.prototype 中也没有
+            address 属性，但Object.prototype 的原型是null，说明这时候原型链的后面已经没有别的节点了。
+            所以该次请求就到此打住，a.address 返回undefined。
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         * 
+         *  **/
+
+        function Fn () {}    
+
+        var fn = new Fn();
+
+        console.log(fn.__proto__ === Fn.prototype);
+
+
+        var n = 2 ;
+
+        var obj = {
+            n : 3,
+            fn : (function (n) {
+                n*=2;
+                this.n += 2;
+                console.log(n)
+                var n = 5;
+                return  function (m) {
+                    this.n*=2;
+                    console.log(m+(++n))
+                }
+            })(n)
+        }
+
+        var fn = obj.fn;
+        fn(3)
+        obj.fn(3)
+        console.log(n , obj.n);
+        
+    </script>
+</body>
+</html>

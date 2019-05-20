@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 多态  给不同的对象发送同一个消息的时候，这些对象会根据这个消息分别给出不同的反馈。
+        let makeSound = function (animal) {
+            if(animal && typeof animal.sound === 'function'){
+                animal.sound()
+            }
+        }    
+
+        let duck = function () {}
+
+        duck.prototype.sound = function () {
+            alert('嘎嘎嘎')
+        }
+        
+        let chicken = function () {}
+
+        chicken.prototype.sound = function () {
+            alert('咯咯咯')
+        }
+
+        makeSound(new duck())
+        makeSound(new chicken())
+
+        // 当我们 想makeSound 传递不同的对象的时候，返回给我们不同的消息。
+
+
+        let googleMap = {
+            show : function () {
+                console.log('开始渲染谷歌地图');
+            }
+        }
+
+        let baiduleMap = {
+            show : function () {
+                console.log('开始渲染谷歌地图');
+            }
+        }
+
+        let renderMap = function (map) {
+            if(map == 'google'){
+                googleMap.show()
+            }else if(map == 'baidu'){
+                baiduleMap.show()
+            }
+        }
+
+        renderMap('google')
+
+
+        // 优化
+
+
+        let renderMap_1 = function (map) {
+            if(typeof map.show == 'function'){
+                map.show()
+            }
+        }
+
+        renderMap_1(googleMap)
+
+
+    </script>
+
+
+
+</body>
+</html>
