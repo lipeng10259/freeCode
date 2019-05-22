@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id = "loginBtn">登录</button>
+    
+    
+    <script>
+    // 惰性单例模式实现方法 1 优化 
+
+
+    var createdLoginLayer =  function () {
+
+        var div = document.createElement('div');
+
+        div.innerHTML = '我是登录弹窗' ;
+
+        div.style.display = 'none' ;
+
+        document.body.appendChild(div) ;
+
+        return div ;
+
+    }
+
+    document.getElementById('#loginBtn').onclick = ( function  () {
+
+        var loginLayer = createdLoginLayer () ;
+
+        loginLayer.style.display = 'block' ;
+
+    })
+
+
+//     虽然现在达到了惰性的目的，但失去了单例的效果。当我们每次点击登录按钮的时候，都会
+// 创建一个新的登录浮窗div。虽然我们可以在点击浮窗上的关闭按钮时（此处未实现）把这个浮
+// 窗从页面中删除掉，但这样频繁地创建和删除节点明显是不合理的，也是不必要的。
+
+
+
+    </script>
+
+
+
+</body>
+</html>

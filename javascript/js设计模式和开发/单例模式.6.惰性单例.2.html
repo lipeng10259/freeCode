@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id = "loginBtn">登录</button>
+    
+    
+    <script>
+//         假设我们是WebQQ 的开发人员（网址是web.qq.com），当点击左边导航里QQ 头像时，会弹
+// 出一个登录浮窗（如图4-1 所示），很明显这个浮窗在页面里总是唯一的，不可能出现同时存在
+// 两个登录窗口的情况。
+    
+    // 惰性单例模式实现方法 1 
+
+        var loginLayer = ( function () {
+
+            var div = document.createElement('div') ;
+
+            div.innerHTML = '我是登录弹窗' ;
+
+            div.style.display = 'none' ;
+
+            document.body.append(div) ;
+
+            return div ;
+
+        })()
+
+
+        document.getElementById('#loginBtn').onclick (function () {
+
+            loginLayer.style.display = 'block' 
+
+
+        })
+
+        //这种方式有一个问题，也许我们进入WebQQ 只是玩玩游戏或者看看天气，根本不需要进行
+        //登录操作，因为登录浮窗总是一开始就被创建好，那么很有可能将白白浪费一些DOM节点。
+
+
+    </script>
+
+
+
+</body>
+</html>

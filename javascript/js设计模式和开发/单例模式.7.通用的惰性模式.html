@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id = "loginBtn">登录</button>
+
+    <script>
+        
+//         上一节我们完成了一个可用的惰性单例，但是我们发现它还有如下一些问题。
+//  这段代码仍然是违反单一职责原则的，创建对象和管理单例的逻辑都放在createLoginLayer
+// 对象内部。
+//  如果我们下次需要创建页面中唯一的iframe，或者script 标签，用来跨域请求数据，就
+// 必须得如法炮制，把createLoginLayer 函数几乎照抄一遍：
+    
+    
+   var getSingle = function  (fn) {
+
+        var result ;
+         
+         return function () {
+
+            return result || (result = fn.apply(this, arguments))  ;
+
+         }
+
+   } ;
+
+
+// 接下来将用于创建登录浮窗的方法用参数fn 的形式传入getSingle，我们不仅可以传入
+// createLoginLayer，还能传入createScript、createIframe、createXhr 等。之后再让getSingle 返回
+// 一个新的函数，并且用一个变量result 来保存fn 的计算结果。result 变量因为身在闭包中，它
+// 图灵社区会员 轩辕 专享 尊重版权
+// 永远不会被销毁。在将来的请求中，如果result 已经被赋值，那么它将返回这个值。代码如下：
+
+    var  createdLoginLayer = function () {
+
+        div = document.createElement('div');
+
+        div.innerHTML = '我是登录弹窗' ;
+
+        div.style.display = 'none' ;
+
+        document.body.appendChild(div) ;
+
+        return div ;
+
+
+    } 
+    
+
+
+
+
+
+
+
+    var createdSingleLoginLayer = getSingle (createdLoginLayer) ;
+
+    document.getElementById( 'loginBtn').onclick = function () {
+        
+        var loginLayer = createdSingleLoginLayer() ;
+
+        loginLayer.style.display = 'block';
+    
+    }
+    
+    </script>
+
+
+
+</body>
+</html>

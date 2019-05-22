@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id = 'loginBtn'>登录</button>
+    <script>
+    // 惰性单例指的是在需要的时候才穿件的对象实例
+        
+        var Singleton = function () {
+            this.name = name ;
+        }
+
+        Singleton.getInstance = (function () {
+
+            var instance = null ;
+
+            return function ( name ) {
+
+                if (!instance) {
+                    instance = new Singleton( name );
+                } else {
+                    return instance ;1
+                }
+
+            }
+
+        })() ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </script>
+    
+
+
+
+</body>
+</html>

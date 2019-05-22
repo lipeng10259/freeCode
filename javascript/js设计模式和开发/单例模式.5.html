@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 单例模式的核心是确保只有一个实例 ， 并提供全局访问 。
+    
+        // 单例模式减少全局变量污染的方法
+
+        // 1 . 使用命名空间
+
+        var namespace = {
+            a: function () {},
+            b: function () {}
+        }
+        
+        // 2 使用闭包分装私有变量 
+        // 这种方法把一些变量分装在闭包的内部 ，只暴露一些借口跟外界通信:
+
+        var user = (function () {
+
+            var _name = 'sven',
+            var _age = 29,
+            return {
+                getUserInfo : function () {
+                    return _name + '-' + _age;
+                }
+            }
+
+        })()
+    
+    
+    </script>
+    
+</body>
+</html>
