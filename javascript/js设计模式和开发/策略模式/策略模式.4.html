@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 策略模式的定义: 定义一系列的算法 ， 把他们一个个封装起来 ，并且使他们可以相互替换 。
+
+        // 1 . javascript 策略模式 
+
+        var strategies = {
+
+            'S' : function ( salary ) {
+
+                return salary * 4 ;
+
+            },
+            'A' : function ( salary ) { 
+
+                return salary * 3 ;
+
+            },
+            'B' : function ( salary ) {
+
+                return salary * 2 ;
+
+            }
+
+
+        }
+
+        
+        var calculateBonus = function (performanceLevel , salary ){
+
+            return strategies [ performanceLevel ]( salary )
+
+        }
+    
+        console.log( calculateBonus( 'S' , 20000 ) )
+        console.log( calculateBonus( 'A' , 6000 ) )
+
+
+
+    </script>
+</body>
+</html>

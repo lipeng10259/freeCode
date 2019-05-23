@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id = 'loginBtn'>登录</button>
+    <button id = 'loginBtn_p'>登录p</button>
+
+    <script>
+    
+        var singleLogin = function (fn) {
+
+            var instance ;
+
+            return function () {
+
+                return instance || (instance = fn.apply());  
+
+            }
+
+        }
+
+        var createdLoginDiv = function () {
+
+            var div = document.createElement('div') ;
+            
+            div.innerHTML = '我是登录弹窗' ;
+            
+            div.style.display = 'none' ;
+            
+            document.body.appendChild(div) ;
+
+            console.log('dddddd')
+
+            return div ;
+
+        }
+    
+        var createdp = function () {
+            
+            var p = document.createElement('p') ;
+            
+            p.innerHTML = '我是登录弹窗p' ;
+            
+            p.style.display = 'none' ;
+            
+            document.body.appendChild(p) ;
+
+            console.log('dddddd')
+
+            return p ;
+        } 
+
+
+        var createdLoginDivNode = singleLogin(createdLoginDiv)
+
+        document.getElementById('loginBtn').onclick = function () {
+
+            var div =  createdLoginDivNode();
+          
+            div.style.display = 'block' ;
+
+        }
+
+        var createdLoginPNode = singleLogin(createdp)
+    
+        document.getElementById('loginBtn_p').onclick = function () {
+
+            var p = createdLoginPNode() ;
+
+            p.style.display = 'block' ;
+
+        }
+    
+    </script>
+</body>
+</html>

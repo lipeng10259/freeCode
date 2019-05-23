@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 策略模式的定义: 定义一系列的算法 ， 把他们一个个封装起来 ，并且使他们可以相互替换 。
+        // 这句话如果说得更详细一点，就是：定义一系列的算法，把它们各自封装成策略类，算法被
+        // 封装在策略类内部的方法里。在客户对Context 发起请求的时候，Context 总是把请求委托给这些
+        // 策略对象中间的某一个进行计算。
+
+        // 1 . 使用策略模式计算奖金
+
+        //         很多公司的年终奖是根据员工的工资基数和年底绩效情况来发放的。例如，绩效为S 的人年
+        // 终奖有4 倍工资，绩效为A 的人年终奖有3 倍工资，而绩效为B 的人年终奖是2 倍工资。假设财
+        // 务部要求我们提供一段代码，来方便他们计算员工的年终奖。
+
+        // 最初代码实现
+
+        // 我们可以编写一个名为calculateBonus 的函数来计算每个人的奖金数额。很显然，
+        // calculateBonus 函数要正确工作，就需要接收两个参数：员工的工资数额和他的绩效考核等级。
+        // 代码如下：
+
+        
+        // var calculateBonus = function (performanceLevel , salary ){
+
+        //     if( performanceLevel === 'S' ) {
+
+        //         return salary * 4 ;
+
+        //     }
+
+        //     if( performanceLevel === 'A' ){
+
+        //         return salary * 3 ;
+            
+        //     } 
+
+        //     if( performanceLevel === 'B' ){
+               
+        //         return salary * 2 ;
+            
+        //     }
+
+        // }
+    
+        // calculateBonus( 'S' , 20000 )
+        // calculateBonus( 'A' , 6000 )
+
+
+
+        // 可以发现，这段代码十分简单，但是存在着显而易见的缺点。
+        //  calculateBonus 函数比较庞大，包含了很多if-else 语句，这些语句需要覆盖所有的逻辑
+        // 分支。
+        //  calculateBonus 函数缺乏弹性，如果增加了一种新的绩效等级C，或者想把绩效S 的奖金
+        // 系数改为5，那我们必须深入calculateBonus 函数的内部实现，这是违反开放封闭原则的。
+        //  算法的复用性差，如果在程序的其他地方需要重用这些计算奖金的算法呢？我们的选择
+        // 只有复制和粘贴。
+        // 因此，我们需要重构这段代码。
+
+
+
+
+        //2 使用组合模式重构
+    
+        // 一般最容易想到的办法就是使用组合函数来重构代码，我们把各种算法封装到一个个的小函
+        // 数里面，这些小函数有着良好的命名，可以一目了然地知道它对应着哪种算法，它们也可以被复
+        // 用在程序的其他地方。代码如下：
+
+    //     var performanceS = function ( salary ) {
+
+    //         return salary * 4 ;
+
+    //     };
+
+
+    //     var performanceA = function ( salary ) {
+
+    //         return salary * 3 ;
+
+    //     };
+
+    //     var performanceB = function ( salary ) {
+
+    //         return salary * 2 ;
+
+    //     };
+
+
+    //  var calculateBonus = function (performanceLevel , salary ){
+
+    //         if( performanceLevel === 'S' ) {
+
+    //             return performanceS( salary ) ;
+
+    //         }
+
+    //         if( performanceLevel === 'A' ){
+
+    //             return performanceA( salary ) ;
+            
+    //         } 
+
+    //         if( performanceLevel === 'B' ){
+               
+    //             return performanceB( salary ) ;
+            
+    //         }
+
+    //     }
+
+
+    //     calculateBonus( 'A' , 10000 ); // 输出：30000
+        // 目前，我们的程序得到了一定的改善，但这种改善非常有限，我们依然没有解决最重要的问
+        // 题：calculateBonus 函数有可能越来越庞大，而且在系统变化的时候缺乏弹性。
+
+
+        // 3. 使用策略模式重构代码
+        // 经过思考，我们想到了更好的办法——使用策略模式来重构代码。策略模式指的是定义一系
+        // 列的算法，把它们一个个封装起来。将不变的部分和变化的部分隔开是每个设计模式的主题，策
+        // 略模式也不例外，策略模式的目的就是将算法的使用与算法的实现分离开来。
+        // 在这个例子里，算法的使用方式是不变的，都是根据某个算法取得计算后的奖金数额。而算
+        // 法的实现是各异和变化的，每种绩效对应着不同的计算规则。
+        // 一个基于策略模式的程序至少由两部分组成。第一个部分是一组策略类，策略类封装了具体
+        // 的算法，并负责具体的计算过程。 第二个部分是环境类Context，Context 接受客户的请求，随后
+        // 把请求委托给某一个策略类。要做到这点，说明Context 中要维持对某个策略对象的引用。
+        // 现在用策略模式来重构上面的代码。第一个版本是模仿传统面向对象语言中的实现。我们先
+        // 把每种绩效的计算规则都封装在对应的策略类里面
+
+
+        var performanceS = function () {};
+
+        performanceS.prototype.calculate = function ( salary ){
+            return salary * 4 ;
+        }
+
+        var performanceA = function () {};
+
+        performanceA.prototype = function ( salary ) {
+
+            return salary * 3 ;
+
+        };
+
+        var performanceB = function () {};
+
+        performanceB.prototype = function ( salary ) {
+
+            return salary * 2 ;
+
+        };
+
+
+        // 接下来定义奖金 Bonus:
+
+        var Bonus = function () {
+            this.salary = null // 原始工资
+            this.strategy = null // 绩效等级对应的策略对象
+        }
+
+        Bonus.prototype.setSalary = function ( sarlary ) {
+            this.salary = salary ;// 设置员工的原始工资
+        }
+
+        Bonus.prototype.setStrategy = function ( strategy ) {
+            this.strategy = strategy ;// 设置员工绩效等级对应的策略对象
+        }  
+
+        Bonus.prototype.getBonus = function () {// 取得奖金数额
+
+            return this.strategy.calculate( this.salary ) // 把计算奖金的操作委托给对应的策略对象
+
+        }     
+
+
+        var bonus = new Bonus();
+        bonus.setSalary( 10000 );
+        bonus.setStrategy( new performanceS() ); // 设置策略对象
+        console.log( bonus.getBonus() ); // 输出：40000
+        bonus.setStrategy( new performanceA() ); // 设置策略对象
+        console.log( bonus.getBonus() ); // 输出：30000
+
+
+        // 刚刚我们用策略模式重构了这段计算年终奖的代码，可以看到通过策略模式重构之后，代码
+        // 变得更加清晰，各个类的职责更加鲜明。但这段代码是基于传统面向对象语言的模仿，下一节我
+        // 们将了解用JavaScript 实现的策略模式。
+
+    </script>
+</body>
+</html>
