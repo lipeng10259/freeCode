@@ -66,7 +66,7 @@ var strategies = {
 
         if( value.length < length ) {
 
-            return errnorMsg ;
+            return errorMsg ;
 
         }
 
@@ -93,16 +93,16 @@ Validator.prototype.add = function( dom, rules ){
 
     var self = this ;
 
+    console.log(rules)
+    // validator.add( registerForm.userName, [{strategy: 'isNonEmpty',errorMsg: '用户名不能为空'}, {strategy: 'minLength:6',errorMsg: '用户名长度不能小于10 位'}]);
+
     for (var i = 0 ,rule; rule = rules[ i++ ] ;){
 
 
         (function ( rule ) {
 
-
-
             var strategyAry = rule.strategy.split( ':' );
 
-            console.log(strategyAry)
 
             var errorMsg = rule.errorMsg ;
 
