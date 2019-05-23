@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        
+        
+
+    let fn = (function () {
+
+            var cache = {} ;
+
+            return function () {
+                
+                let num = 0;
+
+                let args = Array.prototype.join.call(arguments ,',')
+
+                if(cache [ args ]){
+
+                    console.log('缓存')
+
+                    return cache [ args ]
+
+                }else{
+
+                    for(var i = 0 ; i < arguments.length ; i ++) {
+                
+                        num += arguments[i]
+                    
+                    }
+
+                    cache [ args ] = num ;
+                    console.log('新的')
+                }
+
+                return cache [ args ] ;
+
+            }
+
+        })()
+
+       
+
+        console.log(fn(1,2,3))
+
+        console.log(fn(1,2,3))
+
+
+
+
+        var mult = (function () {
+            let cache = {} ;
+
+            let cacheCalc = function () {
+
+                var a = 1;
+
+                for(var i = 0 ; i < arguments.length ; i ++){
+
+                    a += arguments[i] 
+                }
+
+                return a;
+
+            } 
+
+
+            return function () {
+                
+                let args = Array.prototype.join.call(arguments , ',');
+
+                if(cache [ args ]){
+                
+                    return cache [ args ];
+                
+                } else {
+
+                   return cache [ args ] = cacheCalc.apply(null , arguments)
+
+                }
+
+            }
+
+        })()
+
+
+       console.log(mult(2,3,4,5))
+
+
+
+       var throttle = function (fn , inerval ) {
+
+        var _self = fn ,
+            timer,
+            firstTime = true ;
+
+            return function () {
+                var args = arguments ,
+                _me = this;;
+                
+                if (firstTime) {
+                    _self.apply(_me , args);
+                    return firstTime = false;
+                }
+
+                if ( timer ) {
+                    return false;
+                }
+
+                timer = setTimeout( function () {
+                    clearTimeout(timer);
+                    timer = null;
+                    _self.apply (_me , args);
+                },inerval||500)
+            }
+       }
+
+       window.onresize = throttle(function () {
+        console.log(1)
+       }, 500)
+
+
+    
+    </script>
+    
+</body>
+</html>

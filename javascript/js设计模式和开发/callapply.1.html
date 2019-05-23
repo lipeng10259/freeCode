@@ -9,6 +9,17 @@
 <body>
     <div id="div1">点击</div>
     <script>
+
+
+(function(){
+
+Array.prototype.push.call( arguments, 3 );
+
+console.log(arguments)
+
+})(1 , 4);
+
+
     // call和apply的区别
     // Function.prototype.call 和Function.prototype.apply 都是非常常用的方法。 
     /**
@@ -125,10 +136,17 @@
          * ***/
         // 模拟 
         Function.prototype.bind = function (context){
+
             var self = this;
+
+            console.log(self);
+
             return function () {
-                return self.apply (context , arguments ) ;
+
+                return self.apply ( context , arguments ) ;
+
             }
+
         };
 
         var obj3 = {
@@ -164,10 +182,7 @@
         // 所以也不能像数组一样，进行排序操作或者往集合里添加一个新的元素。这种情况下，我们常常
         // 会借用Array.prototype 对象上的方法。比如想往arguments 中添加一个新的元素，通常会借用
         // Array.prototype.push：
-        (function(){
-        Array.prototype.push.call( arguments, 3 );
-        console.log ( arguments ); // 输出[1,2,3]
-        })( 1, 2 );
+
 // 在操作arguments 的时候，我们经常非常频繁地找Array.prototype 对象借用方法。
 
 

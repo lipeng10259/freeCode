@@ -84,7 +84,9 @@ f(); // 输出：5
 
     for(var i = 0 ; i < nodes.length ; i ++){
             nodes[i].onclick = (function (i){
+                console.log(this)
                 return function () {
+                    console.log(this)
                     alert(i)
                 }
                 
