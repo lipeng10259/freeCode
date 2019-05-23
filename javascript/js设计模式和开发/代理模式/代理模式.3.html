@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 虚拟代理实现图片预加载
+        // 在Web 开发中，图片预加载是一种常用的技术，如果直接给某个img 标签节点设置src 属性，
+        // 由于图片过大或者网络不佳，图片的位置往往有段时间会是一片空白。常见的做法是先用一张
+        // loading 图片占位，然后用异步的方式加载图片，等图片加载好了再把它填充到img 节点里，这种
+        // 场景就很适合使用虚拟代理。
+        // 下面我们来实现这个虚拟代理，首先创建一个普通的本体对象，这个对象负责往页面中创建
+        // 一个img 标签，并且提供一个对外的setSrc 接口，外界调用这个接口，便可以给该img 标签设置
+
+        
+        // 常规写法 
+        
+        var myImage = ( function () {
+
+            var imgNode = document.createElement( 'img' );
+
+            document.body.appendChild( imgNode)
+
+            return {
+                setSrc : function ( src ) {
+
+                    imgNode.src = src ;
+
+                }
+            }
+
+        })()
+        
+        
+        myImage.setSrc( 'http:// imgcache.qq.com/music/photo/k/000GGDys0yA0Nk.jpg' );
+
+    
+    </script>
+</body>
+</html>

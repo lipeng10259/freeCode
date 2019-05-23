@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        //代理模式是为一个对象提供一个代用品或占位符，以便控制对它的访问。
+        
+
+        // 1 代理送花实例
+
+        var Flower = function ( name ) {
+
+            this.name = name ;
+
+        } ;
+
+        var xiaoming = {
+
+            sendFlower : function ( target ) {
+
+                var flower = new Flower('美丽的花') ; 
+
+                target.receiveFlower ( flower ) ;
+
+            }
+
+        }
+
+        var A = {
+
+            listenGoodMood : function ( fn ) {
+
+                setTimeout( function () {
+
+                    fn.call()
+
+                }, 4000)
+                
+            },
+
+            receiveFlower : function ( flower ) {
+
+                console.log(flower)
+                alert('收到' + flower.name)
+            }
+
+        }
+
+        xiaoming.sendFlower( A ) ;
+
+
+        // 引入代理模式 B 小明通过 B 来给 A 送花
+    
+        var B = {
+
+            receiveFlower : function (flower) {
+
+                console.log(flower.name)
+
+                A.listenGoodMood ( function () {
+
+                    A.receiveFlower ( flower )
+
+                })
+
+                
+
+            }
+
+
+        }
+
+        xiaoming.sendFlower( B ) ;
+
+
+//         虽然这只是个虚拟的例子，但我们可以从中找到两种代理模式的身影。代理B 可以帮助A
+// 过滤掉一些请求，比如送花的人中年龄太大的或者没有宝马的，这种请求就可以直接在代理B
+// 处被拒绝掉。这种代理叫作保护代理
+
+
+
+// 另外，假设现实中的花价格不菲，导致在程序世界里，new Flower 也是一个代价昂贵的操作，
+// 那么我们可以把new Flower 的操作交给代理B 去执行，代理B 会选择在A 心情好时再执行new
+// Flower，这是代理模式的另一种形式，叫作虚拟代理。虚拟代理把一些开销很大的对象，延迟到
+// 真正需要它的时候才去创建
+
+    </script>
+
+    
+
+
+
+
+</body>
+</html>
