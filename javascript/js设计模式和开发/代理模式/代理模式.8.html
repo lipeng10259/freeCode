@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        // 缓存代理
+        //     缓存代理可以为一些开销大的运算结果提供暂时的存储，在下次运算时，如果传递进来的参
+        //     数跟之前一致，则可以直接返回前面存储的运算结果。
+    
+
+        var mult = function () {
+
+            console.log('开始计算乘积！')
+
+            var a = 1 ;
+
+            for ( var i = 0 , len ; len = arguments [ i++ ];) {
+
+                a *= len ;
+
+            }
+
+            return a ;
+
+        }
+
+        // console.log(mult(2 , 3));
+
+
+        var proxyMult = (function () {
+
+            var  cache = {} ;
+
+            return function () {
+
+                var obj = Array.prototype.join.apply(arguments , ',') ;
+
+                if(!cache[ obj ]) {
+                    
+                    return  cache[ obj ] = mult.apply(arguments , ',') ;
+
+                }   
+
+                return cache[ obj ] ;
+
+            }
+
+        })()
+
+       console.log(proxyMult(2 , 3))
+       console.log(proxyMult(2 , 3))
+
+
+    // 缓存代理用于ajax异步请求数据
+    // 我们在常常在项目中遇到分页的需求，同一页的数据理论上只需要去后台拉取一次，这些已
+    // 经拉取到的数据在某个地方被缓存之后，下次再请求同一页的时候，便可以直接使用之前的数据。
+    // 显然这里也可以引入缓存代理，实现方式跟计算乘积的例子差不多，唯一不同的是，请求数
+    // 据是个异步的操作，我们无法直接把计算结果放到代理对象的缓存中，而是要通过回调的方式。
+    // 具体代码不再赘述，读者可以自行实现。
+
+
+
+    
+    </script>
+
+
+
+</body>
+</html>

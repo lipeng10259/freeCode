@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <script>
+            // 迭代器模式是指提供一种方法顺序访问一个聚合对象中的各个元素，而又不需要暴露该对象
+            // 的内部表示。迭代器模式可以把迭代的过程从业务逻辑中分离出来，在使用迭代器模式之后，即
+            // 使不关心对象的内部构造，也可以按顺序访问其中的每个元素。
+            
+            
+            //实现自己的迭代器
+            
+            var each = function ( ary , callback ) {
+
+                for ( var i = 0 , len = ary.length ; i < len ; i++) {
+
+                    callback(ary[i] , i)
+
+                }
+
+            }
+
+            each( [1 , 2 , 3] , function ( val , i) {
+
+                console.log(val +'----'+ i)
+
+            })
+
+            // 1. 内部迭代器
+            // 我们刚刚编写的each 函数属于内部迭代器，each 函数的内部已经定义好了迭代规则，它完
+            // 全接手整个迭代过程，外部只需要一次初始调用。
+            // 内部迭代器在调用的时候非常方便，外界不用关心迭代器内部的实现，跟迭代器的交互也仅
+            // 仅是一次初始调用，但这也刚好是内部迭代器的缺点。由于内部迭代器的迭代规则已经被提前规
+            // 定，上面的each 函数就无法同时迭代2 个数组了。
+            // 比如现在有个需求，要判断2 个数组里元素的值是否完全相等， 如果不改写each 函数本身
+            // 的代码，我们能够入手的地方似乎只剩下each 的回调函数了，代码如下：
+
+            var compare = function ( ary1 , ary2 ) {
+
+                if( ary1.length !== ary2.length ){
+
+                    throw new Error('数组不相等')
+                }
+
+                each( ary1 , function (val , i) {
+
+                    if( val !== ary1[i]){
+
+                        throw new Error('数组不相等')
+
+                    }
+
+                    alert('数组想等额!')
+
+                })
+
+            }
+
+
+            compare([1 , 2 , 3] , [1 , 2 , 3])
+
+        </script>
+
+
+
+</body>
+</html>
