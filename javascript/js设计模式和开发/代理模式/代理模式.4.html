@@ -7,66 +7,63 @@
     <title>Document</title>
 </head>
 <body>
-    
-
     <script>
-    
-    // 代理的意义
-    // 也许读者会有疑问，不过是实现一个小小的图片预加载功能，即使不需要引入任何模式也能
-    // 办到，那么引入代理模式的好处究竟在哪里呢？下面我们先抛开代理，编写一个更常见的图片预
-    // 加载函数。
-    // 不用代理的预加载图片函数实现如下：
-var MyImage = (function(){
-var imgNode = document.createElement( 'img' );
-document.body.appendChild( imgNode );
-var img = new Image;
-img.onload = function(){
-imgNode.src = img.src;
-};
-return {
-setSrc: function( src ){
-imgNode.src = 'file:// /C:/Users/svenzeng/Desktop/loading.gif';
-img.src = src;
-}
-}
-})();
-MyImage.setSrc( 'http:// imgcache.qq.com/music/photo/k/000GGDys0yA0Nk.jpg' );
-// 为了说明代理的意义，下面我们引入一个面向对象设计的原则——单一职责原则。
-// 单一职责原则指的是，就一个类（通常也包括对象和函数等）而言，应该仅有一个引起它变
-// 化的原因。如果一个对象承担了多项职责，就意味着这个对象将变得巨大，引起它变化的原因可
-// 能会有多个。面向对象设计鼓励将行为分布到细粒度的对象之中，如果一个对象承担的职责过多，
-// 等于把这些职责耦合到了一起，这种耦合会导致脆弱和低内聚的设计。当变化发生时，设计可能
-// 会遭到意外的破坏。
-// 职责被定义为“引起变化的原因”。上段代码中的MyImage 对象除了负责给img 节点设置src
-// 外，还要负责预加载图片。我们在处理其中一个职责时，有可能因为其强耦合性影响另外一个职
-// 责的实现。
-// 另外，在面向对象的程序设计中，大多数情况下，若违反其他任何原则，同时将违反开放—
-// 封闭原则。如果我们只是从网络上获取一些体积很小的图片，或者5 年后的网速快到根本不再需
-// 要预加载，我们可能希望把预加载图片的这段代码从MyImage 对象里删掉。这时候就不得不改动
-// MyImage 对象了。
-// 实际上，我们需要的只是给img 节点设置src，预加载图片只是一个锦上添花的功能。如果
-// 能把这个操作放在另一个对象里面，自然是一个非常好的方法。于是代理的作用在这里就体现出
-// 来了，代理负责预加载图片，预加载的操作完成之后，把请求重新交给本体MyImage。
-    
-// 纵观整个程序，我们并没有改变或者增加MyImage 的接口，但是通过代理对象，实际上给系
-// 统添加了新的行为。这是符合开放—封闭原则的。给img 节点设置src 和图片预加载这两个功能，
-// 被隔离在两个对象里，它们可以各自变化而不影响对方。何况就算有一天我们不再需要预加载，
-// 那么只需要改成请求本体而不是请求代理对象即可。
-    
+        // 虚拟代理实现图片预加载
+        // 在Web 开发中，图片预加载是一种常用的技术，如果直接给某个img 标签节点设置src 属性，
+        // 由于图片过大或者网络不佳，图片的位置往往有段时间会是一片空白。常见的做法是先用一张
+        // loading 图片占位，然后用异步的方式加载图片，等图片加载好了再把它填充到img 节点里，这种
+        // 场景就很适合使用虚拟代理。
+        // 下面我们来实现这个虚拟代理，首先创建一个普通的本体对象，这个对象负责往页面中创建
+        // 一个img 标签，并且提供一个对外的setSrc 接口，外界调用这个接口，便可以给该img 标签设置
 
+        
+        // 常规写法 
+        
+        var myImage = ( function () {
 
-// 代理和本体接口的一致性
-// 上一节说到，如果有一天我们不再需要预加载，那么就不再需要代理对象，可以选择直接请
-// 求本体。其中关键是代理对象和本体都对外提供了setSrc 方法，在客户看来，代理对象和本体
-// 是一致的， 代理接手请求的过程对于用户来说是透明的，用户并不清楚代理和本体的区别，这
-// 样做有两个好处。
-//  用户可以放心地请求代理，他只关心是否能得到想要的结果。
-//  在任何使用本体的地方都可以替换成使用代理。   
+            var imgNode = document.createElement( 'img' );
+
+            document.body.appendChild( imgNode)
+
+            return {
+                setSrc : function ( src ) {
+
+                    imgNode.src = src ;
+
+                }
+            }
+
+        })()
+
+        // 加入代理模式 
+
+        var proxyImage = (function () {
+
+            var img = new Image() ;
+
+            img.onload = function () {
+
+                myImage.setSrc ( this.src ) ;
+
+            }
+
+            return {
+                
+                setSrc : function ( src ) {
+                    
+                    myImage.setSrc ( 'file:// /C:/Users/svenzeng/Desktop/loading.gif' );
+
+                    img.src = src ;
+                } 
+
+            }
+
+        })() ;
+        
+        
+        myImage.setSrc( 'http:// imgcache.qq.com/music/photo/k/000GGDys0yA0Nk.jpg' );
+
     
     </script>
-
-
-
-
 </body>
 </html>

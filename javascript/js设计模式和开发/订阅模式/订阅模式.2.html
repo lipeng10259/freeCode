@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //发布—订阅模式又叫观察者模式，
+        
+//       (接订阅模式 1 )  至此，我们已经实现了一个最简单的发布—订阅模式，但这里还存在一些问题。我们看到订
+// 阅者接收到了发布者发布的每个消息，虽然小明只想买88 平方米的房子，但是发布者把110 平
+// 方米的信息也推送给了小明，这对小明来说是不必要的困扰。所以我们有必要增加一个标示key，
+// 让订阅者只订阅自己感兴趣的消息。改写后的代码如下：
+
+
+
+        var salesOffices = {} ;// 定义售楼处
+
+        salesOffices.clientList = [] ;  // 缓存列表 , 存放订阅者的回调函数
+
+        salesOffices.listen = function ( key , fn ) {
+
+            if( !this.clientList[ key ]){
+
+                this.clientList[ key ] = []
+
+            }
+
+            this.clientList[ key ].push ( fn ) ;
+
+        } ;
+
+
+        salesOffices.trigger = function () { // 发布者消息
+
+            var key = Array.prototype.shift.call(arguments )
+
+            var fns = this.clientList[ key ] ;
+            if( fns && fns.length !== 0){
+
+                for ( var i = 0 , fn ; fn = fns[ i++ ] ; ) {
+
+                    fn.apply( this , arguments ) ;// arguments 是发布消息时带上的参数
+
+                };
+            }
+
+
+        };
+
+        // 测试
+
+        salesOffices.listen ('squareMeter188' , function ( price ) {// 订阅者1
+
+            console.log('价格= ' + price)
+
+
+        }) ;
+
+
+
+        salesOffices.listen ('squareMeter88' , function ( price ) {// 订阅者2
+
+            console.log('价格= ' + price)
+            
+
+        }) ;
+
+
+        salesOffices.trigger( 'squareMeter188' , 188 )
+        salesOffices.trigger( 'squareMeter88' , 88 )
+
+ 
+
+
+
+    </script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <button id="button1">点击按钮1</button>
+        <button id="button2">点击按钮2</button>
+        <button id="button3">点击按钮3</button>
+    <script>
+    //JavaScript 中的命令模式
+//     也许我们会感到很奇怪，所谓的命令模式，看起来就是给对象的某个方法取了execute 的名
+// 字。引入command 对象和receiver 这两个无中生有的角色无非是把简单的事情复杂化了，即使不
+// 用什么模式，用下面寥寥几行代码就可以实现相同的功能：
+
+
+        var button1 = document.getElementById( 'button1' );
+        var button2 = document.getElementById( 'button2' );
+        var button3 = document.getElementById( 'button3' );
+
+        var bindClick = function ( button  , func) {
+
+            button.onclick = func ;
+
+        }
+
+        var MenuBar = {
+
+            refresh : function ( ){
+               
+                console.log('刷新了页面')
+
+            }
+
+        };
+
+        var SubMenu =  {
+
+            add : function ( ) {
+
+                console.log('增加子菜单')
+
+            },
+            del : function () {
+
+                console.log( '删除子菜单')
+
+            }
+
+        };
+
+        bindClick( button1, MenuBar.refresh );
+
+        bindClick( button2, SubMenu.add );
+        
+        bindClick( button3, SubMenu.del );
+
+        // 这种说法是正确的，9.2 节中的示例代码是模拟传统面向对象语言的命令模式实现。命令模
+        // 式将过程式的请求调用封装在command 对象的execute 方法里，通过封装方法调用，我们可以把
+        // 运算块包装成形。command 对象可以被四处传递，所以在调用命令的时候，客户（Client）不需要
+        // 关心事情是如何进行的。
+    
+    </script>
+        
+
+
+
+</body>
+</html>

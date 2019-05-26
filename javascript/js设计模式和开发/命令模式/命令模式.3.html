@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <button id="button1">点击按钮1</button>
+        <button id="button2">点击按钮2</button>
+        <button id="button3">点击按钮3</button>
+
+    <script>
+        var button1 = document.getElementById( 'button1' );
+        var button2 = document.getElementById( 'button2' );
+        var button3 = document.getElementById( 'button3' );
+        
+        // 命令模式的由来，其实是回调（callback）函数的一个面向对象的替代品。
+        // JavaScript 作为将函数作为一等对象的语言，跟策略模式一样，命令模式也早已融入到了
+        // JavaScript 语言之中。运算块不一定要封装在command.execute 方法中，也可以封装在普通函数中。
+        // 函数作为一等对象，本身就可以被四处传递。即使我们依然需要请求“接收者”，那也未必使用
+        // 面向对象的方式，闭包可以完成同样的功能。
+        // 在面向对象设计中，命令模式的接收者被当成command 对象的属性保存起来，同时约定执行
+        // 命令的操作调用command.execute 方法。在使用闭包的命令模式实现中，接收者被封闭在闭包产
+        // 生的环境中，执行命令的操作可以更加简单，仅仅执行回调函数即可。无论接收者被保存为对象
+        // 的属性，还是被封闭在闭包产生的环境中，在将来执行命令的时候，接收者都能被顺利访问。用
+        // 闭包实现的命令模式如下代码所示：
+
+        var setCommand = function ( button , func ) {
+
+            button.onclick = function () {
+
+                func();
+
+            };
+
+        };
+
+        var MenuBar = {
+
+            refresh : function () {
+
+                console.log('刷新菜单界面');
+
+            }
+
+        };
+
+
+        var RefreshMenuBarCommand = function ( receiver ) {
+
+
+            return function ( ) {
+
+                receiver.refresh()
+
+            }
+
+        };
+
+        setCommand( button1 , RefreshMenuBarCommand( MenuBar ))
+
+        // 当然，如果想更明确地表达当前正在使用命令模式，或者除了执行命令之外，将来有可能还
+        // 要提供撤销命令等操作。那我们最好还是把执行函数改为调用execute 方法：
+
+        // var RefreshMenuBarCommand = function( receiver ){
+
+        //     return {
+
+        //         execute: function(){
+
+        //             receiver.refresh();
+
+        //         }
+
+        //     }
+
+        // };
+
+        // var setCommand = function( button, command ){
+
+        //     button.onclick = function(){
+
+        //         command.execute();
+
+        //     }
+        // };
+
+        // var refreshMenuBarCommand = RefreshMenuBarCommand( MenuBar );
+
+        // setCommand( button1, refreshMenuBarCommand ); 
+    
+    </script>
+
+</body>
+</html>
