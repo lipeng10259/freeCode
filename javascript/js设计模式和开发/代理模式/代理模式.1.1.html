@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+
+        var Flower = function ( name ) {
+
+                this.name = name ;
+            
+        }
+
+      var xiaoming = {
+
+            sendFlower : function ( fn ) {
+
+                var flower = new Flower('小红花') ;
+            
+                fn.getFlower ( flower.name ) ;
+
+            }
+
+       } 
+
+
+       var xiaohong =  {
+
+            getFlower : function ( flower ) {
+
+                console.log('收到' + flower )
+
+            },
+            setTimeGetFlower : function ( flower ) {
+
+                setTimeout( function () {
+
+                    xiaohong.getFlower( flower )
+
+                }, 2000)
+
+            }
+
+       }
+
+ 
+
+
+       // 加入代理 
+
+       var dlFlower = {
+
+            getFlower : function ( flower ) {
+
+                this.flower = flower ;
+
+            } ,
+
+            sendFlower : function ( fn ) {
+
+                fn.getFlower( this.flower )
+
+            }
+
+       }
+
+       xiaoming.sendFlower( dlFlower )
+
+       dlFlower.sendFlower( xiaohong )
+
+
+
+       var dlFlowerA = {
+
+            getFlower : function ( flower ) {
+
+                xiaohong.setTimeGetFlower( '我是代理A' + flower )
+
+            }
+
+        }
+
+        xiaoming.sendFlower( dlFlowerA )
+    
+    </script>
+    
+</body>
+</html>

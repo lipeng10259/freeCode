@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        
+        var sum = function () {
+
+            console.log( arguments )
+
+            var a = 1 ;
+
+            for ( var i = 0 ; i < arguments.length ; i ++) {
+
+                a *= arguments[i]
+
+            }
+
+            return a ;
+
+    
+        }
+    
+
+
+       var ProxyFnc = (function () {
+
+        var cache = {} ;
+
+        return function () {
+
+            var arrObj = Array.prototype.join.call( arguments , ',');
+
+            console.log( arrObj )
+
+            if( !cache [ arrObj ]){
+
+                return cache [ arrObj ] =  sum.apply( this , arguments)
+
+            } else {
+
+                return cache [ arrObj ];
+                
+            }
+
+        }
+
+       })()
+    
+    console.log(ProxyFnc(1 , 3 , 2))
+    
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        
+        var singleTon = function ( name ) {
+
+            this.name = name ;
+
+            this.instance= null ;
+
+        }
+
+        singleTon.prototype.getName = function ( ) {
+
+            return this.name ;
+
+        }
+
+        singleTon.getIntance = function ( name ) {
+
+            if ( !this.instance ) {
+
+              return this.instance = new singleTon( name ) ;
+
+            } else {
+
+                return this.instance ;
+
+            }
+        
+        };
+
+        var single1 =  singleTon.getIntance('single1') 
+
+        var single2 =  singleTon.getIntance('single2')
+
+        console.log(single1.getName()) 
+
+        console.log(single2.getName()) 
+
+
+    
+    
+    
+    </script>
+
+
+
+</body>
+</html>

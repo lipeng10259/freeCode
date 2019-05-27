@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        
+        var  createdImg = (function () {
+
+            var img = document.createElement( 'img' ) ;
+
+            document.body.appendChild( img ) ;
+
+            return {
+
+                setImage : function ( src ) {
+
+                    img.src = src ;
+
+                }
+
+
+            } ;
+
+
+
+        })();
+
+        var setImageSrc = (function () {
+
+            var img = document.createElement( 'img' ) ;
+
+            img.onload = function ( ) {
+
+                createdImg.setImage( this.src );
+            
+            } 
+
+            return {
+
+                imgSrc : function ( src ) {
+
+                    img.src = src ;
+
+                }
+
+            }
+
+        })()
+
+
+
+        setImageSrc.imgSrc('http://pic34.nipic.com/20131017/6863287_123343591190_2.jpg')
+        // 
+    
+    
+    </script>
+</body>
+</html>

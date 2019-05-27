@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <!-- <img src="http://img5.imgtn.bdimg.com/it/u=3300305952,1328708913&fm=26&gp=0.jpg" alt="">
+    <img src="http://pic37.nipic.com/20140110/17563091_221827492154_2.jpg" alt="">
+    <img src="http://pic9.nipic.com/20100827/5252423_161258496483_2.jpg" alt="">
+    <img src="http://pic24.nipic.com/20120922/10898738_143746326185_2.jpg" alt="">
+    <img src="http://pic40.nipic.com/20140423/11693248_221326322000_2.jpg" alt="">
+    
+
+    <img src="http://f.hiphotos.baidu.com/lvpics/h=800/sign=5d78f4efaac3793162688b29dbc5b784/8b13632762d0f703b407a3350dfa513d2797c5a5.jpg" alt="">
+    <img src="http://pic33.nipic.com/20131007/13639685_123501617185_2.jpg" alt=""> -->
+    <script>
+        
+        var  createdImg = (function () {
+
+            var img = document.createElement( 'img' ) ;
+
+            document.body.appendChild( img ) ;
+
+            return  {
+                setImageSrc : function ( src ) {
+
+                    img.src = src ;
+
+                }
+            }
+        })();
+
+        
+
+        createdImg.setImageSrc('http://pic34.nipic.com/20131017/6863287_123343591190_2.jpg')
+        // 
+    
+    
+    </script>
+</body>
+</html>

@@ -16,44 +16,35 @@
     // 办到，那么引入代理模式的好处究竟在哪里呢？下面我们先抛开代理，编写一个更常见的图片预
     // 加载函数。
     // 不用代理的预加载图片函数实现如下：
-var MyImage = (function(){
+    var MyImage = (function(){
+        var imgNode = document.createElement( 'img' );
 
-    console.log('dddd')
-    var imgNode = document.createElement( 'img' );
-    document.body.appendChild( imgNode );
+        document.body.appendChild( imgNode );
 
-    return {
-        setSrc: function( src ){
-            imgNode.src =  src;
+        var img = new Image;
+
+        img.onload = function(){
+
+            imgNode.src = img.src;
+
+        };
+        
+        return {
+
+            setSrc: function( src ){
+
+                imgNode.src = '';
+
+                img.src = src;
+
+            }
+
         }
-    }
-})();
 
-var ProxyImage = (function () {
+    })();
 
-    var img = new Image ;
+    MyImage.setSrc( 'http:// imgcache.qq.com/music/photo/k/000GGDys0yA0Nk.jpg' );
 
-    img.onload = function () {
-
-        MyImage.setSrc( this.src )
-
-    } 
-
-    return function ( src ) {
-
-        img.src = src
-
-        MyImage.setSrc('../timg.jpg');
-
-        console.log('ddd')
-
-    }
-
-})()
-
-
-
-ProxyImage( 'http://pic60.nipic.com/file/20150303/12679213_095118892667_2.jpg' );
 
 // 为了说明代理的意义，下面我们引入一个面向对象设计的原则——单一职责原则。
 

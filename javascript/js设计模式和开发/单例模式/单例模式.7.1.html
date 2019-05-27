@@ -34,7 +34,6 @@
 // 接下来将用于创建登录浮窗的方法用参数fn 的形式传入getSingle，我们不仅可以传入
 // createLoginLayer，还能传入createScript、createIframe、createXhr 等。之后再让getSingle 返回
 // 一个新的函数，并且用一个变量result 来保存fn 的计算结果。result 变量因为身在闭包中，它
-// 图灵社区会员 轩辕 专享 尊重版权
 // 永远不会被销毁。在将来的请求中，如果result 已经被赋值，那么它将返回这个值。代码如下：
 
     var  createdLoginLayer = function () {
@@ -52,12 +51,6 @@
 
     } 
     
-
-
-
-
-
-
 
     var createdSingleLoginLayer = getSingle (createdLoginLayer) ;
 

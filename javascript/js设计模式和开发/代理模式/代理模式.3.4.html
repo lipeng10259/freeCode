@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+        <input type="checkbox" id="1"></input>1
+        <input type="checkbox" id="2"></input>2
+        <input type="checkbox" id="3"></input>3
+        <input type="checkbox" id="4"></input>4
+        <input type="checkbox" id="5"></input>5
+        <input type="checkbox" id="6"></input>6
+        <input type="checkbox" id="7"></input>7
+        <input type="checkbox" id="8"></input>8
+        <input type="checkbox" id="9"></input>9
+
+        <script>    
+
+            var proxyFnc = (function () {
+
+                    var arrNum = [] ;
+
+                    var timer ;
+                    
+                    return function ( data ) {
+
+                        if( arrNum.length !== 0) {
+
+                            // console.log( data );
+
+
+                            let index = arrNum.indexOf(data)
+
+                            if( index !== -1 ) {
+
+                                arrNum.splice( index , 1)
+
+                            } else {
+
+                                arrNum.push( data )
+
+                            }
+
+                        } else {
+
+                            arrNum.push( data )
+
+                        }
+
+                
+                        if( !timer ){
+
+                            timer =  setTimeout( function () {
+
+                                sendText.call( null, arrNum.join(','))
+                                
+                                // arrNum.length = 0 ;
+
+                                clearTimeout(timer) ;
+
+                                timer = null ;
+
+                            }, 3000)
+
+                        } else {
+
+                            return false ;
+
+                        }
+
+                    }
+            })()
+            
+            var sendText = function (data) {
+
+                console.log(data)
+
+            }
+        
+            for (var i = 0 , len = document.getElementsByTagName('input').length ; i < len ; i++ ) {
+
+                document.getElementsByTagName('input')[ i ].onclick = (function (i) {
+
+                        return function () {
+
+                            proxyFnc(this.id);
+
+                        } 
+
+                })(i)
+
+        }
+
+        
+        
+        </script>
+
+
+    
+</body>
+</html>
