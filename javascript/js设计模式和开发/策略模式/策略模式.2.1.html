@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        
+        var jjcalc = function ( x , y ) {
+
+            if( x === 'A' ) {
+
+              return  Afunc( y ) ;
+
+            } else if ( x === 'B' ) {
+
+                return Bfunc( y ) ;
+
+            } else if ( x === 'S' ) {
+
+                return Sfunc( y ) ;
+
+            }
+        }
+        
+        var Afunc = function ( y ) {
+
+            return y * 4 ;
+
+        }
+
+        
+        var Bfunc = function ( y ) {
+
+            return y * 5 ;
+
+        }
+
+        
+        var Sfunc = function ( y ) {
+
+            return y * 6 ;
+
+        }
+
+
+        console.log(jjcalc( 'A' , 200 ))
+        
+        console.log(jjcalc( 'B' , 200 ))
+    
+    
+    </script>
+
+</body>
+</html>
