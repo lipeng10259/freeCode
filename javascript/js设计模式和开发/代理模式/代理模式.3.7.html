@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        
+       var jjsum = function ( ) {
+
+            var a = 0;
+
+            for ( var i = 0 ; i < arguments.length ; i++ ){
+
+                a += arguments[ i ] ;
+
+            }
+
+            return a ;
+
+       }
+
+
+       var jjxc = function ( ){
+
+            var a = 1 ;
+            
+            for( var i = 0 ; i < arguments.length ; i++ ){
+
+                a *= arguments[i] ;
+
+            } 
+
+            return a;
+            
+       }
+
+
+
+       var proxyCalc = function ( fn ) {
+
+            var cache = {} ;
+
+            return function () {
+
+                var obj = Array.prototype.join.call(arguments , ',');
+
+                if( !cache [ obj ] ) {
+
+                    return cache [ obj ] = fn.apply(this , arguments) ;
+
+                } else {
+
+                    return cache [ obj ] ;
+
+                }
+
+            }
+
+       }
+
+       var sum = proxyCalc( jjsum ) ;
+       var xc = proxyCalc( jjxc ) ;
+
+       console.log(sum(1 , 2 , 3))
+       console.log(xc(1 , 2 , 3))
+    
+    
+    </script>
+
+</body>
+</html>

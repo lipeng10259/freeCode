@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // 传统面向对象
+        
+        var performanceS = function (  ){
+
+        
+        }
+
+        performanceS.prototype.salary = function ( salary ) {
+
+            return salary * 3
+
+        }
+
+        var performanceA = function (){
+
+   
+
+        }
+
+        performanceA.prototype.salary = function ( salary ) {
+
+            return salary * 3
+
+        }
+
+        var performanceB = function (  ){
+
+      
+
+        }
+
+        performanceB.prototype.salary = function ( salary ) {
+
+            return salary * 3
+
+        }
+
+        
+        var Bouns = function () {
+
+            this.salary = null ;
+             
+             this.level = null ;
+
+        }
+
+
+        Bouns.prototype.getSalary = function ( salary ) {
+
+            this.salary = salary ;
+
+        }
+
+        Bouns.prototype.getLevel = function ( level ){
+
+            // fn.apply(this , this.salary )
+
+            this.level = level ;
+
+        }
+
+        Bouns.prototype.getBouns = function () {
+
+            return this.level.salary( this.salary )
+
+        }
+
+        var s = new Bouns() ;
+
+        s.getSalary( 200 ) 
+
+        s.getLevel( new performanceS() )
+
+        console.log(s.getBouns())
+
+    </script>    
+    
+
+
+
+</body>
+</html>

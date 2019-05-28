@@ -28,20 +28,33 @@ return a;
 };
 /**************** 创建缓存代理的工厂 *****************/
 var createProxyFactory = function( fn ){
-var cache = {};
-return function(){
-var args = Array.prototype.join.call( arguments, ',' );
-if ( args in cache ){
-return cache[ args ];
-}
-return cache[ args ] = fn.apply( this, arguments );
-}
+
+    var cache = {};
+
+    return function(){
+
+        var args = Array.prototype.join.call( arguments, ',' );
+
+        if ( args in cache ){
+
+            return cache[ args ];
+
+        }
+
+        return cache[ args ] = fn.apply( this, arguments );
+
+    }
 };
 var proxyMult = createProxyFactory( mult ),
+
 proxyPlus = createProxyFactory( plus );
+
 alert ( proxyMult( 1, 2, 3, 4 ) ); // 输出：24
+
 alert ( proxyMult( 1, 2, 3, 4 ) ); // 输出：24
+
 alert ( proxyPlus( 1, 2, 3, 4 ) ); // 输出：10
+
 alert ( proxyPlus( 1, 2, 3, 4 ) ); // 输出：10
     
 // 其他代理模式
