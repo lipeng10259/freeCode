@@ -87,13 +87,16 @@ var strategies = {
 
 
 var Validator = function(){
+
     this.cache = []; // 保存校验规则
+
 };
 Validator.prototype.add = function( dom, rules ){
 
     var self = this ;
 
     console.log(rules)
+
     // validator.add( registerForm.userName, [{strategy: 'isNonEmpty',errorMsg: '用户名不能为空'}, {strategy: 'minLength:6',errorMsg: '用户名长度不能小于10 位'}]);
 
     for (var i = 0 ,rule; rule = rules[ i++ ] ;){
@@ -102,7 +105,6 @@ Validator.prototype.add = function( dom, rules ){
         (function ( rule ) {
 
             var strategyAry = rule.strategy.split( ':' );
-
 
             var errorMsg = rule.errorMsg ;
 
@@ -144,7 +146,7 @@ var validataFunc = function(){
 
     /***************添加一些校验规则****************/
 
-    validator.add( registerForm.userName, [{strategy: 'isNonEmpty',errorMsg: '用户名不能为空'}, {strategy: 'minLength:6',errorMsg: '用户名长度不能小于10 位'}]);
+    validator.add( registerForm.userName, [{strategy: 'isNonEmpty',errorMsg: '用户名不能为空'}, {strategy: 'minLength:6',errorMsg: '用户名长度不能小于6 位'}]);
 
     validator.add( registerForm.password, [{ strategy: 'minLength:6',errorMsg: '密码长度不能小于6 位'}]);
     
@@ -175,7 +177,21 @@ registerForm.onsubmit = function(){
 };
 
 
-
+// 策略模式是一种常用且有效的设计模式，本章提供了计算奖金、缓动动画、表单校验这三个
+// 例子来加深大家对策略模式的理解。从这三个例子中，我们可以总结出策略模式的一些优点。
+//  策略模式利用组合、委托和多态等技术和思想，可以有效地避免多重条件选择语句。
+//  策略模式提供了对开放—封闭原则的完美支持，将算法封装在独立的strategy 中，使得它
+// 们易于切换，易于理解，易于扩展。
+//  策略模式中的算法也可以复用在系统的其他地方，从而避免许多重复的复制粘贴工作。
+//  在策略模式中利用组合和委托来让Context 拥有执行算法的能力，这也是继承的一种更轻
+// 便的替代方案。
+// 当然，策略模式也有一些缺点，但这些缺点并不严重。
+// 首先，使用策略模式会在程序中增加许多策略类或者策略对象，但实际上这比把它们负责的
+// 逻辑堆砌在Context 中要好。
+// 其次，要使用策略模式，必须了解所有的strategy，必须了解各个strategy 之间的不同点，
+// 这样才能选择一个合适的strategy。比如，我们要选择一种合适的旅游出行路线，必须先了解选
+// 择飞机、火车、自行车等方案的细节。此时strategy 要向客户暴露它的所有实现，这是违反最少
+// 知识原则的。
 
 
 

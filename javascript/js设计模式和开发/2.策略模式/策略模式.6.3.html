@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <form   id="registerForm">
+            请输入用户名：<input type="text" name="userName" />
+            请输入密码：<input type="text" name="password" />
+            请输入手机号码：<input type="text" name="phoneNumber" />
+            <button>提交</button>
+        </form>
+        <script>
+        
+            var check = {
+
+                isNoEmpty : function (val , errorText) {
+
+                    if( val=== '') {
+
+                        return errorText ;
+
+                    }
+
+                },
+                maxLength : function (val , arr , errorText) {
+
+                    if( val.length < arr ) {
+
+                        return errorText ;
+
+                    }
+
+                },
+                phoneNumber : function ( val , errorText ) {
+
+                    if(!/^1[3]|[4]|[5]|[8][0-9]{9}$/.test(val)){
+
+                        return errorText
+
+                    }
+                }
+            }
+        
+            var checkFunc = function () {
+
+                this.cache = [] ;
+
+            }
+
+            checkFunc.prototype.addCheck = function (dom , arys) {
+
+                var self = this;
+
+                for ( var i = 0 ,len ; len = arys[ i++ ]; ) {
+
+                    (function (len){
+
+                        var arrType = len.type.split(":")
+
+                        var errorText = len.errorText
+
+                        self.cache.push(function () {
+
+                            var type = arrType.shift();
+                        
+                            arrType.unshift( dom.value);
+                        
+                            arrType.push( errorText );
+
+                            var text = check[type].apply(this , arrType) ;
+                    
+                            if(text){
+
+                                return text ;
+                            }
+
+                        })
+
+                    })(len)
+                }
+            }
+
+            checkFunc.prototype.startCheck = function () {
+
+                for ( var i = 0 , fn; fn = this.cache[i++];){
+
+                    var errorText = fn() ;
+
+                    if( errorText ){
+
+                        return  errorText ;
+
+                    }
+
+                }
+
+            };
+
+
+            var nodeForm = document.getElementById('registerForm') ;
+
+
+            var createCheck = function () {
+
+                var checkObj = new checkFunc() ;
+
+                checkObj.addCheck(nodeForm.userName , [{type : 'isNoEmpty' , errorText : '用户名不能为空'},{type : 'maxLength:4' , errorText : '用户名长度不能小于4位'}] )
+
+                checkObj.addCheck(nodeForm.password ,[{type : 'isNoEmpty' , errorText : '密码不能为空'},{type : 'maxLength:6' , errorText : '密码长度不能小于6位'}] )
+
+                checkObj.addCheck(nodeForm.phoneNumber , [{type : 'isNoEmpty' , errorText : '手机不能为空'},{type : 'phoneNumber' , errorText : '手机格式错误'}] )
+
+                var errorText = checkObj.startCheck()
+
+                return errorText ;
+
+            }
+           
+            nodeForm.onsubmit = function (event) {
+
+                var event = event || window.event ;
+
+                var text = createCheck();
+
+                if( text ) {
+
+                    alert( text ) ;
+
+                }
+
+                event.preventDefault();                
+
+            }
+
+
+
+        </script>
+</body>
+</html>

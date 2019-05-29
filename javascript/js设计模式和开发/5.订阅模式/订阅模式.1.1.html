@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        
+        var New =  {} ;
+
+        New.subArr = [] ;
+
+        New.subscription = function () {
+
+            this.subArr.push();
+            
+        } 
+
+        New.publish = function () {
+
+            for( var i = 0 ,fn ;fn = New.subArr[ i++ ] ;) {
+
+                fn.apply(this , arguments);
+
+            }
+
+        }
+
+        New.subscription( function ( area , price){
+
+            console.log(price + '_' + area)  
+
+        })
+
+
+        New.subscription( function ( area , price){
+
+            console.log(price + '_' + area)  
+
+        })    
+    
+        New.publish(100 , 1200)
+    
+    </script>
+
+
+</body>
+</html>

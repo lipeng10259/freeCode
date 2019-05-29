@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+
+    <script>
+        
+        var New =  {} ;
+
+        New.subArr = [] ;
+
+        New.subscription = function () {
+
+            let subObj = {} ;
+
+            let type = Array.prototype.shift.apply(arguments) ;
+
+            console.log(arguments)
+            
+            subObj[type] = arguments
+
+            this.subArr.push(subObj);
+            
+        } 
+
+        New.publish = function () {
+
+            let area = arguments[0] ;
+
+            for( var i = 0 ,fn ;fn = New.subArr[ i++ ] ;) {
+
+                for ( type in fn ){
+
+                    if( type == area){
+
+                        fn[type][0].apply(this , arguments)
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        New.subscription(100 , function ( area , price){
+
+            console.log(price + '_' + area)  
+
+        })
+
+
+        New.subscription(1000 , function ( area , price){
+
+            console.log(price + '_' + area)  
+
+        })    
+    
+        New.publish(1000 , 1200)
+    
+    </script>
+
+
+</body>
+</html>
