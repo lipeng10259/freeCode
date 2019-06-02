@@ -8,7 +8,6 @@ server.on('request' , function ( req , res) {
 
     var url = req.url ;
 
-    console.log(url)
 
     if( url === '/') {
 
