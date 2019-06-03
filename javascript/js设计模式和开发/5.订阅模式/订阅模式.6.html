@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <button id="count">点我</button>
+        <div id="show"></div>
+
+    <script>
+        // 8.8 全局的发布－订阅对象
+        // 回想下刚刚实现的发布—订阅模式，我们给售楼处对象和登录对象都添加了订阅和发布的功
+        // 能，这里还存在两个小问题。
+        //  我们给每个发布者对象都添加了listen 和trigger 方法，以及一个缓存列表clientList，
+        // 这其实是一种资源浪费。
+        //  小明跟售楼处对象还是存在一定的耦合性，小明至少要知道售楼处对象的名字是
+        // salesOffices，才能顺利的订阅到事件。见如下代码：
+    
+        //         其实在现实中，买房子未必要亲自去售楼处，我们只要把订阅的请求交给中介公司，而各大
+        // 房产公司也只需要通过中介公司来发布房子信息。这样一来，我们不用关心消息是来自哪个房产
+        // 公司，我们在意的是能否顺利收到消息。当然，为了保证订阅者和发布者能顺利通信，订阅者和
+        // 发布者都必须知道这个中介公司。
+        // 同样在程序中，发布—订阅模式可以用一个全局的Event 对象来实现，订阅者不需要了解消
+        // 息来自哪个发布者，发布者也不知道消息会推送给哪些订阅者，Event 作为一个类似“中介者”
+        // 的角色，把订阅者和发布者联系起来。见如下代码：
+
+
+        var Event = (function () {
+
+            var clientList = {} ,
+            listen ,
+            trigger ,
+            remove ;
+
+            listen = function ( key , fn ) {
+
+                if( !clientList [ key ] ) {
+
+                    clientList [ key ] = [];
+
+                }
+            
+                clientList [ key ].push( fn );
+            
+            };
+
+            trigger = function () {
+
+                var key = Array.prototype.shift.call( arguments ) ;
+
+                fns = clientList[ key ];
+
+                if( !fns || fns.length === 0) {
+
+                return false ;
+                
+                }
+
+                for ( var i = 0 , fn ; fn = fns[ i++ ];){
+
+                    fn.apply( this , arguments ) ;
+
+                }
+
+            } ;
+
+            remove = function ( key , fn ) {
+
+                var fns = clientList[ key ] ;
+
+                if ( !fns ) {
+
+                    return false ;
+
+                }
+
+                if( !fn ) {
+
+                    fns && (fns.length = 0 )
+
+                } else {
+
+                    for ( var l = fns.length - 1 ; l >= 0; l-- ){
+
+                        var _fn = fns [ 1 ];
+
+                        if( _fn === fn ){
+                                fns.splice( l , 1 );
+                        }
+
+                    }
+                }
+
+            }
+
+            return {
+                listen: listen,
+                trigger: trigger,
+                remove: remove
+            }
+
+        })()
+
+
+        Event.listen( 'squareMeter88', function( price ){ // 小红订阅消息
+            console.log( '价格= ' + price ); // 输出：'价格=2000000'
+        });
+        Event.trigger( 'squareMeter88', 2000000 ); // 售楼处发布消息
+    
+
+        // 8.9 模块间通信
+        // 上一节中实现的发布—订阅模式的实现，是基于一个全局的Event 对象，我们利用它可以在
+        // 两个封装良好的模块中进行通信，这两个模块可以完全不知道对方的存在。就如同有了中介公司
+        // 之后，我们不再需要知道房子开售的消息来自哪个售楼处。
+        // 比如现在有两个模块，a 模块里面有一个按钮，每次点击按钮之后，b 模块里的div 中会显示
+        // 按钮的总点击次数，我们用全局发布—订阅模式完成下面的代码，使得a 模块和b 模块可以在保
+        // 持封装性的前提下进行通信。
+
+
+        var a = (function(){
+            var count = 0;
+            var button = document.getElementById( 'count' );
+            button.onclick = function(){
+                Event.trigger( 'add', count++ );
+            }
+        })();
+
+        var b = (function(){
+            var div = document.getElementById( 'show' );
+            Event.listen( 'add', function( count ){
+                div.innerHTML = count;
+            });
+        })();
+
+
+        // 但在这里我们要留意另一个问题，模块之间如果用了太多的全局发布—订阅模式来通信，那
+        // 么模块与模块之间的联系就被隐藏到了背后。我们最终会搞不清楚消息来自哪个模块，或者消息
+        // 会流向哪些模块，这又会给我们的维护带来一些麻烦，也许某个模块的作用就是暴露一些接口给
+        // 其他模块调用。
+
+    </script>
+
+
+
+</body>
+</html>

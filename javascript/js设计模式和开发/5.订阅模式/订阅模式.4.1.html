@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        
+        var event = {
+
+            clientList : {} ,
+            listen : function (key , fn) {
+
+                if( !this.clientList[key] ){
+
+                    this.clientList[key] = [] ;
+
+                }
+
+                this.clientList[key].push(fn) ;
+
+            },
+            trigger : function () {
+
+                var key = Array.prototype.shift.call(arguments) ;
+
+                var fns = this.clientList[key] ;
+
+                if( !fns||fns.length === 0) {
+                    return 
+                }
+
+                for ( var i = 0 ,fn; fn = fns[i++]; ){
+
+                    fn.apply( this , arguments );
+
+                }
+
+            }
+        };
+
+        var installEvent = function ( obj ) {
+
+            for( item in event) {
+
+                obj[item] = event[item]
+
+            }
+        };
+
+        event.remove = function ( key , fn) {
+
+            var fns = this.clientList[key];
+
+            if( !fns ){
+
+                return  ;
+
+            }
+
+            if( !fn ){
+
+                fns && (fns.length = 0)
+
+            } else {
+
+                for ( var i = 0 ; i < fns.length ; i++) {
+
+                    if( fn == fns[i++]) {
+
+                        fns.splice( i , 1) ;
+
+                    }
+ 
+                }
+
+            }
+        }
+
+        
+        var salesOffices = {} ;
+
+        installEvent(salesOffices)
+
+        salesOffices.listen('100' , fn1 =  function ( pirce ){
+
+            console.log( pirce ) ;
+
+        });
+
+        salesOffices.listen('100' , fn2 =  function ( pirce ){
+
+            console.log( pirce ) ;
+
+        });
+
+
+
+
+        salesOffices.remove(100 , fn1)
+
+        salesOffices.trigger(100 , 10000)
+
+
+    </script>
+</body>
+</html>

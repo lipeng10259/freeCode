@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        var salesOffices = {} ;
+
+        salesOffices.clientList = {} ;
+
+        salesOffices.listen = function ( key , fn ) {
+
+            if( !this.clientList[key] ){
+
+                this.clientList[key] = [] ;
+
+            } 
+
+            this.clientList[key].push( fn )
+
+        } ;
+
+        salesOffices.trigger = function () {
+
+            var key = Array.prototype.shift.call(arguments) ;
+
+            var fns = this.clientList [ key ] ;
+
+            if ( !fns || fns.length === 0 ){
+                return false ;
+            }
+
+            for ( var i = 0 , fn; fn = fns[i++] ;){
+
+                fn.apply(this , arguments)
+
+            }
+
+        } ;
+
+
+        salesOffices.listen('88' , function (price) {
+
+            console.log( '88 - '+ price)
+
+        })
+
+        salesOffices.listen('188' , function (price) {
+
+            console.log( '188 - '+ price)
+
+        })
+    
+        salesOffices.trigger(88 , 100)
+    
+    
+    </script>
+</body>
+</html>
