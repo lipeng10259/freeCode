@@ -100,11 +100,20 @@
 
             var address = (function () {
 
+<<<<<<< HEAD
                 login.listen('loginSucc' , function ( data ) {
 
                     address.setAvatar( data.avatar)
                     
                 });
+=======
+            return {
+                listen: listen,
+                trigger: trigger,
+                remove: remove
+            }
+        })()
+>>>>>>> 395812c96d7c77e1bf1a5b7f814f8fb35a82737f
 
                 return {
 
