@@ -122,12 +122,11 @@ macroCommand.add( macroCommand2 );
 
 var setCommand = ( function ( command ) {
 
-document.getElementById('button').onclick = function () {
+    document.getElementById('button').onclick = function () {
 
-    command.execute()
+        command.execute()
 
-}
-
+    }
 
 })( macroCommand );
 
