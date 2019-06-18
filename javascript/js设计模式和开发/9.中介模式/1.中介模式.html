@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+//     中介者模式的作用就是解除对象与对象之间的紧耦合关系。增加一个中介者对象后，所有的
+// 相关对象都通过中介者对象来通信，而不是互相引用，所以当一个对象发生改变时，只需要通知
+// 中介者对象即可。中介者使各对象之间耦合松散，而且可以独立地改变它们之间的交互。中介者
+// 模式使网状的多对多关系变成了相对简单的一对多关系
+
+
+// 现实中的中介者
+// 在现实生活中也有很多中介者的例子，下面列举几个。
+// 1. 机场指挥塔
+// 中介者也被称为调停者，我们想象一下机场的指挥塔，如果没有指挥塔的存在，每一架飞机
+// 要和方圆100 公里内的所有飞机通信，才能确定航线以及飞行状况，后果是不可想象的。现实中
+// 的情况是，每架飞机都只需要和指挥塔通信。指挥塔作为调停者，知道每一架飞机的飞行状况，
+// 所以它可以安排所有飞机的起降时间，及时做出航线调整。
+
+
+// 2. 博彩公司
+// 打麻将的人经常遇到这样的问题，打了几局之后开始计算钱，A 自摸了两把，B 杠了三次，
+// C 点炮一次给D，谁应该给谁多少钱已经很难计算清楚，而这还是在只有4 个人参与的情况下。
+// 在世界杯期间购买足球彩票，如果没有博彩公司作为中介，上千万的人一起计算赔率和输赢
+// 绝对是不可能实现的事情。有了博彩公司作为中介，每个人只需和博彩公司发生关联，博彩公司
+// 会根据所有人的投注情况计算好赔率，彩民们赢了钱就从博彩公司拿，输了钱就交给博彩公司。
+
+
+// 中介者模式的例子——泡泡堂游戏
+// 大家可能都还记得泡泡堂游戏，我曾经写过一个JS 版的泡泡堂，现在我们来一起回顾这个
+// 游戏，在游戏之初只支持两个玩家同时进行对战。
+// 先定义一个玩家构造函数，它有3 个简单的原型方法：Play.prototype.win、Play.prototype.lose
+// 以及表示玩家死亡的Play.prototype.die。
+// 因为玩家的数目是2，所以当其中一个玩家死亡的时候游戏便结束, 同时通知它的对手胜利。
+// 这段代码看起来很简单：
+
+    function Player ( name ) {
+
+        this.name = name;
+
+        this.enemy = null;// 敌人
+
+    };
+
+    Player.prototype.win = function () {
+
+        console.log( 'winner: ' + this.name );
+
+    };
+
+    Player.prototype.lose = function () {
+
+        console.log( 'loser: ' + this.name );
+
+    };
+
+    Player.prototype.die = function () {
+
+        this.enemy.win();
+
+        this.lose();
+
+    }
+
+    //接下来创建2 个玩家对象：
+
+    var player1 = new Player( '皮蛋' );
+
+    var player2 = new Player( '小乖' );
+
+    player1.enemy = player2;
+
+    player2.enemy = player1;
+
+    player1.die();
+
+</script>
+</html>

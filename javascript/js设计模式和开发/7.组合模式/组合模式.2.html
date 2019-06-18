@@ -7,6 +7,7 @@
     <title>Document</title>
 </head>
 <body>
+<<<<<<< HEAD
     <button id="button">按我</button>
 </body>
 <script>
@@ -78,11 +79,50 @@ var closeDoorCommand = {
     execute : function () {
 
         console.log('关门');
+=======
+    
+</body>
+<script>
+// 组合模式的例子——扫描文件夹
+// 文件夹和文件之间的关系，非常适合用组合模式来描述。文件夹里既可以包含文件，又可以
+// 包含其他文件夹，最终可能组合成一棵树，组合模式在文件夹的应用中有以下两层好处。
+//  例如，我在同事的移动硬盘里找到了一些电子书，想把它们复制到F 盘中的学习资料文
+// 件夹。在复制这些电子书的时候，我并不需要考虑这批文件的类型，不管它们是单独的
+// 电子书还是被放在了文件夹中。组合模式让Ctrl+V、Ctrl+C 成为了一个统一的操作。
+//  当我用杀毒软件扫描该文件夹时，往往不会关心里面有多少文件和子文件夹，组合模式
+// 使得我们只需要操作最外层的文件夹进行扫描。
+// 现在我们来编写代码，首先分别定义好文件夹Folder 和文件File 这两个类。见如下代码：
+
+
+/******************************* Folder ******************************/
+
+var Folder = function ( name ) {
+
+    this.name = name;
+
+    this.files = [];
+};
+
+Folder.prototype.add = function ( file ) {
+
+    this.files.push( file );
+
+};
+
+Folder.prototype.scan = function () {
+
+    console.log('开始扫描文件夹:' + this.name);
+
+    for ( var i = 0 , file, files= this.files; file = files[ i++ ];) {
+
+        file.scan();
+>>>>>>> f8ea040f16ecfd471f7eb23214a4544236156838
 
     }
 
 };
 
+<<<<<<< HEAD
 var openPcCommand = {
 
     execute : function () {
@@ -132,6 +172,59 @@ document.getElementById('button').onclick = function () {
 })( macroCommand );
 
 
+=======
+/******************************* File ******************************/
+
+var File = function ( name ) {
+
+    this.name = name;
+
+}
+
+File.prototype.add = function () {
+
+    throw new Error('文件下面不能再添加文件')
+
+};
+
+File.prototype.scan = function () {
+
+    console.log( '开始扫描文件: ' + this.name );
+
+};
+
+// 接下来创建一些文件夹和文件对象， 并且让它们组合成一棵树，这棵树就是我们F 盘里的
+// 现有文件目录结构：
+
+var folder = new Folder( '学习资料' );
+
+var folder1 = new Folder( '学习资料1' );
+
+var folder2 = new Folder( '学习资料2' );
+
+var folder3 = new Folder( '学习资料3' );
+
+var file = new File('学习资料1_1');
+
+var file1 = new File('学习资料1_2');
+
+var file2 = new File('学习资料1_3');
+
+folder.add(file);
+
+folder1.add(file1);
+
+folder2.add(file2);
+
+folder3.add(folder);
+
+folder3.add(folder1);
+
+folder3.add(folder2);
+
+
+folder3.scan()
+>>>>>>> f8ea040f16ecfd471f7eb23214a4544236156838
 
 </script>
 </html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+    var arr = [1 , 2 , 3 , 4 , 5];
+
+    var  parentCode = 3 ;
+
+    var childArray = [4]
+
+    arr.forEach(( item , index ) => {
+
+        console.log(index)
+
+        if(item === parentCode) {
+
+            arr.splice( index , 1)
+
+        }
+
+
+        childArray.forEach((childItem , idx) => {
+
+            if( item === childItem) {
+
+                arr.splice(index , 1)
+
+            }
+        })
+
+    })
+
+    console.log(arr)
+
+
+
+</script>
+</html>
