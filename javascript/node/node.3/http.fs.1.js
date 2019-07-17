@@ -2,7 +2,7 @@ const fs = require('fs');
 const http = require('http');
 
 
-const server = http.createServer()
+const server = http.createServer() 
 
 server.on('request' , function ( req , res) {
 
