@@ -1,4 +1,4 @@
-<!-- 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,22 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
-<body> -->
-        <!-- <%if(filesArr.length == 0){%> -->
-        <%= filesArr[0] %>
-        <!-- <div>
-            <p>暂无文件夹</p>
-            <a href="http://127.0.0.1:8080/mkdir">去創建</a>
-        </div> -->
+<body>
+   
+        <% if (filesArr.length > 0) {%>
+            <% for (var i = 0; i < filesArr.length;i++){%>
+               <p>
+                   <a href="http://127.0.0.1:8080/<%=filesArr[i]%>"><%=filesArr[i]%></a> 
+                </p> 
+            <%}%>  
+            <a href="http://127.0.0.1:8080/post">上传图片</a>
+        <%}else{%>
+            <div>
+                <p>暂无相册</p>
+                <a href="http://127.0.0.1:8080/mkdir">去创建</a>
+            </div>
+        <%}%>
+     
 
-        <!-- <%} else {%> 
-
-            <%for(var i = 0 ; i < filesArr.length; i++;){%>
-
-            <p><%=filesArr[i] %></p>
-
-            <%}%>
-
-        <%}%> -->
-<!-- </body>
-</html> -->
+</html>

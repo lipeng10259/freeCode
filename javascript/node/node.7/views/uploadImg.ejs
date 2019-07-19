@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <%if(filesArr.length >0){%>
+    <form action="http://127.0.0.1:8080/post" method="post" enctype="multipart/form-data">
+        <%for(var i=0; i< filesArr.length;i++){%>
+        <input type="radio" value="<%=filesArr[i]%>" name = "Album"/><%=filesArr[i]%>
+        <%}%>
+        <p>
+            <input type="file" value="" name="img"/>
+        </p>
+        <input type="submit" value="提交"/>
+    </form>
+    <%}else{%>
+        <p>暂无相册</p>
+    <%}%>
+</body>
+</html>
