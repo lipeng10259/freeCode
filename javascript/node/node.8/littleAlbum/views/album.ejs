@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>相册</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    </style>
+  </head>
+  <body>
+    <ul class="nav nav-tabs">
+        <li role="presentation"><a href="/">相册</a></li>
+        <li role="presentation" class="active"><a href="#">全部相册</a></li>
+        <li role="presentation"><a href="/upload">上传</a></li>
+    </ul>
+    <ol class="breadcrumb">
+        <li><a href="#">当前相册</a></li>
+        <li class="active"><%=albumName%></li>
+    </ol>
+    <div class="container">
+ 
+        <div class="row">
+                <%for(var i = 0; i< imgArr.length;i++){%>
+                    <div class="col-xs-4 col-md-4" style="margin-bottom: 10px;">
+                    <a href="/<%= albumName+'/'+imgArr[i] %>">
+                        <img style="width: 100%;display: block;" src="/<%=albumName+'/'+imgArr[i]%>" alt="">
+                    </a>
+                    </div>
+                <%}%>
+        </div>
+
+    </div>
+
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="/js/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="/js/bootstrap.min.js"></script>
+  </body>
+</html>
