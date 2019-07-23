@@ -60,9 +60,9 @@ exports.getAllAlbumsImages = function (path,callback) {
 }
 exports.uploadImage = function ( req , callback) {
     var form = new formidable.IncomingForm();
-    form.uploadDir = __dirname + '/../uploads'
+    form.uploadDir = __dirname + '/../uploads/'
     form.parse(req, function(err, fields, files) {
-        console.log(files)
+        console.log(err)
         callback(err, fields, files)
     });
 

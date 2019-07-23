@@ -45,12 +45,10 @@ exports.upload = function ( req , res , next) {
         var oldname = files.image.path;
         fs.rename(oldname  , __dirname+'/../uploads/'+filepath+'/' + newname , function (eror) {
             if(eror) {
+                console.log(eror)
                 console.log('改名失敗！')
                 next();
             } else {
-                fs.unlink(oldname,function (err) {
-                    console.log(err)
-                });
                 console.log('改名成功！')
             }
         })

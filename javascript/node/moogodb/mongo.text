@@ -1,0 +1,61 @@
+管理数据库，必须先开机，开机使用 
+
+mongod --dbpath '数据库路径'
+
+管理数据库：
+
+mongo （移动要在新的cmd中输入）
+
+// 进入数据库的时候首先要先use到要使用的数据库，然后才能查看数据库
+
+列出所有数据库
+
+show dbs
+
+查看当前所在数据库
+db
+
+使用某个数据库 
+
+use 数据库的名字
+
+新建某个数据库（use 后面加一个不存在的数据库名字）
+
+use 新的数据库名字
+
+列出当前数据库中的集合（数据）
+
+show collections
+
+查看集合中的数据 
+
+db.student.find();
+
+数据库中添加数据
+
+db.student.insert({'name':'lipeng','age':'20','sex':'nan'});
+
+
+数据库中找到某人 
+
+db.student.find({"age":"21"})
+
+精确查找
+
+db.test.find({"score.shuxue":"80"})
+
+db.test.find({"score.shuxue":"80","age":"21"})
+
+db.test.find({"score.shuxue":{$gt:"80"}});// 大于80分
+
+db.test.find({$or:[{"age":"12"},{"age":"14"}]});// 年龄或者的关系
+
+db.test.find().sort({"age":1,"score.shuxue":-1}) 1表示升序 -1表示降序
+
+删除数据库（默认删除当前所在的数据库）
+
+db.dropDatabase()
+
+数据库导入
+
+mongoimport --db itcast(要导入的集合名) --collection  --drop(是否删除集合中现有的数据，如果不删除就去掉--drop) --file ~\downloads\inventory.crud.json (要导入的数据)
