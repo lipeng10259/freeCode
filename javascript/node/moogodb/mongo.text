@@ -56,6 +56,9 @@ db.test.find().sort({"age":1,"score.shuxue":-1}) 1表示升序 -1表示降序
 
 db.dropDatabase()
 
-数据库导入
+删除数据库的集合
+db.users.drop() 
+
+数据库导入JSON文件
 
 mongoimport --db itcast(要导入的集合名) --collection  --drop(是否删除集合中现有的数据，如果不删除就去掉--drop) --file ~\downloads\inventory.crud.json (要导入的数据)

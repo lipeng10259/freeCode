@@ -1,0 +1,17 @@
+数据库修改
+
+    修改年龄20岁
+    db.student.update({"name":"lipeng"},{$set:{"age":"20"}})
+
+    不添加查询条件 更改所有的年龄为20
+    db.student.update({},{$set:{"age":"20"}},{multi:true})
+    
+    更改性别为nan的所有年龄
+    db.student.update({"sex":"nan"},{$set:{"age":"20"}},{multi:true})
+
+    更改性别为nan的数据为age为20(只剩这一条数据) 不加$set（不加$set是替换{"sex":"nan"}）
+    db.student.update({"sex":"nan"},{"age":"20"}})
+
+数据库删除
+
+    db.student.remove({"sex":"nan"})
