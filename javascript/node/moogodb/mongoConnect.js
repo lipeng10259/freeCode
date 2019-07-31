@@ -71,3 +71,21 @@ exports.deleteMany = function (collectName, json, callback) {
     })
 
 }
+
+exports.updateMany = function (collectName , json1 , json2, callback) {
+
+    _connectDB(function (err , client ) {
+
+        var db = client.db()
+
+        db.collection(collectName).updateMany(json1 , json2).then(function ( result ) {
+
+            callback(result)
+
+            client.close()
+
+        })
+
+    })
+
+}

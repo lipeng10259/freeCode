@@ -38,4 +38,14 @@ app.get('/detele' , function ( req , res ) {
 
 })
 
+app.get('/update' , function (req , res) {
+
+    mongodbconcent.updateMany('test' , {"name":"lip"} ,{$set:{"age":"13"}},function (result) {
+
+        res.json(result);
+
+    })
+
+})
+
 app.listen(3000 ,()=>console.log('启动'));
