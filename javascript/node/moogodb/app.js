@@ -2,7 +2,8 @@ var express = require('express');
 var app = express();
 var mongodbconcent = require('./mongoConnect');
 var MongoClient = require('mongodb').MongoClient
-var url = 'mongodb://localhost:27017/itcast'
+let { mongoFactory }  = require('./mongoFactory');
+
 
 app.get('/', function(req , res) {
 
@@ -46,6 +47,18 @@ app.get('/update' , function (req , res) {
 
     })
 
+})
+
+app.get('/fac', function ( req , res ) {
+
+    // console.log(mongoFactory);
+
+    mongoFactory('findMany' , 'test' ,{
+        findData:{}, 
+        callback:function (err , result ) {
+            res.json(result)
+        }
+    })
 })
 
 app.listen(3000 ,()=>console.log('启动'));
