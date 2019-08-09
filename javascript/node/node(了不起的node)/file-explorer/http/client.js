@@ -19,6 +19,7 @@ require('http').request({
     });
     res.on('end' , function () {
         console.log('\n We got: \033[96m' + body + '\033[39m\n');
+        // process.stdin.resume()
     })
 
 }).end()
