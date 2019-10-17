@@ -1,0 +1,15 @@
+::1 - GET / HTTP/1.1 304 - - 8.905 ms
+::1 - GET /stylesheets/style.css HTTP/1.1 304 - - 1.600 ms
+::1 - GET /kkkk HTTP/1.1 404 1403 - 1.128 ms
+::1 - GET /kkkk HTTP/1.1 404 1403 - 0.827 ms
+::1 - GET /kkkk HTTP/1.1 404 1403 - 6.610 ms
+::1 - GET /kkkk HTTP/1.1 404 1403 - 7.365 ms
+::1 - GET /kkkk HTTP/1.1 404 1403 - 1.132 ms
+::1 - - [12/Aug/2019:10:23:09 +0000] "GET /kkkk HTTP/1.1" 404 1393 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+::1 - - [12/Aug/2019:10:23:21 +0000] "GET / HTTP/1.1" 304 - "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+::1 - - [12/Aug/2019:10:23:21 +0000] "GET /stylesheets/style.css HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
+immediate
+immediate
+immediate
+immediate
+immediate

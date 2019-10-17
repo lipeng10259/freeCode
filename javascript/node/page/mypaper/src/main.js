@@ -13,19 +13,17 @@ Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 
-router.beforeEach(function(to,form,next){
-  axios.get('http://localhost:3300/isLogin').then(function(res){
-    if(to.path == '/login'||to.path == '/register'){
-        next()
-    } else {
-      if(res.data.errno == -1){
-        next('/login')
-      } else {
-        next()
-      }      
-    }
+router.afterEach(function(to,form){
+  // axios.get('http://localhost:3300/isLogin').then(function(res){
+  //   if(to.path == '/login'||to.path == '/register'){
+      
+  //   } else {
+  //     if(res.data.errno == -1){
+  //       router.push('/login')
+  //     }     
+  //   }
 
-  })
+  // })
 
 }) 
 

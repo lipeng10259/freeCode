@@ -1,47 +1,44 @@
 const express = require('express');
-const session = require('express-session');
 const md5= require('md5');
 const bodyParser = require('body-parser');
 const MongoClient = require('mongodb').MongoClient;
-
+const session = require('express-session');
 const url = 'mongodb://127.0.0.1:27017/page';
 
 var app = express();
 
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+//设置允许跨域访问该服务.
+app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    //Access-Control-Allow-Headers ,可根据浏览器的F12查看,把对应的粘贴在这里就行
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', '*');
+    res.header('Content-Type', 'application/json;charset=utf-8');
+    next();
+  });
 app.use(session({
-    secret:'keybord cat',
-    resave:true,
-    name:'page_id',
-    cookie: {maxAge: 600000},
-    saveUninitialized:true
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
 }))
 
-app.use(bodyParser.urlencoded({ extended: false }))
- 
-// parse application/json
-app.use(bodyParser.json())
 
-app.all("*",function(req,res,next){
-    //设置允许跨域的域名，*代表允许任意域名跨域
-    res.header("Access-Control-Allow-Origin","*");
-    //允许的header类型
-    res.header("Access-Control-Allow-Headers","content-type");
-    //跨域允许的请求方式 
-    res.header("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");
-    if (req.method.toLowerCase() == 'options')
-        res.send(200);  //让options尝试请求快速结束
-    else
-        next();
-});
-app.get('/isLogin' , function(req , res ,next) {
+app.get('/isLogin' , function(req , res) {
     console.log(req.session)
-    console.log('dddd')
     if(!req.session.name){
-       res.send({'errno':-1,'msg':'未登录'})
+       res.send({'errno':-1,'msg':'登陸失敗'})
     } else {
-        
-        res.send({'errno':0,'msg':'已登录'})
+        res.send({'errno':0,'msg':'登陸成功'})
     }
+})
+
+app.get('/userMsg',function(req , res) {
+    req.session.name  = 'ddddddd'
+    console.log(req.session)
+    res.send('session 设置')
 })
 app.post('/register' , function (req , res , next) {// 注册验证
 
@@ -100,8 +97,11 @@ app.post('/register' , function (req , res) {// 注册用户存储
 })
 
 app.post('/login' , function (req , res , next) {
+
     let name = req.body.name;
+
     let password = req.body.password;
+
     MongoClient.connect(url , { useNewUrlParser: true },function (err , client) {
         if(err) {
             console.log(err);
@@ -114,7 +114,7 @@ app.post('/login' , function (req , res , next) {
             if (err) throw err;
 
             if(result.length == 0) {
-                console.log(result)
+
                 res.send({'errno':-1,'msg':'该用户暂未注册'})
 
             } else if (result.length != 0) {
@@ -129,8 +129,9 @@ app.post('/login' , function (req , res , next) {
 
                     req.session.password =  password
 
-                    console.log(req.session);
-                    console.log('登录成功')
+                    console.log(req.session)
+
+                    console.log('注册成功')
 
                     res.send({'errno':0,'msg':'登录成功'})
                 }
@@ -144,12 +145,6 @@ app.post('/login' , function (req , res , next) {
 
 })
 
-app.get('/userMsg',function(req , res) {
-
-    console.log(req.session)
-
-
-})
 
 
 app.listen(3300)

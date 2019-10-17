@@ -20,6 +20,20 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
+  mounted() {
+      axios.get('http://localhost:3300/isLogin').then(function(res){
+        if(to.path == '/login'||to.path == '/register'){
+            next()
+        } else {
+          if(res.data.errno == -1){
+            next('/login')
+          } else {
+            next()
+          }      
+        }
+
+      })
+  },
   components:{
     headerBar,
     asiderBar
