@@ -70,7 +70,6 @@
          this.$router.push({path:'/register'})
       },
       siginIn () {
-        console.log()
         this.$http.post('http://localhost:3300/login',{name:this.ruleForm.name,password:this.ruleForm.pass}).then(res=>{
           if(res.data.errno == 0) {
             this.$message({

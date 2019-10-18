@@ -25,21 +25,39 @@ app.use(session({
     cookie: { secure: false }
 }))
 
-
-app.get('/isLogin' , function(req , res) {
-    console.log(req.session)
-    if(!req.session.name){
-       res.send({'errno':-1,'msg':'登陸失敗'})
-    } else {
-        res.send({'errno':0,'msg':'登陸成功'})
-    }
-})
-
 app.get('/userMsg',function(req , res) {
-    req.session.name  = 'ddddddd'
-    console.log(req.session)
-    res.send('session 设置')
+
+    req.session.name = 'admin'
+
+    let name = req.session.name
+
+    MongoClient.connect(url , { useNewUrlParser: true },function (err , client) {
+        if(err) {
+            console.log(err);
+            return ;
+        }
+        let db = client.db();
+
+        db.collection('user').find({'name':name}).toArray(function(err , result){
+
+            if (err) throw err;
+
+            if(result.length == 0) {
+
+                res.send({'errno':-1,'msg':'该用户暂未注册'})
+
+            } else if (result.length != 0) {
+                console.log(result[0])
+                res.send({'errno':0,'msg':{name:result[0].name,id:result[0]._id}})
+            }
+
+            client.close()
+        })
+
+    })
+
 })
+
 app.post('/register' , function (req , res , next) {// 注册验证
 
     let name = req.body.name
@@ -144,7 +162,23 @@ app.post('/login' , function (req , res , next) {
     })
 
 })
+app.get('/addLable' , function (req , res , next){
+
+    req.session.name = 'admin';
+
+    let name = req.session.name;
+
+    
 
 
+})
+app.get('/isLogin' , function(req , res) {
+    console.log(req.session)
+    if(!req.session.name){
+       res.send({'errno':-1,'msg':'登陸失敗'})
+    } else {
+        res.send({'errno':0,'msg':'登陸成功'})
+    }
+})
 
 app.listen(3300)

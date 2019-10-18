@@ -21,18 +21,7 @@ export default {
     }
   },
   mounted() {
-      axios.get('http://localhost:3300/isLogin').then(function(res){
-        if(to.path == '/login'||to.path == '/register'){
-            next()
-        } else {
-          if(res.data.errno == -1){
-            next('/login')
-          } else {
-            next()
-          }      
-        }
 
-      })
   },
   components:{
     headerBar,

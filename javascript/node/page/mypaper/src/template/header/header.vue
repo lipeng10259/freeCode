@@ -26,7 +26,7 @@ export default {
     methods:{
         getUserMsg(){
             this.$http.get('http://localhost:3300/userMsg').then((res)=>{
-                console.log(res)
+                this.user.name = res.data.msg.name
             })
         },
         siginUp(){
