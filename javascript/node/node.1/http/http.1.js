@@ -1,6 +1,9 @@
 // 加载http核心模块
-const  http = require('http') ;
+const  http = require('http');
+const express = require('express');
+const session = require('express-session');
 
+const app = express();
 
 // 2. 使用http.createServer() 创建一个web服务器
 
@@ -28,69 +31,33 @@ var server = http.createServer() ;
  * 
  * */
 
-server.on( 'request' , function ( request , response ) {
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+  }))
 
-    console.log(request.socket.remotePort)
+  app.get('/' , function (req , res) {
 
-    console.log('请求路径是 '+ request.url)
-    // console.log('请求路径是 '+ request.url)
+    console.log(req.session)
+    console.log('获取session')
+    res.send('session 登录成功' + req.session.name)
 
-    console.log('收到客户端请求')
+  })
 
+  app.get('/login' , function (req , res) {
 
-    // response 有一个方法 write 可以给客户端发送数据
-
-
-
-    // 由于现在服务器还非常的弱， 无论什么请求 都只能响应hello
-
-    // 希望请求不同的路径的时候响应不同的结果
-
-    /**
-     * 
-     * 
-     * 
-     * *********/
-
-     if( request.url === '/' ){
-
-        response.write('hello 我是首页')
-        response.end()
-
-
-     } else if( request.url === '/index') {
-
-        response.write('hello 我是index页面')
-        response.end()
-
-    } else if( request.url === '/data' ){
-
-        // 响应内容只能是二进制或者字符串 
-
-        var data = [
-            {
-                name : 'ddd',
-                data: '111'
-            }
-
-        ]
-
-        response.end(JSON.stringify(data))
-
-
-    } else {
-
-        response.end('404')
-
-     }
-
-     
-
+    req.session.name = 'li de'
+    console.log(req.session)
+    console.log('设置session')
+    res.send('session 设置')
+    
 })
 
 // 4 . 绑定端口号 ， 启动服务器
 
-server.listen(3000 , function ( ) {
+app.listen(3030 , function ( ) {
 
     console.log('服务器启动成功， 可以访问')
 
