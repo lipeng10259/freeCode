@@ -162,14 +162,304 @@ app.post('/login' , function (req , res , next) {
     })
 
 })
-app.get('/addLable' , function (req , res , next){
+
+
+app.get('/addLabel' , function (req , res , next){
 
     req.session.name = 'admin';
 
     let name = req.session.name;
 
-    
+    let label = req.query.label
 
+    MongoClient.connect(url , { useNewUrlParser: true },function (err , client) {
+        if(err) {
+            console.log(err);
+            return ;
+        }
+
+        let db = client.db();
+
+        db.collection('user').find({'name':name}).toArray(function(err , result){
+
+            if (err) throw err;
+
+            if(result.length == 0) {
+
+                res.send({'errno':-1,'msg':'该用户暂未注册'})
+
+            } else if (result.length != 0) {
+
+                let _id = result[0]._id
+
+                db.collection('articleType').find({'id':_id,'articleLabel':{$elemMatch:{'label':label}}}).toArray(function(err , result){
+
+                    if (err) throw err;
+        
+                    if(result.length == 0) {
+        
+                        next()
+        
+                    } else {
+
+                        res.send({'errno': -1,'msg':'类型已添加'})                       
+                    
+                    }
+        
+                    client.close()
+        
+                })
+                        
+   
+            }
+
+            // client.close()
+
+        })
+
+
+    })
+})
+app.get('/addLabel' , function (req , res , next){
+
+    req.session.name = 'admin';
+
+    let name = req.session.name;
+
+    let label = req.query.label
+
+    MongoClient.connect(url , { useNewUrlParser: true },function (err , client) {
+        if(err) {
+            console.log(err);
+            return ;
+        }
+        let db = client.db();
+
+        db.collection('user').find({'name':name}).toArray(function(err , result){
+
+            if (err) throw err;
+
+            if(result.length == 0) {
+
+                res.send({'errno':-1,'msg':'该用户暂未注册'})
+
+            } else if (result.length != 0) {
+ 
+                let _id = result[0]._id
+
+                db.collection('articleType').find({'id':_id}).toArray(function(err , result){
+
+                    if (err) throw err;
+                    console.log(result)
+                    if(result.length == 0) {
+                        console.log(result)
+                        db.collection('articleType').insertOne({'id':_id,'articleLabel':[{'label':label}]},function(err , result){
+
+                            if (err) throw err;
+        
+                            res.send({'errno':0 , 'msg':'添加成功'})
+        
+                        })                        
+                    } else {
+                        let arr = result[0].articleLabel
+                        // let arr = result[0]&&result[0].length > 0 ? result[0].articleLabel : []
+                        // console.log(arr)
+                      
+
+                        arr.push({'label':label})
+
+                        console.log(arr);
+
+                        db.collection('articleType').updateOne({'id':_id},{$set:{'articleLabel':arr}})
+                        res.send({'errno':0 , 'msg':'添加成功'})
+                        //   console.log('插入数组')                      
+                    }
+
+
+
+                })
+            }
+
+            // client.close()
+
+        })
+
+    })
+
+})
+app.get('/getLabel' , function (req , res , next){
+
+    req.session.name = 'admin';
+
+    let name = req.session.name;
+
+    MongoClient.connect(url , { useNewUrlParser: true },function (err , client) {
+        if(err) {
+            console.log(err);
+            return ;
+        }
+        let db = client.db();
+
+        db.collection('user').find({'name':name}).toArray(function(err , result){
+
+            if (err) throw err;
+
+            if(result.length == 0) {
+
+                res.send({'errno':-1,'msg':'该用户暂未注册'})
+
+            } else if (result.length != 0) {
+ 
+                let _id = result[0]._id
+
+                db.collection('articleType').find({'id':_id}).toArray(function(err , result){
+
+                    if (err) throw err;
+           
+                    if(result.length == 0) {
+                
+    
+                            res.send({'errno':-1 , 'msg':'暂未添加类型'})
+                              
+                    } else {
+                        
+                        res.send({'errno':0 , 'msg':result[0].articleLabel})                     
+                    }
+
+
+
+                })
+            }
+
+            // client.close()
+
+        })
+
+    })
+
+})
+app.get('/addArticle' , function (req , res , next){
+
+    req.session.name = 'admin';
+
+    let name = req.session.name;
+
+    let articleContent = req.query
+
+    let nowDate = new Date(); 
+
+    let date =  nowDate.getFullYear()+'.'+(nowDate.getMonth()+1)+'.'+nowDate.getDate();
+    
+    articleContent.author = name;
+
+    articleContent.articleId = nowDate.getTime()
+
+    articleContent.date = date;
+
+    MongoClient.connect(url , { useNewUrlParser: true },function (err , client) {
+        if(err) {
+            console.log(err);
+            return ;
+        }
+        let db = client.db();
+
+        db.collection('user').find({'name':name}).toArray(function(err , result){
+
+            if (err) throw err;
+
+            if(result.length == 0) {
+
+                res.send({'errno':-1,'msg':'该用户暂未注册'})
+
+            } else if (result.length != 0) {
+ 
+                let _id = result[0]._id
+
+                db.collection('article').find({'id':_id}).toArray(function(err , result){
+
+                    if (err) throw err;
+  
+                    if(result.length == 0) {
+    
+                        db.collection('article').insertOne({'id':_id,'articleList':[articleContent]},function(err , result){
+
+                            if (err) throw err;
+        
+                            res.send({'errno':0 , 'msg':'添加成功'})
+        
+                        })                        
+                    } else {
+                        let arr = result[0].articleList
+
+                        arr.push(articleContent)
+
+                        console.log(arr)
+                        
+                    
+                        db.collection('article').updateOne({'id':_id},{$set:{'articleList':arr}})
+
+                        res.send({'errno':0 , 'msg':'添加成功'})
+                        //   console.log('插入数组')                      
+                    }
+
+
+
+                })
+            }
+
+            // client.close()
+
+        })
+
+    })
+
+})
+app.get('/articleList' , function (req , res , next){
+
+    req.session.name = 'admin';
+
+    let name = req.session.name;
+
+    MongoClient.connect(url , { useNewUrlParser: true },function (err , client) {
+        if(err) {
+            console.log(err);
+            return ;
+        }
+        let db = client.db();
+
+        db.collection('user').find({'name':name}).toArray(function(err , result){
+
+            if (err) throw err;
+
+            if(result.length == 0) {
+
+                res.send({'errno':-1,'msg':'该用户暂未注册'})
+
+            } else if (result.length != 0) {
+ 
+                let _id = result[0]._id
+
+                db.collection('article').find({'id':_id}).toArray(function(err , result){
+
+                    if (err) throw err;
+  
+
+                    console.log(result)
+
+                    res.send({'errno':0 , 'msg':'成功','data':result[0].articleList})
+                        //   console.log('插入数组')                      
+             
+
+
+
+                })
+            }
+
+            client.close()
+
+        })
+
+    })
 
 })
 app.get('/isLogin' , function(req , res) {
