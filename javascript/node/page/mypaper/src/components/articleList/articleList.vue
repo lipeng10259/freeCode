@@ -1,6 +1,6 @@
 <template>
   <el-table
-    :data="tableData"
+    :data="articleData"
     style="width: 100%">
     <el-table-column
       label="日期"
@@ -11,16 +11,29 @@
       </template>
     </el-table-column>
     <el-table-column
-      label="姓名"
+      label="上传者"
       width="180">
       <template slot-scope="scope">
-        <el-popover trigger="hover" placement="top">
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
+    
+          <!-- <p>姓名: {{ scope.row.name }}</p>
+          <p>住址: {{ scope.row.address }}</p> -->
           <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
+            <el-tag size="medium">{{ scope.row.author }}</el-tag>
           </div>
-        </el-popover>
+      </template>
+    </el-table-column>
+    <el-table-column
+      label="文章标题"
+      >
+      <template slot-scope="scope">
+        <span>{{ scope.row.title }}</span>
+      </template>
+    </el-table-column>
+        <el-table-column
+      label="文章内容"
+      >
+      <template slot-scope="scope">
+        <span>{{ scope.row.desc }}</span>
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -41,24 +54,35 @@
   export default {
     data() {
       return {
-        tableData: [{
+        articleData: [{
+          id:'123',
           date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          author: '王小虎',
+          title:'文章标题',
+          desc: '上海市普陀区金沙江路 1518 弄'
         }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          id:'123',
+          date: '2016-05-02',
+          author: '王小虎',
+          title:'文章标题',
+          desc: '上海市普陀区金沙江路 1518 弄'
         }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          id:'123',
+          date: '2016-05-02',
+          author: '王小虎',
+          title:'文章标题',
+          desc: '上海市普陀区金沙江路 1518 弄'
         }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
+          id:'123',
+          date: '2016-05-02',
+          author: '王小虎',
+          title:'文章标题',
+          desc: '上海市普陀区金沙江路 1518 弄'
         }]
       }
+    },
+    mounted() {
+      this.articleList()
     },
     methods: {
       handleEdit(index, row) {
@@ -66,6 +90,25 @@
       },
       handleDelete(index, row) {
         console.log(index, row);
+      },
+      articleList(){
+        this.$http.get('http://localhost:3300/articleList').then(res=>{
+          if(res.data.errno == 0) {
+            this.articleData = res.data.data
+            this.$message({
+              message: res.data.msg,
+              type: 'success',
+              duration: 1000
+            });
+  
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'success',
+              duration: 1000
+            });
+          }
+        }) 
       }
     }
   }

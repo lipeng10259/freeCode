@@ -1,23 +1,22 @@
 <template>
   <div style="width:700px;">
     <el-tag
-  :key="tag"
-  v-for="tag in dynamicTags"
+  :key="index"
+  v-for="(tag,index) in dynamicTags"
   closable
   :disable-transitions="false"
   @close="handleClose(tag)">
-  {{tag}}
+  {{tag.label}}
 </el-tag>    
 <el-form :model="numberValidateForm" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
     <el-form-item
-        label="标题"
-        prop="age"
+        label="类型"
+        prop="type"
         :rules="[
-        { required: true, message: '年龄不能为空'},
-        { type: 'number', message: '年龄必须为数字值'}
+        { required: true, message: '类型不能为空'}
         ]"
     >
-        <el-input type="age" v-model.number="numberValidateForm.age" autocomplete="off"></el-input>
+        <el-input type="type" v-model.number="numberValidateForm.type" autocomplete="off"></el-input>
     </el-form-item>
     <el-form-item>
         <el-button type="primary" @click="submitForm('numberValidateForm')">添加</el-button>
@@ -32,16 +31,20 @@
     data() {
       return {
         numberValidateForm: {
-          age: ''
+          type: ''
         },
-        dynamicTags: ['标签一', '标签二', '标签三'],
+        dynamicTags: [],
       };
+    },
+    mounted(){
+      this.getLabel()
     },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            // alert('submit!');
+            this.addLabel()
           } else {
             console.log('error submit!!');
             return false;
@@ -52,7 +55,37 @@
         this.$refs[formName].resetFields();
       },
       addLabel () {
-
+        this.$http.get('http://localhost:3300/addLabel',{params:{label:this.numberValidateForm.type}}).then(res=>{
+          if(res.data.errno == 0) {
+            this.$message({
+              message: res.data.msg,
+              type: 'success',
+              duration: 1000
+            });
+            this.getLabel()
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'success',
+              duration: 1000
+            });
+          }
+        })   
+      },
+      getLabel () {
+        this.$http.get('http://localhost:3300/getLabel').then(res=>{
+          if(res.data.errno == 0) {
+    
+            this.dynamicTags = res.data.msg
+  
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'success',
+              duration: 1000
+            });
+          }
+        })          
       }
     }
   }

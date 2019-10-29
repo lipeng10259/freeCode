@@ -1,13 +1,12 @@
 <template>
     <el-form  :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <el-form-item label="文章类型" prop="region">
-            <el-select v-model="ruleForm.region"  placeholder="请文章类型">
-                <el-option label="区域一" value="shanghai"></el-option>
-                <el-option label="区域二" value="beijing"></el-option>
+        <el-form-item label="文章类型" prop="type">
+            <el-select v-model="ruleForm.type"  placeholder="请文章类型">
+                <el-option :label="type.label" :value="type.label" v-for = "(type,index) in dynamicTags" :key = 'index'></el-option>
             </el-select>
         </el-form-item>
-        <el-form-item label="标题" prop = "pass" >
-            <el-input type="text" v-model="ruleForm.pass" autocomplete="off"></el-input>
+        <el-form-item label="标题" prop = "title" >
+            <el-input type="text" v-model="ruleForm.title" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="活动形式" prop = 'desc'>
             <el-input type="textarea" v-model="ruleForm.desc"></el-input>
@@ -22,7 +21,7 @@
 <script>
   export default {
     data() {
-      var validatePass = (rule, value, callback) => {
+      var validatetitle = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入标题'));
         } else {
@@ -45,29 +44,33 @@
 
       return {
         ruleForm: {
-          pass: '',
-          region: '',
+          title: '',
+          type: '',
           desc: ''
         },
         rules: {
-            pass: [
-                { validator: validatePass, trigger: 'blur' },
+            title: [
+                { validator: validatetitle, trigger: 'blur' },
             ], 
-            region: [
-                { required: true, message: '请选择活动区域', trigger: 'change' }
+            type: [
+                { required: true, message: '文章类型', trigger: 'change' }
             ],
             desc: [
             { required: true, message: '请填写文章描述', trigger: 'blur' }
           ]
-        }
+        },
+        dynamicTags: []
       };
+    },
+    mounted(){
+      this.getLabel()
     },
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
 
-              console.log(valid)
+            this.addArticle()
 
           } else {
             console.log('error submit!!');
@@ -77,6 +80,39 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      getLabel () {
+        this.$http.get('http://localhost:3300/getLabel').then(res=>{
+          if(res.data.errno == 0) {
+            this.dynamicTags = res.data.msg
+  
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'success',
+              duration: 1000
+            });
+          }
+        })  
+      },
+      addArticle () {
+        this.$http.get('http://localhost:3300/addArticle',{params:{title:this.ruleForm.title,type:this.ruleForm.type,desc:this.ruleForm.desc}}).then(res=>{
+          if(res.data.errno == 0) {
+            this.dynamicTags = res.data.msg
+            this.$message({
+              message: res.data.msg,
+              type: 'success',
+              duration: 1000
+            });
+  
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'success',
+              duration: 1000
+            });
+          }
+        })         
       }
     }
   }
