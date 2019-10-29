@@ -27,7 +27,6 @@ p2.then(
 
     },
     function (error) {
-
         console.log(error+'0')
 
     }
