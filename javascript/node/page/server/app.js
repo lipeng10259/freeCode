@@ -442,9 +442,6 @@ app.get('/articleList' , function (req , res , next){
                 db.collection('article').find({'id':_id}).toArray(function(err , result){
 
                     if (err) throw err;
-  
-
-                    console.log(result)
 
                     res.send({'errno':0 , 'msg':'成功','data':result[0].articleList})
                         //   console.log('插入数组')                      
@@ -461,6 +458,55 @@ app.get('/articleList' , function (req , res , next){
 
     })
 
+})
+app.get('/deteleArticle' , function ( req , res ){
+
+    req.session.name = 'admin';
+
+    let name = req.session.name;
+
+    let articleId = req.query.id
+
+    MongoClient.connect(url , { useNewUrlParser: true },function (err , client) {
+        if(err) {
+            console.log(err);
+            return ;
+        }
+        let db = client.db();
+
+        db.collection('user').find({'name':name}).toArray(function(err , result){
+
+            if (err) throw err;
+
+            if(result.length == 0) {
+
+                res.send({'errno':-1,'msg':'该用户暂未注册'})
+
+            } else if (result.length != 0) {
+ 
+                let _id = result[0]._id
+                console.log(articleId)
+                console.log(_id)
+                // db.collection('article').update(
+                // {
+                //     id:_id
+                // },
+                // {
+                //     $pull:{'articleList':{'articleId':articleId}
+                // }})
+                db.collection('article').find({id:_id}).toArray(function (err , result){
+                    console.log(result)
+                })
+                res.send({'errno':0 , 'msg':'删除成功'})
+                        //   console.log('插入数组')                      
+                // client.close()
+            }
+
+            
+
+        })
+
+    })    
 })
 app.get('/isLogin' , function(req , res) {
     console.log(req.session)

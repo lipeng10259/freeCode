@@ -90,6 +90,7 @@
       },
       handleDelete(index, row) {
         console.log(index, row);
+        this.deleteArticle(row.articleId)
       },
       articleList(){
         this.$http.get('http://localhost:3300/articleList').then(res=>{
@@ -109,7 +110,27 @@
             });
           }
         }) 
+      },
+      deleteArticle (id) {
+        this.$http.get('http://localhost:3300/deteleArticle',{params:{id:id}}).then(res=>{
+          if(res.data.errno == 0) {
+            this.$message({
+              message: res.data.msg,
+              type: 'success',
+              duration: 1000
+            });
+            this.articleList()
+          } else {
+            this.$message({
+              message: res.data.msg,
+              type: 'success',
+              duration: 1000
+            });
+          }
+        })        
+
+
       }
     }
   }
-</script>
+</script> 
