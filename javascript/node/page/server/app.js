@@ -226,6 +226,41 @@ app.get('/addLabel' , function (req , res , next){
 
     let name = req.session.name;
 
+<<<<<<< HEAD
+    db.collection('user').find({'name':name}).toArray(function(err , result){
+
+        if (err) throw err;
+
+        if(result.length == 0) {
+
+            res.send({'errno':-1,'msg':'该用户暂未注册'})
+
+        } else if (result.length != 0) {
+
+            if(result[0].password != md5(password)){
+
+                res.send({'errno':-2,'msg':'密码错误'})
+
+            } else {
+
+                req.session.name =  name
+
+                req.session.password =  password
+
+                console.log(req.session)
+
+                console.log('注册成功')
+
+                res.send({'errno':0,'msg':'登录成功'})
+            }
+        }
+
+        client.close()
+
+    })
+
+})    
+=======
     let label = req.query.label
 
     MongoClient.connect(url , { useNewUrlParser: true },function (err , client) {
@@ -325,6 +360,7 @@ app.get('/getLabel' , function (req , res , next){
                         
                         res.send({'errno':0 , 'msg':result[0].articleLabel})                     
                     }
+>>>>>>> caaa26284cebcff74735f631d1d06988bcd61f38
 
 
 
