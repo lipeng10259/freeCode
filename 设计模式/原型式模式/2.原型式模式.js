@@ -7,8 +7,6 @@ var LoopImages = function (imageArr , container) {
 
     this.container = container ;// 轮播图片容器
 
-
-
 };
 
 LoopImages.prototype = {
@@ -24,7 +22,6 @@ LoopImages.prototype = {
 var SliderLoopImg = function (imgArr , container) {
     // 构造函数继承图片轮播类
     LoopImages.call(this , imgArr , container);
-
 
 };
 
@@ -47,7 +44,7 @@ var FadeLoopImg = function (imgArr , container , arrow){
 };
 
 FadeLoopImg.prototype = new LoopImages();
-FadeLoopImg.prototype.changeImage = {
+FadeLoopImg.prototype.changeImage = function () {
     console.log('FadeLoopImg changeImage function')
 }
 

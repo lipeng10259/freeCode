@@ -105,3 +105,8 @@ console.log(person.skill);
 console.log(person.name.FirstName);
 console.log(person.work.work);
 console.log(person.work.workDescript);
+
+person.work.changeWork('teach');
+
+console.log(person.work.work)
+console.log(person.work.workDescript)
