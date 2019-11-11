@@ -1,3 +1,4 @@
+//运用共享技术有效的支持大量的细粒度的对象，避免对象间拥有先沟通呢的内容造成多余的开销
 var Flyweight = function () {
     // 已创建的元素
     var created = [];
@@ -12,4 +13,54 @@ var Flyweight = function () {
         return dom;
     }
 
+    return {
+        // 获取创建的新闻元素方法
+        getDiv : function () {
+            // 如果已创建的元素小于当前页面元素总数则创建
+            if(created.length < 5){
+                return create();
+            } else {
+                // 获取第一个元素并插入最后面
+                var div = created.shift();
+                created.push(div);
+                console.log(created)
+                return div;
+            }
+        }
+    }
+
+}()
+
+var article = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19];
+
+var  page = 0,num = 5,length = article.length;
+// 添加 5 条新闻
+for (var i = 0;i < 5; i++){
+    if(article[i]){
+        // 通过享元类获取创建元素并写入新闻内容
+        Flyweight.getDiv().innerHTML = article[i];
+
+    }
+
 }
+document.getElementById('next_page').onclick = function () {
+    // 如果新闻内容不足5条则返回
+    if( article.length < 5 )
+        return ;
+        var n = ++page * num %length;//获取当前页的第一条新闻索引
+        
+        // 插入5条新闻
+    for(var j= 0; j < 5;j++){
+        //如果存在第 n+j 条则插入
+        if(article[n+j]){
+            Flyweight.getDiv().innerHTML = article[n+j];
+            //否则插入起始位置第 n+j-len条
+        }else if(article[n + j -length]){
+            Flyweight.getDiv().innerHTML = article[n + j -length];
+            // 如果都不存在则插入空字符串
+        }else{
+            Flyweight.getDiv().innerHTML = '';
+        }
+    }
+}
+
