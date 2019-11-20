@@ -39,9 +39,7 @@ for (var i = 0;i < 5; i++){
     if(article[i]){
         // 通过享元类获取创建元素并写入新闻内容
         Flyweight.getDiv().innerHTML = article[i];
-
     }
-
 }
 document.getElementById('next_page').onclick = function () {
     // 如果新闻内容不足5条则返回
