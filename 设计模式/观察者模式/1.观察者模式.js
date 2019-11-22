@@ -39,7 +39,7 @@ var Observer = (function(){
             }
         },
         // 移除信息接口
-        remove : function (){
+        remove : function (type , fn){
             // 如果消息动作队列存在
             if(_messages[type] instanceof Array){
                 // 从最后一个消息动作遍历
