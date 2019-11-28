@@ -61,13 +61,13 @@ function showHideNavWidget (mod1,tag,showOrHide) {
     var mod = document.getElementById(mod1);
     // 获取下面标签为tag的元素
     
-    var tag = mod.getElementsByTagName(tag),
+    var tags = mod.getElementsByTagName(tag),
     // 如果设置false或者为 hide 则值为hidden ,否则为visible
     showOrHide = (!showOrHide || showOrHide == 'hide') ? 'hidden' : 'visible';
     // 站位隐藏这些标签
-    
-    for(var i = tag.length - 1; i >= 0; i--) {
-        tag.style.visibility = showOrHide;
+    console.log(tags)
+    for(var i = tags.length - 1; i >= 0; i--) {
+        tags[i].style.visibility = showOrHide;
     }
 };
 
