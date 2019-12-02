@@ -6,6 +6,7 @@ function A (selector) {
 } 
 
 A.fn = A.prototype = {
+    constructor:A,
     init : function (selector) {
         this[0] = document.getElementById(selector);// 作为但钱对象的属性值保存
         this.length = 1; // 校正length 属性
@@ -18,11 +19,11 @@ A.fn = A.prototype = {
     }
 };
 
+
 A.fn.init.prototype = A.fn
 
-setTimeout(()=>{
     let demo = A('demo');
-},1000)
+    console.log(demo.size())
 
 
 
