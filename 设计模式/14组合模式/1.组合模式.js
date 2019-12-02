@@ -1,3 +1,11 @@
+
+function inheritPrototype (sub , sup){
+    function F(){};
+    F.prototype= sup.prototype
+    sub.prototype= new F();
+    sub.prototype.constructor = sup;
+}
+
 var  News = function () {
     // 子组件容器
     this.children = [];
@@ -47,7 +55,7 @@ Container.prototype.add = function (child) {
     //在子元素容器中插入子元素
     this.children.push(child);
     //插入当前组件元素树中
-    this.element.appendChild(child.getElement())
+    this.element.appendChild(child.getElement());
     return this;
 }
 // 获取当前元素方法
@@ -68,7 +76,6 @@ var Item = function (classname) {
     this.classname = classname || '';
     this.init();
 }
-
 inheritPrototype(Item, News);
 
 Item.prototype.init = function () {
@@ -213,3 +220,31 @@ TypeNews.prototype.add = function () {};
 TypeNews.prototype.getElement = function () {
     return this.element;
 }
+
+var  new1= new Container('news' ,document.body);
+
+new1.add(
+    new Item('normal').add(
+        new IconNews('梅西不拿金球奖也伟大' , '#' , 'video')
+    )
+).add(
+    new Item('normal').add(
+        new IconNews('保护强国强队的用意' , '#' , 'live')
+    ) 
+).add(
+    new NewsGroup('has-img').add(
+        new ImageNews('img/1.png','#','small')
+    ).add(
+        new EasyNews('从240斤的胖子成功变型男','#')
+    ).add(
+        new EasyNews('五大雷人跑步机','#')
+    )
+).add(
+    new Item('normal').add(
+        new TypeNews('ak47不愿意为费城打球','#','NBA','left')
+    )
+).add(
+    new Item('normal').add(
+        new TypeNews('火炮彪6三分创新高','#','NBA','right')
+    )    
+).show()
