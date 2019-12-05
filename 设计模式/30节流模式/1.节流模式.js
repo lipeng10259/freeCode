@@ -18,14 +18,14 @@ var  throttle = function () {
     // 如果第一个参数是 boolean 类型，那么第一个参数则表示是否清楚计时器
     if(typeof isClear === 'boolean') {
         // 第二个参数则为函数
-        console.log(1)
+
         fn = arguments[1];
         // 函数的计时器句柄存在，这清楚该计时器
         fn._throttleID && clearTimeout(fn._throttleID);
         // 通过计算器延迟函数的执行
     } else {
         // 第一个参数为函数
-        console.log(2)
+
         fn = isClear;
         // 第二个参数为函数执行时的参数
         param = arguments[1];
@@ -38,23 +38,22 @@ var  throttle = function () {
         // 清楚执行函数计时器句柄
         arguments.callee(true , fn);
         // 为执行绑定计时器句柄，延迟执行函数
-        console.log('time')
         fn._throttleID = setTimeout(function () {
             // 执行函数
             fn.apply(p.content , p.args)
-            console.log(111)
+      
         },p.time)
     }
 }
 
-function moveScroll(e){
+// function moveScroll(e){
 
-    console.log(e)
-}
+//     console.log(e)
+// }
 
-$(window).on('scroll',function(){
-    throttle(moveScroll)
-})
+// $(window).on('scroll',function(){
+//     throttle(moveScroll)
+// })
 
 
 // param id 延迟加载图片的容器id
@@ -83,7 +82,7 @@ LazyLoad.prototype = {
         // 新数组容器
         var arr = [];
         // 获取图片
-        var imgs = this.content.getElementsByTagName('img');
+        var imgs = this.container.getElementsByTagName('img');
         // 将获取的图片转化为数组()
         for(var i = 0, len = imgs.length; i < len;i++) {
             arr.push(imgs[i])
@@ -100,6 +99,7 @@ LazyLoad.prototype = {
         var i = this.imgs.length;
         // 遍历图片
         for(--i ; i >= 0; i--) {
+            console.log(i)
             if (this.shouldShow(i)) {
                 // 加载图片
                 this.imgs[i].src = this.imgs[i].getAttribute('data-src');
@@ -113,9 +113,9 @@ LazyLoad.prototype = {
         // 获取当前图片
         var img = this.imgs[i],
         // 可视范围内部顶部高度（页面滚动条top值）
-        scrollTop = document.documentElement.scrollTop || document.body.scrollTop,
+        scrollTop = document.documentElement.scrollTop || document.body.scrollTop,// 滚动高度
         // 可视范围内底部高度
-        scorllBottom = scrollTop + document.documentElement.clientHeight;
+        scorllBottom = scrollTop + document.documentElement.clientHeight;// 窗口高度
         // 图片的顶部高度
         imgTop = this.pageY(img),
         // 图片的底部位置
@@ -148,6 +148,7 @@ LazyLoad.prototype = {
     // 为窗口绑定resize 事件与scroll 事件
     bindEvent : function () {
         var that = this;
+        console.log(that)
         this.on(window , 'resize' , function () {
             // 节流图片更新图片逻辑
             throttle(that.update ,{content:that})
@@ -158,3 +159,10 @@ LazyLoad.prototype = {
         })
     }
 }
+
+
+// console.log(document.documentElement.scrollTop || document.body.scrollTop)
+
+// console.log(document.documentElement.clientHeight)
+
+new LazyLoad('scroll')
