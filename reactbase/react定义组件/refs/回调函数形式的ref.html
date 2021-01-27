@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello React!</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <style>
+        .title{
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+    <div id = "hello"></div>
+</body>
+<script type = "text/babel">
+    // 回调形式的ref 绑定，在页面更新的时候，ref 中的节点会返回 null 的形式 也可以使用类的形式
+
+    class Demo extends React.Component {
+        render () {
+            return (
+                <div>
+                 <input ref = {(c)=>{this.ipt1 = c}} placeholder = '请输入内容' type="text"/> 
+                 <button onClick = {this.showData}>确认</button>
+                 <input type="text" onBlur = {this.blueData} placeholder = '失去焦点' ref = {(c)=>{this.ipt2 = c}} />  <br/>
+                 <input type="text" onBlur = {this.onBlurIpt} placeholder = '失去焦点' ref = {this.blueData1} />  
+                </div>
+                
+            )
+        }
+        showData = ()=>{
+            alert(this.ipt1.value)
+        }
+        blueData = () => {
+            alert(this.ipt2.value)
+        }
+        blueData1 = (c) => {
+            this.ipt3 = c
+        }
+        onBlurIpt=()=>{
+            alert(this.ipt3.value)
+        }
+
+    }
+
+
+    ReactDOM.render(<Demo/>,document.getElementById('hello'))
+
+</script>
+</html>

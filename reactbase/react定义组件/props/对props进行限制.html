@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>props的基本使用</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+</head>
+<body>
+    <div id = "props"></div>
+    <div id = "props1"></div>
+    <div id = "props2"></div>
+    <div id = "props3"></div>
+    <script type = 'text/babel'>
+        class MyComponent extends React.Component {
+
+            render(){
+                return (
+                    <div>
+                        <ul>
+                            <li onClick = {this.props.speak}>姓名：{this.props.name}</li>
+                            <li>性别：{this.props.sex}</li>
+                            <li>年龄：{this.props.age}</li>
+                        </ul>
+                        Props的基本使用
+                    
+                    </div>)
+            }
+        }
+
+        MyComponent.propTypes = { // 对传参限制
+            name:PropTypes.string.isRequired,
+            age:PropTypes.number.isRequired,
+            sex:PropTypes.string,
+            speak:PropTypes.func
+        }
+        MyComponent.defaultProps = { // 对 默认传值
+            sex:'男'
+        }
+        let obj = {name:'li',age:17}
+        ReactDOM.render(<MyComponent name = 'li' age={10} speak = {speak}  sex = '男'/>,document.getElementById('props'))
+        ReactDOM.render(<MyComponent {...obj}/>,document.getElementById('props1'))
+        ReactDOM.render(<MyComponent name = 'li' age = {16} sex = '女'/>,document.getElementById('props2'))
+
+        function speak() {
+            console.log('我说话了！')
+        }
+
+        // props 是只读的
+
+    </script>
+</body>
+</html>

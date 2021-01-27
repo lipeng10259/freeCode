@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./../17.0.0/react.development.js"></script>
+    <script src="./../17.0.0/react-dom.development.js"></script>
+    <script src="./../17.0.0/babel.min.js"></script>
+    <script src="./../17.0.0/prop-types.js"></script>
+</head>
+<body>
+    <div id = "demo"></div>
+    <script type = 'text/babel'>
+        class DemoChildren extends React.Component {// 组件将要接收新的props组件的钩子
+            componentDidMount(){// 组件挂页面完毕之后调用
+                console.log('Children-componentDidMount')
+            }
+            componentWillUnmount(){// 组件将要被卸载的时候调用
+                console.log('Children-componentWillUnmount')
+            }
+            shouldComponentUpdate(){// 控制组件更新的阀门
+                console.log('Children-shouldComponentUpdate')
+                return true
+            }
+            componentDidUpdate(){// 组件更新完毕
+                console.log('Children-componentDidUpdate')
+            }
+
+            render(){
+                console.log('Children-render')
+                return (
+                    <div>
+                        {this.props.carName}    
+                    </div>
+                )
+            }
+        }
+        class Demo extends React.Component {
+            constructor(props){
+                console.log('count-constuctor')
+                super(props)
+                this.state = {
+                    count:1,
+                    carName:'奥迪'
+                }
+            }
+            // render 调用的时机:初始化渲染，状态更新之后
+            render () {
+                console.log('count-render')
+                return (
+                    <div>
+                      
+                        <div>当前求和为{this.state.count}</div>
+                        <button onClick = {this.addCount}>点我 +1</button>                    
+                        <button onClick = {this.unMount}>卸载组件</button>                    
+                        <button onClick = {this.foreUpdata}>不更改数据，强制更新</button>                    
+                        <button onClick = {this.carChange}>换车</button>                    
+                    </div>
+
+                )
+            }
+            static getDerivedStateFromProps(props,state){ //若 sate的值在任何时候都取决于props，那么可以使用 getDerivedStateFromProps 
+                console.log('count-getDervedStateFromProps',props,state) //Inline Babel script:51 count-getDervedStateFromProps {count: 190} {count: 2, carName: "奥迪"}
+                return null
+                // return {count:109} // 如果返回对象 此时的count渲染的时候为109 且以后无法更改
+            }
+             getSnapshotBeforeUpdate(preProps,preState) { // preProps 为传递的之前的props preState 为传递的之前的state
+                console.log('count-getSnapshotBeforeUpdate',preProps,preState) //Inline Babel script:56 count-getSnapshotBeforeUpdate {count: 190} {count: 1, carName: "奥迪"}
+                return {data:111}
+             }
+            componentDidMount(){// 组件挂页面完毕之后调用
+                console.log('count-componentDidMount')
+            }
+            componentWillUnmount(){// 组件将要被卸载的时候调用
+                console.log('count-componentWillUnmount')
+            }
+            shouldComponentUpdate(){// 控制组件更新的阀门
+                console.log('count-shouldComponentUpdate')
+                return true
+            }
+            componentDidUpdate(preProps,preState,snapshotValue){// 组件更新完毕
+                console.log('count-componentDidUpdate',preProps,preState,snapshotValue) //Inline Babel script:70 count-componentDidUpdate {count: 190} {count: 1, carName: "奥迪"} {data: 111}
+            }
+
+            
+
+            // forceUpdate() 强制更新 不对状态修改，直接更新流程
+
+            addCount = ()=>{
+                // 卸载组件
+                let {count} = this.state
+                count++
+                this.setState({count})
+            }
+            unMount = ()=> {
+                ReactDOM.unmountComponentAtNode(document.getElementById('demo'))
+            }
+            foreUpdata = ()=> {
+                this.forceUpdate()
+            }
+            carChange =()=>{
+                this.setState({carName:'宝马'})
+            }
+
+        }
+
+        ReactDOM.render(<Demo count = {190}/>,document.getElementById('demo'))
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello React!</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <style>
+        .title{
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+    <div id = "hello"></div>
+</body>
+<script type = "text/babel">
+    /***
+     *  1 通过onXxx属性指定事件处理函数(注意大小写)
+     *   a React 使用的是自定义(合成)事件，而不是使用原生DOM事件---为了更好的兼容性
+     *   b React 中的事件是通过事件委托方式处理的（委托给组件最外层的元素） ---- 为更高效
+     *  2 通过event.target得到发生事件的DOM对象----- 不要过度使用ref
+     * 
+     * ***/ 
+    
+
+    class Demo extends React.Component {
+        render () {
+            return (
+                <div>
+                 <input ref = 'ipt1' placeholder = '请输入内容' type="text"/> 
+                 <button onClick = {this.showData}>确认</button>
+                 <input type="text" onBlur = {this.blueData} placeholder = '失去焦点' ref = 'ipt2'/>  
+                </div>
+                
+            )
+        }
+        showData = ()=>{
+            alert(this.refs.ipt1.value)
+        }
+        blueData = () => {
+            alert(this.refs.ipt2.value)
+        }
+    }
+
+
+    ReactDOM.render(<Demo/>,document.getElementById('hello'))
+
+</script>
+</html>

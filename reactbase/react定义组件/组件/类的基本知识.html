@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>类的基本知识</title>
+</head>
+<body>
+    <script type = 'text/javascript'>
+        // 创建一个Person类
+        class Person {
+            // 构造器方法 
+            constructor(name,age){
+                // 构造其中的this指向类的实例对象
+                this.name = name
+                this.age = age
+            }
+            // speak 方法放在了类的原型对象上（prototype）供实例使用
+            speak(){
+                console.log(`${this.name}---${this.age}`)
+            }
+        }
+        // 创建一个Person的实例对象 
+        const p1 = new Person('li',17)
+        console.log(p1.name)
+        p1.speak()
+
+        // 继承类 extend
+
+        class Student extends Person {
+            constructor (name,age,grade) {
+                super(name,age)
+                this.grade = grade
+            }
+            speak(){
+                console.log(`${this.name}---${this.age}---${this.grade}`)
+            }
+            study(){
+                console.log('我很努力的学习!')
+            }
+        }
+
+        const s1 = new Student('lip',17,9)
+        console.log(s1.name)
+        console.log(s1.grade)
+        s1.speak()
+        s1.study()
+
+        //1 类中的构造器不是必须写的，要对实例进行一些初始化的操作，如果添加指定属性时才写
+        //2 如果A类继承了B类，且B类中写了构造器，那么A类构造器中的super是必须要调用的
+        //3 类中所定义的方法，都放在了类的原型对像上，供实例去使用
+    </script>
+    
+</body>
+</html>

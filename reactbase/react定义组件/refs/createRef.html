@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello React!</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <style>
+        .title{
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+    <div id = "hello"></div>
+</body>
+<script type = "text/babel">
+    // 回调形式的ref 绑定，在页面更新的时候，ref 中的节点会返回 null 的形式 也可以使用类的形式
+
+    class Demo extends React.Component {
+        render () {
+            return (
+                <div>
+                 <input ref = {this.myRef} placeholder = '请输入内容' type="text"/> 
+                 <input ref = {this.myRef1} placeholder = '请输入内容1' type="text"/> 
+                 <button onClick = {this.showData}>确认</button>
+                </div>
+                
+            )
+        }
+        /**React.createRef调用后返回一个容器，这个容器可以存储被ref所标识的节点**/
+        myRef = React.createRef()
+        myRef1 = React.createRef()
+        showData = ()=>{
+            console.log(this.myRef.current.value)
+            console.log(this.myRef1.current.value)
+        }
+        blueData = () => {
+            alert(this.ipt2.value)
+        }
+    }
+
+
+    ReactDOM.render(<Demo/>,document.getElementById('hello'))
+
+</script>
+</html>

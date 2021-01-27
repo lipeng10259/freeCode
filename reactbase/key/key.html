@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./../17.0.0/react.development.js"></script>
+    <script src="./../17.0.0/react-dom.development.js"></script>
+    <script src="./../17.0.0/babel.min.js"></script>
+    <script src="./../17.0.0/prop-types.js"></script>
+</head>
+<body>
+    <div id = "demo"></div>
+    <script type = 'text/babel'>
+        class Demo extends React.Component {
+
+            state = {
+                    persons:[
+                    {id:1,name:'小李'},
+                    {id:2,name:'小王'},
+                    {id:3,name:'小张'}
+                ]
+            }
+            render () {
+                return (
+                    <div>
+                        <button onClick = {this.addNode}>添加一个新的节点</button>
+                        <ul>
+                            {
+                                this.state.persons.map((item,index)=>{
+                                    return <li key={index}>{item.name} <input type = 'text'/></li>
+                                })
+                            }
+                       </ul>
+                       <ul>
+                            {
+                                this.state.persons.map((item,index)=>{
+                                    return <li key={item.id}>{item.name} <input type = 'text'/></li>
+                                })
+                            }
+                       </ul>
+                    </div>
+
+                )
+            }
+            addNode=()=>{
+                let newsNode = {id:4,name:'小刘'}
+                this.setState({persons:[newsNode,...this.state.persons]})
+            }
+
+
+
+        }
+
+        ReactDOM.render(<Demo count = {190}/>,document.getElementById('demo'))
+    </script>
+</body>
+</html>

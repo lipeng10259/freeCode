@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>props的基本使用</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id = "props"></div>
+    <div id = "props1"></div>
+    <div id = "props2"></div>
+    <div id = "props3"></div>
+    <script type = 'text/babel'>
+        class MyComponent extends React.Component {
+
+            render(){
+                return (
+                    <div>
+                        <ul>
+                            <li>姓名：{this.props.name}</li>
+                            <li>性别：{this.props.sex}</li>
+                            <li>年龄：{this.props.age}</li>
+                        </ul>
+                        Props的基本使用
+                    
+                    </div>)
+            }
+        }
+
+        let obj = {name:'li',age:'17',sex:'男'}
+        ReactDOM.render(<MyComponent name = 'li' age = '15' sex = '男'/>,document.getElementById('props'))
+        ReactDOM.render(<MyComponent {...obj}/>,document.getElementById('props1'))
+        ReactDOM.render(<MyComponent name = 'li' age = {16} sex = '男'/>,document.getElementById('props2'))
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello React!</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <style>
+        .title{
+            color: red;
+        }
+
+    </style>
+</head>
+<body>
+    <div id = "hello"></div>
+</body>
+<script type = "text/babel">
+    // 类式组件 
+    // 1 创建类式组件 
+    class Weather extends React.Component {
+        state = {isHot:true}
+        render(){ 
+            return <h2 onClick = {this.changeWeather}>今天天气很{this.state.isHot ? '炎热' : '凉爽'}</h2>
+        }
+        
+        changeWeather = (state)=>{
+
+            this.setState({isHot:!this.state.isHot})
+            
+        }
+    } 
+
+    ReactDOM.render(<Weather/>,document.getElementById('hello'))
+    // ReactDOM.render(<Demo></Demo>执行了ReactDOM 之后 
+    // 1 React 解析组件标签，找到了Demo组件
+    // 发现组件是使用函数定义的，随后调用该函数，将返回的虚拟DOM转为真实DOM,随后呈现在页面中
+
+
+</script>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id = "form"></div>
+    <script type = "text/babel">
+        /***
+         * 高阶函数: 如果一个函数符合下面2个规范中的任何一个，那么该函数就是高阶函数
+         *  1 若A函数，接收的参数是一个函数，那么A就可以称为高阶函数
+         *  2 若A函数，调用的返回值依然是一个函数，那么A就可以称之为高阶函数
+         *    常见的高阶函数有: Promise 、setTimeout 、arr.map 等等
+         * 
+         * 函数科里化： 通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式
+         * 
+         * 
+         * 
+         * ***/
+        class Login extends React.Component {
+            state = {
+                username:'',
+                password:''
+            }
+            render(){
+                return (
+                    <form action="#" onSubmit = {this.handerSubmit}>
+                    用户名：<input onChange = {this.saveFormData('username')} type="text"/> 
+                    密码: <input onChange = {this.saveFormData('password')} type="password"/>
+                    <button>登录</button>   
+                    </form>
+                )
+            }
+            handerSubmit = (event)=>{
+                event.preventDefault()
+                console.log(this.state)
+                const {username,password} = this.state
+                console.log(username,password)
+            }
+            saveFormData(dataType){
+                return (event)=>{
+                    this.setState({[dataType]:event.target.value}) 
+                }
+            }
+        }
+    
+        ReactDOM.render(<Login/>,document.getElementById('form'))
+    </script>
+</body>
+</html>
