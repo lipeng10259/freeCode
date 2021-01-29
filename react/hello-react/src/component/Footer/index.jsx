@@ -5,16 +5,15 @@ export default class Footer extends Component {
         console.log(1)
         const {todolist} = this.props
         const activeTodo = todolist.reduce((pre,todo)=>pre + (todo.done ? 1 : 0),0)
-        const total = activeTodo.length
         console.log(activeTodo)
         return (
             <div>
                   <br/>
                   <br/>
-                <input type="checkbox" checked = {activeTodo === todolist.length && activeTodo!==0 ? true : false } onChange = {this.todoChange} name="" id=""/>
+                <input type="checkbox" checked = {activeTodo === todolist.length && activeTodo !== 0 ? true : false } onChange = {this.todoChange} name="" id=""/>
                  {activeTodo}/{todolist.length}
               
-                <button>
+                <button onClick = {this.deteleAllToto}>
                    删除 
                 </button>
                 
@@ -24,8 +23,9 @@ export default class Footer extends Component {
     }
 
     todoChange = (event)=>{
-   
-            console.log(event)
-      
+        this.props.checkedAll(event.target.checked)
+    }
+    deteleAllToto=()=>{
+        this.props.deteleAllToto()
     }
 }

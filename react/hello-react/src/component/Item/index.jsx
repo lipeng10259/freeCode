@@ -9,7 +9,7 @@ export default class Item extends Component {
         const {showBtn} = this.state
         return (
             <div onMouseEnter = {this.showDetele(true)} onMouseLeave = {this.showDetele(false)} style = {{backgroundColor:showBtn ? '#ddd' : '#fff'}}>
-                <input type="checkbox" defaultChecked = {done} onChange = {this.todoChange(id)}/> {name}
+                <input type="checkbox" checked = {done} onChange = {this.todoChange(id)}/> {name}
                 <button style = {{display:showBtn ? 'block' : 'none',float:'right'}} onClick = {this.todoDetele(id)}>删除</button>
             </div>
         )

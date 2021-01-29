@@ -1,9 +1,12 @@
 import React from 'react'
+import axios from 'axios'
 // import Hello from './component/Hello/Hello.jsx'
 // import Welcome from './component/Welcome/Welcome.jsx'
 import Header from './component/Header'
 import Todolist from './component/Todolist'
 import Footer from './component/Footer'
+import Search from './component/Search'
+import Author from './component/Author'
 
 class App extends React.Component {
     state = {
@@ -21,7 +24,18 @@ class App extends React.Component {
             <div>   
                 <Header addTodo = {this.addTodo}/>
                 <Todolist todolist = {todolist} todoUpdate = {this.todoUpdate} todoDetele = {this.todoDetele}/>
-                <Footer todolist = {todolist}/>
+                <Footer todolist = {todolist}  checkedAll = {this.checkedAll} deteleAllToto = {this.deteleAllToto}/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <button onClick = {this.getStudentData}>axios</button>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <Search/>   
+                <Author/>             
             </div>
         )
     }
@@ -47,6 +61,33 @@ class App extends React.Component {
             return item.id !== id
         })
         this.setState({todolist:newsTodo})
+    }
+    checkedAll = (done)=>{
+        const {todolist} = this.state
+        let newList = todolist.map((item)=>{
+            return {...item,done}
+        })
+        this.setState({todolist:newList}) 
+    }
+
+    deteleAllToto=()=>{
+        const {todolist} = this.state
+        const newList = todolist.filter((item)=>{
+            return !item.done
+        })
+        this.setState({todolist:newList})
+    }
+
+    getStudentData=()=>{
+        axios.get().then(
+            response=>{
+
+            },
+            Error=>{
+
+            }
+            
+        )
     }
 }
 
