@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route,Switch,Redirect} from 'react-router-dom'
+import {Link,Route,Switch} from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
 import MyNavLink from './components/MyNavLink'
@@ -14,9 +14,14 @@ class App extends React.Component {
                     {/* Switch 组件，是使路由匹配成功之后，不在往下面匹配 */}
                
 
-                        <MyNavLink  to = '/about'>about</MyNavLink>
+                  
+                        <Link to = '/about'>about</Link>
                         <br/> 
-                        <MyNavLink  to = '/home'>home</MyNavLink>   
+                        <Link to = '/home'>home</Link> 
+                        <br/>  
+                        <MyNavLink activeClassName = 'nacActive' to = '/about'>about</MyNavLink>
+                        <br/> 
+                        <MyNavLink  activeClassName = 'nacActive'  to = '/home'>home</MyNavLink>   
                     
                         <br/> 
                         <br/>
@@ -24,11 +29,8 @@ class App extends React.Component {
                         <br/> 
                         <div>     
                             <Switch> 
-                            {/* exact 严格匹配 */}
-                                <Route  path = '/about' component = {About}/>
-                                <Route  path = '/home' component = {Home}/>   
-                                
-                                <Redirect to = '/about'/>  {/**重定向****/}
+                                <Route path = '/about' component = {About}/>
+                                <Route path = '/home' component = {Home}/>     
                             </Switch> 
                         </div>           
                 </div>
