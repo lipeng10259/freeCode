@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-// 引入store ，用户获取redux中保存的状态
-import store from './../../redux/store'
-import {
-    createIncrementAction,
-    createDecrementAction,
-    createDecrementAsyncAction
+// // 引入store ，用户获取redux中保存的状态
+// import store from './../../redux/store'
+// import {
+//     createIncrementAction,
+//     createDecrementAction,
+//     createDecrementAsyncAction
 
-} from './../../redux/count_action.js'
+// }
+//  from './../../redux/count_action.js'
 
 export default class Count extends Component {
     state = {
@@ -20,9 +21,11 @@ export default class Count extends Component {
     // }
     render() {
         // const {count} = this.state
+        console.log(this.props)
         return (
             <div>
-                <h1>当前求和为:{store.getState()}</h1>
+                {/* <h1>当前求和为:{store.getState()}</h1> */}
+                <h1>当前求和为:{this.props.count}</h1>
                 <select ref = {c=>this.selectNumber=c}>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -39,27 +42,28 @@ export default class Count extends Component {
 
     increment = ()=>{
       const selectNumber =Number(this.selectNumber.value)
-
-      store.dispatch(createIncrementAction(selectNumber))
+        this.props.increment(selectNumber)
+    //   store.dispatch(createIncrementAction(selectNumber))
     }
 
     decrement = ()=>{
         const selectNumber =Number(this.selectNumber.value)
-
-        store.dispatch(createDecrementAction(selectNumber))
+        this.props.decrement(selectNumber)
+        // store.dispatch(createDecrementAction(selectNumber))
     }
     incrementIfOdd = ()=>{
         const selectNumber =Number(this.selectNumber.value)
-        const count = store.getState()
+        const count = this.props.count
         if(count % 2 === 1){
-            store.dispatch(createIncrementAction(selectNumber))
+            this.props.increment(selectNumber)
         }
     
     }
     incrementAsync = ()=>{
         const selectNumber =Number(this.selectNumber.value)
-      
-        store.dispatch(createDecrementAsyncAction(selectNumber,500))
+        this.props.incrementAsync(selectNumber,500)
+        
+        // store.dispatch(createDecrementAsyncAction(selectNumber,500))
        
     }    
 }
