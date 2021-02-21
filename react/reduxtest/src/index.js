@@ -11,6 +11,7 @@ ReactDOM.render(
 );
 reportWebVitals();
 
+// 检测redux中状态的改变，如redux的状态发生了改变，那么重新渲染app组件
 store.subscribe(()=>{
   ReactDOM.render(
     <React.StrictMode>

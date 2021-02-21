@@ -5,7 +5,7 @@
  * 
  * */
 import {INCREMENT,DECREMENT} from './counstant'
-const initPreState =0
+const initPreState = 0
  export default function countReducer (preState = initPreState,action) {
     // 从 action 对象中获取：type action
     const {type,data} = action

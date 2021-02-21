@@ -20,9 +20,10 @@ export default class Count extends Component {
     // }
     render() {
         // const {count} = this.state
+        console.log(this.props)
         return (
             <div>
-                <h1>当前求和为:{store.getState()}</h1>
+                <h1>当前求和为:{this.props.count}</h1>
                 <select ref = {c=>this.selectNumber=c}>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -38,9 +39,9 @@ export default class Count extends Component {
     }
 
     increment = ()=>{
-      const selectNumber =Number(this.selectNumber.value)
-
-      store.dispatch(createIncrementAction(selectNumber))
+        const selectNumber =Number(this.selectNumber.value)
+        this.props.jia(selectNumber)
+    //   store.dispatch(createIncrementAction(selectNumber))
     }
 
     decrement = ()=>{
