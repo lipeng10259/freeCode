@@ -1,13 +1,7 @@
 import React, { Component } from 'react'
-// 引入store，用于获取redux中保存的状态
-import store from './../../redux/store'
-// 引入action，专门用于创建action对象
-import {
-    createDecrementAction,
-    createIncrementAction,
-    createDecrementAsyncAction
-} from './../../redux/count_action'
 
+// 引入store，用于获取redux中保存的状态
+import store from '../../redux/store'
 export default class Count extends Component {
 
     render() {
@@ -38,7 +32,7 @@ export default class Count extends Component {
         // 通知redux 加 value
       const selectNumber =Number(this.selectNumber.value)
 
-      store.dispatch(createIncrementAction(selectNumber))
+      store.dispatch({type:'increment',data:selectNumber})
     //   const {count} = this.state
 
     //   this.setState({count:count + selectNumber})
@@ -50,7 +44,7 @@ export default class Count extends Component {
   
         // this.setState({count:count - selectNumber})
 
-        store.dispatch(createDecrementAction(selectNumber))
+        store.dispatch({type:'decrement',data:selectNumber})
     }
     incrementIfOdd = ()=>{
         const selectNumber =Number(this.selectNumber.value)
@@ -61,15 +55,14 @@ export default class Count extends Component {
 
         if(selectNumber % 2 === 0){
     
-            store.dispatch(createIncrementAction(selectNumber))
+            store.dispatch({type:'increment',data:selectNumber})
         }  
     }    
     incrementAsync = ()=>{
         const selectNumber =Number(this.selectNumber.value)
         // const {count} = this.state
-        // setTimeout(()=>{
-        //     store.dispatch(createIncrementAction(selectNumber))
-        // },500)
-        createDecrementAsyncAction(selectNumber,500)
+        setTimeout(()=>{
+            store.dispatch({type:'increment',data:selectNumber})
+        },500)
     }    
 }
