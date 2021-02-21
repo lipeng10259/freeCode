@@ -1,9 +1,8 @@
-import Count from './components/Count'
-
+import TodoList  from "./components/TodoList/index"
 function App() {
   return (
     <div className="App">
-        <Count/>
+        <TodoList></TodoList>
     </div>
   );
 }
