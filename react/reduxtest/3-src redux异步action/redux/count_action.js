@@ -10,9 +10,11 @@ export const createDecrementAction = (data)=> ({type:DECREMENT,data})
 // 所谓异步aciton 就是指action的值为函数 异步中间件 redux-thunk 异步action中一般调用同步aciton ，异步action 不是必须要用的
 
 export const createDecrementAsyncAction = (data,time)=>{
-
+    console.log(11111)
     return (dispatch)=>{
+        console.log(2222)
         setTimeout(()=>{
+            console.log(3333)
             dispatch(createIncrementAction(data)) 
         },time)   
     }
