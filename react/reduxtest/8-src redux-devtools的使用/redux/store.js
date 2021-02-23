@@ -3,27 +3,25 @@
 import {
     createStore,
     applyMiddleware,
-    // combineReducers// 合并reducer
+    combineReducers// 合并reducer
 } from 'redux'
-// import countReducer from './reducers/count'
+import countReducer from './reducers/count'
 
 // 引入redux-thunk，用于支持异步action ,需要redux引入 applyMiddleware
 
 import thunk from 'redux-thunk'
-// import personReducer from './reducers/person'
+import personReducer from './reducers/person'
 
 // 引入 redux-devtools-extension
 
 import {composeWithDevTools} from 'redux-devtools-extension'
 
-// // 汇总所有的reducer
-// const allReducer = combineReducers({
-//     count:countReducer,
-//     person:personReducer
-// })
+// 汇总所有的reducer
+const allReducer = combineReducers({
+    count:countReducer,
+    person:personReducer
+})
 
-import reducer from './reducers'
-
-const store = createStore(reducer,composeWithDevTools(applyMiddleware(thunk)))
+const store = createStore(allReducer,composeWithDevTools(applyMiddleware(thunk)))
 
 export default store

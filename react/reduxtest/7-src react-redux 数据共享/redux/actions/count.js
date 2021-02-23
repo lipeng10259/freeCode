@@ -1,6 +1,6 @@
 // 改文件专门为count组件生成action对象 
 
-import {DECREMENT,INCREMENT} from './constant'
+import {DECREMENT,INCREMENT} from '../constant'
 
 // 所谓同步aciton 就是指action的值为一般对象
 export const createIncrementAction = (data)=> ({type:INCREMENT,data})

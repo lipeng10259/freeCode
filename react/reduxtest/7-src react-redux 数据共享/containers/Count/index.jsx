@@ -9,9 +9,9 @@ import  {connect} from 'react-redux'
 
 // 引入action
 import {
-    increment,
-    decrement,
-    incrementAsync
+    createIncrementAction,
+    createDecrementAction,
+    createDecrementAsyncAction
 
 }
  from '../../redux/actions/count.js'
@@ -118,9 +118,9 @@ const countContainer = connect(
     // }),
     // mapDispatchToProps 的精简写法
     {
-        increment:increment,
-        decrement:decrement,
-        incrementAsync:incrementAsync 
+        increment:createIncrementAction,
+        decrement:createDecrementAction,
+        incrementAsync:createDecrementAsyncAction 
     }
 
     )(countUI)
