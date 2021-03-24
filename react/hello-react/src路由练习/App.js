@@ -1,7 +1,7 @@
 import React from 'react'
-// import {Route,Switch,Redirect} from 'react-router-dom'
-// import Home from './pages/Home'
-// import About from './pages/About'
+import {Route,Switch,Redirect} from 'react-router-dom'
+import Home from './pages/Home'
+import About from './pages/About'
 import MyNavLink from './components/MyNavLink'
 
 class App extends React.Component {
@@ -22,15 +22,14 @@ class App extends React.Component {
                         <br/>
                         <br/>
                         <br/> 
-                        <div>  
-                    
-                            {/* <Switch> 
-                          
+                        <div>     
+                            <Switch> 
+                            {/* exact 严格匹配 */}
                                 <Route  path = '/about' component = {About}/>
                                 <Route  path = '/home' component = {Home}/>   
                                 
-                                <Redirect to = '/about'/>  
-                            </Switch>  */}
+                                <Redirect to = '/about'/>  {/**重定向****/}
+                            </Switch> 
                         </div>           
                 </div>
             </div>
