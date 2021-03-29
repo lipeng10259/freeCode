@@ -2,7 +2,8 @@
     /**
         tsconfig.json 是ts编译器的配置文件，ts编译器可以根据它的信息对代码进行编译
         include 用来指定那些ts文件需要被编译 路径 /** 表示任意目录 * 表示任意文件
-        exclude 
+        exclude 定义需要排除在外的目录 默认值 ['node_modules','bower_components','json_packages']
+        extends 定义被继承的配置文件 
     **/ 
     "include": [
         "./src/**/*" // 编译src 下面的任意文件夹下面的文件
