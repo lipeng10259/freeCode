@@ -1,34 +1,31 @@
 import React, { Component } from 'react'
 import { Link, Switch ,Route,withRouter} from 'react-router-dom'
-
+import Children from './Children'
  class Person extends Component {
     render() {
         let {params:{id},url} = this.props.match
-        console.log(id)
+        console.log(this)
         let person = find(Number(id))
-        console.log(person)
         return (
             <div>
                
                 <ul>
-                {`${person[0].name} 的朋友!`}
+                {`${person.name} 的朋友!`}
                     {
-                        person.map((item)=>{
-                            
-                            return item.friends.map((f,idx)=>{
-                                let friend = friends(f)
+                        person.friends.map((item,idx)=>{
 
-                                return <li key = {idx}> <Link to = {`${url}/${friend[0].id}/`}>{friend[0].name} </Link> </li>
-                                
-                            })
-                        
-                          
+                                let friend = find(item)
+
+                                return <li key = {idx}> <Link to = {`${url}/${friend.id}`}>{friend.name} </Link> </li>
+                                                                      
                         })
                     }                    
                 </ul>
                 
                 <Switch>
-                    <Route to = {`${url}/:id`}></Route>
+                    <Route path = {`${url}/:id`}>
+                        <Children/>
+                    </Route>
                 </Switch>
             </div>
         )
