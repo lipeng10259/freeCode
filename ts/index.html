@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src="./src/01_ts.js"></script> -->
+    <!-- <script src="./src/03_ts.js"></script> -->
+    <!-- <script src="./src/04_ts_类.js"></script> -->
+    <script src="./src/05_ts_泛型.js"></script>
+    <!-- <script src="./src/02_ts.js"></script> -->
+</head>
+<body>
+
+    <script>
+        // var person = {
+        //     name: "Brendan Eich",
+        //     hello: function(thing) {
+        //         console.log(this.name + " says hello " + thing);
+        //     }
+        // }
+
+        // var boundHello = function(thing) { return person.hello.call(person, thing); }
+
+        // boundHello("world");
+
+        // var name = "222";
+        // var obj={
+        //     name:"111",
+        //     func1:()=>{
+        //         console.log(this.name);
+        //     }
+        // }
+        // obj.func1(); //result:222
+
+
+        // console.log(this.document === document); // true
+ 
+        // // 在浏览器中，全局对象为 window 对象：
+        // console.log(this === window); // true
+        
+        // this.a = 37;
+
+        // console.log(window.a); // 37
+
+        // function func () {
+        //     // "use strict"
+        //     console.log(this)
+        // }
+        // func()
+
+
+
+        // var name = 1
+        // window.name = 1222
+        // console.log(name)
+        // let obj  = {    
+        //     name:2,
+        //     a:{
+        //         name:3,
+        //         b:{
+        //             name:4,
+        //             func:function () {
+        //                 console.log(this)
+        //                 console.log(this.name)
+        //             }
+        //         }
+        //     }
+
+        // }
+
+        // obj.a.b.func()
+
+
+        // 　function f(){
+
+        // 　　　　"use strict";
+        //         console.log(this)
+        // 　　　　this.a = 1;
+
+        // 　　};
+            
+        // 　　f();// 报错，this未定义
+
+        //     var fn = ()=>{
+        //         console.log(this)
+        //     }
+        //     fn()
+        
+    </script>
+</body>
+
+</html>
