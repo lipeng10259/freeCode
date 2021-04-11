@@ -1,0 +1,249 @@
+
+
+接口
+    介绍
+        TypeScript的核心原则之一是对值所具有的结构进行类型检查。 它有时被称做“鸭式辨型法”或“结构性子类型化”。 
+        在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
+
+        接口以 变量的形式 传参只验证接口里面的参数，传入的其他参数不做验证
+
+            interface LabelledValue {
+                label: string;
+            }
+
+            function printLabel(labelledObj: LabelledValue) {
+
+                console.log(labelledObj.label);
+
+            }
+            
+            let myObj = { size: 10, label: "Size 10 Object" };
+
+            printLabel(myObj);
+        
+        如果参数直接使用对象的形式去传参，必须保证传参形式和接口一一对应
+
+            printLabel({label:'hello'});
+
+    可选择属性
+
+        可选属性的好处之一是可以对可能存在的属性进行预定义
+
+        接口可以使用 ? 来实现 可选择参数
+
+        interface LabelledValue {
+            label: string;
+            name?: string
+        }
+
+    只读属性
+
+        一些对象属性只能在对象刚刚创建的时候修改其值。 你可以在属性名前用 readonly来指定只读属性:
+        只读属性一旦初始化就无法修改
+
+            interface Point {
+                readonly x: number;
+                readonly y: number;
+            }
+
+            let p1: Point = { x: 10, y: 20 };
+
+            p1.x = 5; // error!
+
+        TypeScript具有ReadonlyArray<T>类型，它与Array<T>相似，只是把所有可变方法去掉了，因此可以确保数组创建后再也不能被修改：
+        
+            let a: number[] = [1, 2, 3, 4];
+
+            let ro: ReadonlyArray<number> = a;
+
+            ro[0] = 12; // error!
+
+            ro.push(5); // error!
+
+            ro.length = 100; // error!
+
+            a = ro; // error!
+
+            上面代码的最后一行，可以看到就算把整个ReadonlyArray赋值到一个普通数组也是不可以的。 但是你可以用类型断言重写：
+            重写之后就可以对数组进行操作
+
+            a = ro as number[];
+
+
+        readonly vs const
+
+            最简单判断该用readonly还是const的方法是看要把它做为变量使用还是做为一个属性。 做为变量使用的话用 const，若做为属性则使用readonly。
+
+
+    函数类型
+
+        接口能够描述JavaScript中对象拥有的各种各样的外形。
+
+        为了使用接口表示函数类型，我们需要给接口定义一个调用签名,就像是一个只有参数列表和返回值类型的函数定义。参数列表里的每个参数都需要名字和类型。
+
+            interface SearchFunc {
+                (source: string, subString: string): boolean;
+            }
+
+            let mySearch: SearchFunc;
+
+            mySearch = function(source: string, subString: string) {
+                
+                let result = source.search(subString);
+
+                return result > -1;
+
+            }
+
+        函数的参数名不需要与接口里定义的名字相匹配
+
+    可索引的类型
+
+        与使用接口描述函数类型差不多，我们也可以描述那些能够“通过索引得到”的类型，比如a[10]或ageMap["daniel"]。 
+
+        可索引类型具有一个 索引签名，它描述了对象索引的类型，还有相应的索引返回值类型。
+
+            interface StringArray {
+
+                [index: number]: string;
+
+            }
+
+            let myArray: StringArray;
+
+            myArray = ["Bob", "Fred"];
+
+            let myStr: string = myArray[0];
+
+        TypeScript支持两种索引签名：字符串和数字。可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型。
+            数字索引取值的时候，最终是转换到 字符串取值，所以 数字索引要是 字符串索引的子类型
+
+            class Animal {
+
+                name: string;
+
+            }
+            class Dog extends Animal {
+
+                breed: string;
+
+            }
+
+            // 错误：使用数值型的字符串索引，有时会得到完全不同的Animal!
+            interface NotOkay {
+
+                [x: number]: Animal;
+
+                [x: string]: Dog;
+
+            }
+
+        字符串索引签名能够很好的描述dictionary模式，并且它们也会确保所有属性与其返回值类型相匹配。
+
+        因为字符串索引声明了 obj.property和obj["property"]两种形式都可以。 
+
+        下面的例子里， name的类型与字符串索引类型不匹配，所以类型检查器给出一个错误提示：
+
+            interface NumberDictionary {
+            [index: string]: number;
+            length: number;    // 可以，length是number类型
+            name: string       // 错误，`name`的类型与索引类型返回值的类型不匹配
+            }
+
+        你可以将索引签名设置为只读，这样就防止了给索引赋值：
+
+            interface ReadonlyStringArray {
+
+                readonly [index: number]: string;
+
+            }
+                    
+            let myArray: ReadonlyStringArray = ["Alice", "Bob"];
+
+            myArray[2] = "Mallory"; // error!
+
+            你不能设置myArray[2]，因为索引签名是只读的。
+
+
+    类类型
+
+        实现接口
+
+            TypeScript也能够用它来明确的强制一个类去符合某种契约
+
+                interface ClockInterface {
+                    currentTime: Date;
+                }
+
+                class Clock implements ClockInterface {
+                    currentTime: Date;
+                    constructor(h: number, m: number) { }
+                }
+
+            接口描述了类的公共部分，而不是公共和私有两部分。 它不会帮你检查类是否具有某些私有成员。
+
+        类静态部分与实例部分的区别
+
+            当你操作类和接口的时候，你要知道类是具有两个类型的：静态部分的类型和实例的类型。 你会注意到，当你用构造器签名去定义一个接口并试图定义一个类去实现这个接口时会得到一个错误：
+
+                interface ClockConstructor {
+                    new (hour: number, minute: number);
+                }
+
+                class Clock implements ClockConstructor {
+                    currentTime: Date;
+                    constructor(h: number, m: number) { }
+                }
+                    
+            这里因为当一个类实现了一个接口时，只对其实例部分进行类型检查。 constructor存在于类的静态部分，所以不在检查的范围内。
+
+            因为createClock的第一个参数是ClockConstructor类型，在createClock(AnalogClock, 7, 32)里，会检查AnalogClock是否符合构造函数签名。
+
+    继承接口
+
+        和类一样，接口也可以相互继承。 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
+
+
+            interface Shape {
+                color: string;
+            }
+
+            interface Square extends Shape {
+                sideLength: number;
+            }
+
+            let square = <Square>{};
+            square.color = "blue";
+            square.sideLength = 10;
+    
+    混合类型
+        先前我们提过，接口能够描述JavaScript里丰富的类型。 因为JavaScript其动态灵活的特点，有时你会希望一个对象可以同时具有上面提到的多种类型。
+
+        一个例子就是，一个对象可以同时做为函数和对象使用，并带有额外的属性。
+
+            interface Counter {
+                (start: number): string;
+                interval: number;
+                reset(): void;
+            }
+
+            function getCounter(): Counter {
+                let counter = <Counter>function (start: number) { };
+                counter.interval = 123;
+                counter.reset = function () { };
+                return counter;
+            }
+
+            let c = getCounter();
+            c(10);
+            c.reset();
+            c.interval = 5.0;
+
+    接口继承类
+    
+        当接口继承了一个类类型时，它会继承类的成员但不包括其实现。 就好像接口声明了所有类中存在的成员，但并没有提供具体实现一样。
+        接口同样会继承到类的private和protected成员。 这意味着当你创建了一个接口继承了一个拥有私有或受保护的成员的类时，
+        这个接口类型只能被这个类或其子类所实现（implement）。
+        当你有一个庞大的继承结构时这很有用，但要指出的是你的代码只在子类拥有特定属性时起作用。 这个子类除了继承至基类外与基类没有任何关系。 例
+
+
