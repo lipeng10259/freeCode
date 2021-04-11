@@ -1,4 +1,12 @@
-console.log(111)
-console.log(222)
-console.log(333)
-console.log(44)
+// import { hi } from './../m'
+let  a = 10;
+//1111111
+// console.log(hi)
+
+function fn (a:number , b:number) {
+    return a + b
+}
+
+function fnThis() {
+    // console.log(this)
+}

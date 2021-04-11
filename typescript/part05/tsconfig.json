@@ -1,0 +1,11 @@
+{
+
+    "compilerOptions": {
+        // target 用来指定ts被编译为的es版本 esNext es 最新个版本  : 'es3', 'es5', 'es6', 'es2015', 'es2016', 'es2017', 'es2018', 'es2019', 'es2020', 'esnext'.
+        "target": "es2015",
+        // module 指定要使用的模块化的规范 : 'none', 'commonjs', 'amd', 'system', 'umd', 'es6', 'es2015', 'es2020', 'esnext'.
+        "module": "es2015",
+        "strict":true,
+        "noEmitOnError": true
+    }
+}

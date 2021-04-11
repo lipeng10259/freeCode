@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var lastMessage;
+        window.onload = function () {
+            var ws = new WebSocket('ws://localhost:3000')
+            ws.onopen = function () {
+                ping();
+            }
+        }
+        function  ping() {
+            lastMessage = +new Date();
+            ws.send('ping');
+        }
+
+
+    </script>
+</body>
+</html>
