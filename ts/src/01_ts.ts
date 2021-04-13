@@ -324,6 +324,6 @@ let obj:myObj;
 obj.name = '1'
 obj.age = 1
 
-let str:<string>
+let str:string = '1'
 
 

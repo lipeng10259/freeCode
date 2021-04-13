@@ -1,0 +1,95 @@
+模块
+    关于术语的一点说明: 请务必注意一点，TypeScript 1.5里术语名已经发生了变化。 “内部模块”现在称做“命名空间”。 
+    “外部模块”现在则简称为“模块”，这是为了与 ECMAScript 2015里的术语保持一致，(也就是说 module X { 相当于现在推荐的写法 namespace X {)。
+
+介绍
+
+    从ECMAScript 2015开始，JavaScript引入了模块的概念。TypeScript也沿用这个概念。
+    模块在其自身的作用域里执行，而不是在全局作用域里；这意味着定义在一个模块里的变量，函数，类等等在模块外部是不可见的，除非你明确地使用export形式之一导出它们。
+    相反，如果想使用其它模块导出的变量，函数，类，接口等的时候，你必须要导入它们，可以使用 import形式之一
+    模块是自声明的；两个模块之间的关系是通过在文件级别上使用imports和exports建立的。
+
+    TypeScript与ECMAScript 2015一样，任何包含顶级import或者export的文件都被当成一个模块。
+    相反地，如果一个文件不带有顶级的import或者export声明，那么它的内容被视为全局可见的（因此对模块也是可见的）。
+
+导出
+
+    导出声明
+        任何声明（比如变量，函数，类，类型别名或接口）都能够通过添加export关键字来导出。
+
+        export interface StringValidator {
+            isAcceptable(s: string): boolean;
+        }
+
+    导出语句
+
+        导出语句很便利，因为我们可能需要对导出的部分重命名，所以上面的例子可以这样改写：
+
+        class ZipCodeValidator implements StringValidator {
+            isAcceptable(s: string) {
+                return s.length === 5 && numberRegexp.test(s);
+            }
+        }
+        export { ZipCodeValidator };
+        export { ZipCodeValidator as mainValidator };
+
+    重新导出
+
+        我们经常会去扩展其它模块，并且只导出那个模块的部分内容。 重新导出功能并不会在当前模块导入那个模块或定义一个新的局部变量。
+
+        ParseIntBasedZipCodeValidator.ts
+
+        export class ParseIntBasedZipCodeValidator {
+
+            isAcceptable(s: string) {
+
+                return s.length === 5 && parseInt(s).toString() === s;
+
+            }
+
+        }
+
+        // 导出原先的验证器但做了重命名
+
+        export {ZipCodeValidator as RegExpBasedZipCodeValidator} from "./ZipCodeValidator";
+
+        或者一个模块可以包裹多个模块，并把他们导出的内容联合在一起通过语法：export * from "module"。
+
+        AllValidators.ts
+
+        export * from "./StringValidator"; // exports interface StringValidator
+
+        export * from "./LettersOnlyValidator"; // exports class LettersOnlyValidator
+
+        export * from "./ZipCodeValidator";  // exports class ZipCodeValidator
+
+    导入
+        模块的导入操作与导出一样简单。 可以使用以下 import形式之一来导入其它模块中的导出内容。
+
+            导入一个模块中的某个导出内容
+
+                import { ZipCodeValidator } from "./ZipCodeValidator";
+
+                let myValidator = new ZipCodeValidator();
+
+            可以对导入内容重命名
+
+                import { ZipCodeValidator as ZCV } from "./ZipCodeValidator";
+
+                let myValidator = new ZCV();
+
+            将整个模块导入到一个变量，并通过它来访问模块的导出部分
+
+                import * as validator from "./ZipCodeValidator";
+
+                let myValidator = new validator.ZipCodeValidator();
+
+            具有副作用的导入模块
+                尽管不推荐这么做，一些模块会设置一些全局状态供其它模块使用。 这些模块可能没有任何的导出或用户根本就不关注它的导出。 使用下面的方法来导入这类模块：
+
+                import "./my-module.js";
+
+
+
+
+

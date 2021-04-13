@@ -2,4 +2,4 @@
 let obj;
 obj.name = '1';
 obj.age = 1;
-let str;
+let str = '1';
