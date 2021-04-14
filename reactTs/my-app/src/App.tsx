@@ -1,9 +1,10 @@
-import React, { ReactComponentElement, ReactInstance, ReactNode } from 'react';
+import React, {ReactNode } from 'react';
 import {Link,Route,Switch} from 'react-router-dom'
 import Hello from './components/Hello/index'
 import Home from './components/Home/index'
+import About from './components/About/index'
 import {routes} from './routerConfig/routes.js'
-console.log(Hello)
+
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
           {/* <Route  component = {Home}/> */}
         </Route>
         
+        <Route path = '/about' component = {About}>
+
+</Route>
           {/* {
             routes.map((route,idx)=>{
               return <SwitchRouter  key = {idx}  {...route} />

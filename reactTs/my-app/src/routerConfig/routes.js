@@ -1,5 +1,6 @@
 import Home from './../components/Home/index'
 import Hello from './../components/Hello/index'
+import About from './../components/About/index'
 export const routes = [
     {
         path:'/home',
@@ -10,5 +11,10 @@ export const routes = [
         path:'/hello',
         title:'Hello',
         component:Hello
+    },
+    {
+        path:'/About',
+        title:'About',
+        component:About
     }
 ]
