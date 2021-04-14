@@ -7,6 +7,7 @@ interface Props {
 
 export default class index extends Component<Props,object> {
   
+    
     render() {
         // const {title,name} = this.props
         console.log(this)
@@ -16,5 +17,9 @@ export default class index extends Component<Props,object> {
               Home
             </div>
         )
+    }
+ 
+    mouseEvent = (e:React.MouseEvent) => {
+
     }
 }
