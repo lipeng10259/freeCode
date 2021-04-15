@@ -357,8 +357,20 @@ React 路由
             备注：state 传参地址栏无参数信息，刷新也可以保留数据
     10. replace 模式开启 
             <Link replace = {true} to = '/demo/test/tom/14'>详情</Link>
-
-            
+    11. withRouter函数
+        withRouter可以加工一般组件，让一般组件具备路由组件所特有的API
+        withRouter的返回值是一个新组建        
+    12. BrowserRouter 与 HashRouter 的区别
+        1. 底层原理不一样
+            BrowserRouter使用的是H5的History API，不兼容IE9及以下版本
+            HashRouter 使用的是URL的哈希值
+        2. path路径的表现形式不一样
+            BrowserRouter的路径中没有#号
+            HashRouter的路径包含#号
+        3. 刷新之后对路由state参数的影响
+            BrowserRouter刷新之后对state没有影响，因为state保存在history对象中
+            HashRouter刷新后对导致路由state参数的丢失
+        4. HashRouter可以用于解决一些路径错误相关的问题     
 
         
 
