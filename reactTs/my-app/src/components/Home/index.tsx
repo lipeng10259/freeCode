@@ -1,5 +1,8 @@
-import React, { Component } from 'react'
-import Item from './Item/index'
+import React, { Component } from 'react';
+import PubSub from 'pubsub-js';
+import Item from './Item/index';
+
+
 
 export default class index extends Component{
     state = {
@@ -9,6 +12,12 @@ export default class index extends Component{
             {a:12,b:23,c:34},
         ]
         
+    }
+    componentDidMount(){
+        PubSub.subscribe('event_bus',this.eventBus)
+    }
+    componentWillUnmount(){
+        PubSub.unsubscribe('event_bus')
     }
     render() {
         let {data} = this.state
@@ -20,18 +29,7 @@ export default class index extends Component{
             
 
     }
-
-    // stopEvent = function (){
-        
-    // }
-    // alertEvent (e:React.MouseEvent) {
-    //     console.log(e) 
-    //     // e.preventDefault()
-    //     // e.stopPropagation()
-    // }
-    // eventFnc = (e:React.MouseEvent)=>{
-       
-    //     console.log(3)
-    //     e.stopPropagation()
-    // }
+    eventBus = (data:string)=>{
+        console.log(data)
+    }
 }

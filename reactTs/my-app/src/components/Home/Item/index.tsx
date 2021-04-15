@@ -6,6 +6,10 @@ export interface Props {
 
 export default class Item extends Component<Props, object> {
 
+    static defaultProps = {
+        
+    }
+
     render() {
         let {data} = this.props
         console.log(data)

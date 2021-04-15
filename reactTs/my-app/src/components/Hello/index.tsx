@@ -1,5 +1,6 @@
 import React from 'react'
 import {Link,Switch,Route} from 'react-router-dom'
+
 import Home from './../Home/index'
 export interface Props  {
     name:string,

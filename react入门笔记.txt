@@ -258,14 +258,105 @@ Diff算法
                             1.最好使用每条数据的唯一标识作为key, 比如id、手机号、身份证号、学号等唯一值。
                             2.如果确定只是简单的展示数据，用index也是可以的。
 
+消息订阅和发布
+    import PubSub from ‘pubsub-js’;
+    PubSub.subscribe('delete',function(data){ }); // 订阅
+    PubSub.publish('delete',data)  // 发布
+    PubSub.unsubscribe('delete',function(data){ }); // 取消订阅
 
+React 路由 
+    1 SPA 的理解 
+        (1). 单页面应用整个页面只有一个完整的页面
+        (2). 点击页面中的连接不会刷新页面，只会做页面的局部更新
+        (3). 数据需要通过ajax请求获取，并在前端异步展现
 
+    2. 路由的理解
+        1.	什么是路由?
+            1.	一个路由就是一个映射关系(key:value)
+            2.	key为路径, value可能是function或component
+    3. 路由分类
+        1.	后端路由：
+            1)	理解：value是function, 用来处理客户端提交的请求。
+            2)	注册路由： router.get(path, function(req, res))
+            3)	工作过程：当node接收到一个请求时, 根据请求路径找到匹配的路由, 调用路由中的函数来处理请求, 返回响应数据
+        2.	前端路由：
+            1)	浏览器端路由，value是component，用于展示页面内容。
+            2)	注册路由: <Route path="/test" component={Test}>
+            3)	工作过程：当浏览器的path变为/test时, 当前路由组件就会变为Test组件
+        4. react-router-dom的理解
+            1.	react的一个插件库。
+            2.	专门用来实现一个SPA应用。
+            3.	基于react的项目基本都会用到此库。
+        5. react-router-dom相关API
+            1. 内置组件
+                1.	<BrowserRouter>
+                2.	<HashRouter>
+                3.	<Route>
+                4.	<Redirect>
+                5.	<Link>
+                6.	<NavLink>
+                7.	<Switch>
+            2. 其它
+                1.	history对象
+                2.	match对象
+                3.	withRouter函数
+    4. 路由组件和一般组件
 
-
-
-
-
-
+        1. 写法不同 
+            一般组件 <Demo/>
+            路由组件：<Router path='/demo' component = {Demo}/>
+        2. 存放的方式不同
+            一般组件：在components存放
+            路由组件: 在pages 存放
+        3. 接收到的props不同
+            一般组件：写组件标签时传递了什么，就能收到什么
+            路由组件: 接收到三个固定的属性
+                history对象
+                    go:f go(n)
+                    goBack:f goBack()
+                    goForward: f goForward()
+                    push: f push(path,state)
+                    replace: f replace(path,state)
+                location对象
+                    pathname:''
+                    search:""
+                    state:""
+                match对象
+                    params:{}
+                    path:''
+                    url:''
+    5. Switch的使用           
+        1. 通常情况下，path 和 component是一一对应的关系
+        2. Switch可以挺高路由匹配效率(单一匹配，匹配成功之后不往下继续匹配)
+    6. 解决多级路径刷新页面样式丢失问题
+       1. public/index.html 中引入样式时 ./ 改为 /
+       2. public/index.html 中引入样式时 ./ 改为 %PUBLIC_URL%
+       3. 使用HashRouter  
+    7. 路由的严格匹配和模糊匹配
+        1. 默认使用的是模糊匹配（输入的路径必须要包含要匹配的路径，且顺序一致）
+        2. 开启严格匹配模式<Route exact>
+        3. 严格匹配不要随便开启，需要的时候再开启，有些时候开启会导致无法继续匹配二级路由
+    8. 路由重定向
+        Redirect 当路由都无法匹配的时候，可以使用重定向到制定页面
+        一般卸载路由注册的最下方
+        <Redirect to = '/about'/>
+    9. 路由组件传递参数
+        1.params参数
+            路由连接携带参数 <Link to = '/demo/test/tom/14'>详情</Link>
+            注册路由声明接收：Route path = '/demo/test/:name/:age' component = {Test} />
+            接收参数： const {name,age} = this.props.params
+        2. search参数
+            路由连接携带参数 <Link to = '/demo/test?name=tom&age=14'>详情</Link>
+            注册路由声明接收：Route path = '/demo/test' component = {Test} />
+            接收参数： const {name,age} = this.props.location对象
+            备注：获取到的search 是urlencoded编码的字符串，需要借助querystring解析
+        3.state参数
+            路由连接携带参数 <Link to = '{pathname='/demo/test',state:{name:tom,age:14}}'>详情</Link>
+            注册路由声明接收：Route path = '/demo/test' component = {Test} />
+            接收参数： const {name,age} = this.props.location.state || {}
+            备注：state 传参地址栏无参数信息，刷新也可以保留数据
+    10. replace 模式开启 
+            <Link replace = {true} to = '/demo/test/tom/14'>详情</Link>
 
             
 
