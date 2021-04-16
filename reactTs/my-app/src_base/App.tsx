@@ -1,11 +1,11 @@
 import React, {ReactNode } from 'react';
 import {Link,Route,Switch} from 'react-router-dom'
+
 import Hello from './components/Hello/index'
 import Home from './components/Home/index'
 import About from './components/About/index'
-import Increment from './containers/Increment/index'
 import {routes} from './routerConfig/routes.js'
-// import store from './redux/store'
+
 
 function App() {
   return (
@@ -20,11 +20,22 @@ function App() {
         }        
       </ul>
       <Switch>
-        <Route path = '/home' component = {Home}></Route>
-        <Route path = '/hello' component = {Hello}></Route>
-        <Route path = '/about' component = {About}></Route>
-        <Route path = '/Increment' component = {Increment}></Route>
+        <Route path = '/home' component = {Home}>
 
+        </Route>
+        <Route path = '/hello' component = {Hello}>
+          {/* <Route  component = {Home}/> */}
+        </Route>
+        
+        <Route path = '/about' component = {About}>
+
+</Route>
+          {/* {
+            routes.map((route,idx)=>{
+              return <SwitchRouter  key = {idx}  {...route} />
+            })
+          
+          }    */}
       </Switch>
   
 

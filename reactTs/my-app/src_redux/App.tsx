@@ -3,9 +3,9 @@ import {Link,Route,Switch} from 'react-router-dom'
 import Hello from './components/Hello/index'
 import Home from './components/Home/index'
 import About from './components/About/index'
-import Increment from './containers/Increment/index'
+import Increment from './components/Increment/index'
 import {routes} from './routerConfig/routes.js'
-// import store from './redux/store'
+
 
 function App() {
   return (

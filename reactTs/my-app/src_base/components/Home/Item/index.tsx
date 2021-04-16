@@ -12,9 +12,12 @@ export default class Item extends Component<Props, object> {
 
     render() {
         let {data} = this.props
+        console.log(data)
+        data.map((item,idx)=>{
+            console.log(item.a)
+        })
         return (
             <div>
-   
                 <ul>
                     {
                         data.map((item,idx)=>{

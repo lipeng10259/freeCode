@@ -14,7 +14,6 @@ export default class Item extends Component<Props, object> {
         let {data} = this.props
         return (
             <div>
-   
                 <ul>
                     {
                         data.map((item,idx)=>{
