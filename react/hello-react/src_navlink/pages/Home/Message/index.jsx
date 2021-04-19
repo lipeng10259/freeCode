@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import {Link,Route} from 'react-router-dom'
+import Detail from './Detail'
 
 
 export default class Message extends Component {
@@ -13,14 +15,15 @@ export default class Message extends Component {
 
         return (
             <div>
-                   向路由组件传递search参数
-                {/* <ul>
+                <ul>
                     {
                         this.state.messageArr.map((item)=>{
                             return (
-
+                                // 向路由组件传递search参数
                                 <li key={item.id}>
-                               
+                                    {/* push模式 */}
+                                    {/* <Link to = {{pathname:'/home/message/detail',state:{id:item.id,title:item.title}}}>{item.id}</Link>  */}
+                                    {/* replace模式 */}
                                     <Link replace = {true} to = {{pathname:'/home/message/detail',state:{id:item.id,title:item.title}}}>{item.title}</Link>
                                     <button  onClick = {()=>this.pushShow(item.id,item.title)}>push查看</button> 
                                     <button onClick = {()=>this.replaceShow(item.id,item.title)}>replace查看</button> 
@@ -29,7 +32,7 @@ export default class Message extends Component {
                         })
                     }                    
                 </ul>
-                <Route path = '/home/message/detail' component = {Detail}/> */}
+                <Route path = '/home/message/detail' component = {Detail}/>
             </div>
         )
     }
