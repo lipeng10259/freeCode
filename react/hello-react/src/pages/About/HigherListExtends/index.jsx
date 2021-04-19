@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import {HigherOrderExtends} from '../HigherOrderExtends/index'
  class Higher2 extends Component {
+     state = {
+         name:'li'
+     }
     constructor(props) {
         super(props)
     }

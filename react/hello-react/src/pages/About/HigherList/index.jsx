@@ -4,7 +4,9 @@ import {MyContainer} from './../HigherOrder/index'
     render() {
         return (
             <div>
-                HIGHERORDER
+        
+                HIGHERORDER {this.props.a}
+                <button {...this.props}>点击</button>
             </div>
         )
     }

@@ -1,18 +1,41 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-export const HigherOrderExtends = (WrapComponent)=> {
+export  function HigherOrderExtends  (WrapComponent) {
     return class extends WrapComponent {
         constructor(props) {
             super(props)
         }
-    
+        // componentDidMount () {
+        //     this.setState({
+        //         age:12
+        //     })
+        // }
         render () {
-            // return<p>111</p>
-            const elementsTree = super.render()
-            let newProps = {name: 'may the force be with you',...elementsTree.props};
-            const newElementsTree = React.cloneElement(elementsTree, newProps);
-            return newElementsTree;
+        //     console.log(this)
+        //    return  <div>
+        //        <h2>t</h2>
+        //        { 
+                
+        //           super.render() 
+        //        }
+                        
+        //     </div>
+           
+            const tree = super.render();
+            const newProps = {sex:'男'};
+            if (tree && tree.type === 'input') {
+                newProps.value = 'something here';
+            }
+            const props = {
+                ...tree.props,
+                ...newProps,
+            };
+            const newTree = React.cloneElement(tree, props, tree.props.children);
+            
+            console.log(newTree)
+            console.log(this.props)
+            return newTree;
         }
 
     }
