@@ -132,6 +132,16 @@ React props state refs
 
 
 React 事件
+    在 React 底层，主要对合成事件做了两件事：事件委派和自动绑定。
+        1. 事件委派
+            在使用 React 事件前，一定要熟悉它的事件代理机制。它并不会把事件处理函数直接绑定到
+            真实的节点上，而是把所有事件绑定到结构的最外层，使用一个统一的事件监听器，这个事件监
+            听器上维持了一个映射来保存所有组件内部的事件监听和处理函数。当组件挂载或卸载时，只是
+            在这个统一的事件监听器上插入或删除一些对象；当事件发生时，首先被这个统一的事件监听器
+            处理，然后在映射里找到真正的事件处理函数并调用。这样做简化了事件处理和回收机制，效率
+            也有很大提升。
+        2. 自动绑定
+            在 React 组件中，每个方法的上下文都会指向该组件的实例，即自动绑定 this 为当前组件。
 
 	1.通过onXxx属性指定事件处理函数(注意大小写)
         a.React使用的是自定义(合成)事件, 而不是使用的原生DOM事件 —————— 为了更好的兼容性
@@ -143,9 +153,33 @@ React 事件
     1.非受控组件---现用现取获取的数据表单(是我们点击按钮之后执行函数，在函数中获取表单数据)
     1.受控组件-----表单输入的时候，实时的获取所输入的表单的内容
 
+在 React 中使用 mixin
+    import PureRenderMixin from 'react-addons-pure-render-mixin';
+    React.createClass({
+        mixins: [PureRenderMixin],
+        render() {
+            return <div>foo</div>;
+        }
+    });
+
+    在 React 中是不允许出现重名普通方法的 mixin
+    
+    如果是 React 生命周期定义的方法，则会将各个模块的生命周期方法叠加在一起顺序执行
+
+    使用 createClass 实现的 mixin 为组件做了两件事。
+        工具方法。这是 mixin 的基本功能，如果你想共享一些工具类方法，就可以定义它们，直
+        接在各个组件中使用
+    生命周期继承
+        props 与 state 合并。这是 mixin 特别重要的功能，它能够合并生命周期方
+        法。如果有很多 mixin 来定义 componentDidMount 这个周期，那么 React 会非常智能地将
+        它们都合并起来执行。同样， mixin 也可以作用在 getInitialState 的结果上，作 state 的
+        合并，而 props 也是这样合并的
+    缺点
+        破坏了原有组件的封装
+        命名冲突
+        增加复杂性
 
 高阶函数：
-
     如果一个函数符合下面2个规范中的任何一个，那该函数就是高阶函数。
         1.若A函数，接收的参数是一个函数，那么A就可以称之为高阶函数。
         2.若A函数，调用的返回值依然是一个函数，那么A就可以称之为高阶函数。
@@ -161,6 +195,50 @@ React 事件
                 }
             }
         }
+
+高阶组件
+
+    高阶组件（ higher-order component），类似于高阶函数，它接受 React 组件作为输入，
+    输出一个新的 React 组件
+
+    高阶组件让我们的代码更具有复用性、逻辑性与抽象特性。
+
+    实现高阶组件的方法有如下两种。
+        属性代理（ props proxy） 。高阶组件通过被包裹的 React 组件来操作 props。
+        反向继承（ inheritance inversion） 。高阶组件继承于被包裹的 React 组件。
+            1. 属性代理
+                属性代理是常见高阶组件的实现方法，我们通过一个例子来说明：
+                import React, { Component } from 'React';
+                const MyContainer = (WrappedComponent) =>
+                    class extends Component {
+                        render() {
+                            return <WrappedComponent {...this.props} />;
+                        }
+                }
+            2. 反向继承
+                另一种构建高阶组件的方法称为反向继承，从字面意思上看，它一定与继承特性相关。我们
+                同样来看一个简单的实现：2.5 组件间抽象 
+
+                const MyContainer = (WrappedComponent) =>
+                    class extends WrappedComponent {
+                        render() {
+                            return super.render();
+                        }
+                }
+                它有两个比较大的特点，下面我们展开来讲一讲。
+                    1.渲染劫持
+                        渲染劫持指的就是高阶组件可以控制 WrappedComponent 的渲染过程，并渲染各种各样的结果
+
+                        const MyContainer = (WrappedComponent) =>
+                            class extends WrappedComponent {
+                                render() {
+                                    if (this.props.loggedIn) {
+                                        return super.render();
+                                    } else {
+                                        return null;
+                                }
+                            }
+                        }
 
 
 React 生命周期
