@@ -1,0 +1,15 @@
+
+
+
+export  const INCREMENT = 'INCREMENT';
+// export type INCREMENT = typeof INCREMENT
+
+export const DECREMENT = 'DECREMENT';
+// export type DECREMENT = typeof DECREMENT
+
+// export const INCREMENT_ENTHUSIASM = 'INCREMENT_ENTHUSIASM';
+// export type INCREMENT_ENTHUSIASM = typeof INCREMENT_ENTHUSIASM;
+
+
+// export const DECREMENT_ENTHUSIASM = 'DECREMENT_ENTHUSIASM';
+// export type DECREMENT_ENTHUSIASM = typeof DECREMENT_ENTHUSIASM;

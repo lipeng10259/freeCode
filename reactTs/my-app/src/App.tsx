@@ -1,12 +1,10 @@
-import React, {ReactNode } from 'react';
+import React, {ReactNode,lazy,Suspense} from 'react';
 import {Link,Route,Switch} from 'react-router-dom'
-import Hello from './components/Hello/index'
-import Home from './components/Home/index'
-import About from './components/About/index'
-import Increment from './containers/Increment/index'
-import {routes} from './routerConfig/routes.js'
-// import store from './redux/store'
-
+import {routes} from './routerConfig/routes'
+const Hello = lazy(()=>import('./components/Hello/index'))
+const Home = lazy(()=>import('./components/Home/index'))
+const About = lazy(()=>import('./components/About/index'))
+const Increment = lazy(()=>import('./containers/Increment/index'))
 function App() {
   return (
     <div className="App">
@@ -20,10 +18,13 @@ function App() {
         }        
       </ul>
       <Switch>
-        <Route path = '/home' component = {Home}></Route>
-        <Route path = '/hello' component = {Hello}></Route>
-        <Route path = '/about' component = {About}></Route>
-        <Route path = '/Increment' component = {Increment}></Route>
+        <Suspense fallback = {<h1>loading.....</h1>}>
+          <Route path = '/home' component = {Home}></Route>
+          <Route path = '/hello' component = {Hello}></Route>
+          <Route path = '/about' component = {About}></Route>
+          <Route path = '/Increment' component = {Increment}></Route>
+        </Suspense>
+   
 
       </Switch>
   

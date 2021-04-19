@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 
-
-
 interface StateType {
     selectVal:number,
     incrementVal:number
 }
 interface Props {
-    [index:string]:any
+    count:number,
+    createIncrementAction:(data:number)=>void;
+    createDecrementAction:(data:number)=>void;
+
 }
-export default class IncrementUI extends Component<Props,Object> {
+export default class IncrementUI extends Component<Props,object> {
     state:StateType = {
         selectVal: 1,
         incrementVal:0
@@ -19,7 +20,6 @@ export default class IncrementUI extends Component<Props,Object> {
         return (
             <div>
                 <h1>当前求和为 {this.props.count}</h1>
-
                 <hr/>
                 <select value = {selectVal} onChange = {this.selectChange}>
                     <option value = '1'>1</option>
@@ -51,12 +51,15 @@ export default class IncrementUI extends Component<Props,Object> {
     }
     asyncIncrement =()=>{
         let {selectVal} = this.state
-        this.props.createAsynccrementAction(selectVal,500)
+        setTimeout(()=>{
+            this.props.createIncrementAction(selectVal)
+        },500)
+        // this.props.createAsyncIncrementAction(selectVal,500)
     }
     oddIncrement = ()=>{
         let {selectVal} = this.state
-        let count = this.props.count
-        if(count % 2 !== 0) {
+        let count = this.props.count as number
+        if((count ) % 2 !== 0) {
             this.props.createIncrementAction(selectVal)
         }  
     }
