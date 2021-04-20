@@ -36,20 +36,32 @@ jsx语法规则：
 
 
 React组件创建
-    
-    1. 函数式组件
 
-        function MyComponent(){
-                console.log(this); //此处的this是undefined，因为babel编译后开启了严格模式
-                return <h2>我是用函数定义的组件(适用于【简单组件】的定义)</h2>
-            }
-            //2.渲染组件到页面
-            ReactDOM.render(<MyComponent/>,document.getElementById('test'))
-            /* 
-                执行了ReactDOM.render(<MyComponent/>.......之后，发生了什么？
-                    1.React解析组件标签，找到了MyComponent组件。
-                    2.发现组件是使用函数定义的，随后调用该函数，将返回的虚拟DOM转为真实DOM，随后呈现在页面中。
-            */
+    组件，从概念上类似于 JavaScript 函数。它接受任意的入参（即 “props”），并返回用于描述页面展示内容的 React 元素。
+    组件允许你将 UI 拆分为独立可复用的代码片段，并对每个片段进行独立构思
+
+    官方在 React 组件构建上提供了 3 种不同的方法： React.createClass、 ES6 classes 和无状态函数（ stateless function）
+    
+    1. 函数式组件（无状态函数）
+        使用无状态函数构建的组件称为无状态组件
+            无状态组件只是一个 render 方法，并没有组件类的实例化过程，也没有实例返回;
+            无状态组件只传入 props 和 context 两个参数；也就是说，它不存在 state，也没有生命周
+            期方法，组件本身即上面两种 React 组件构建方法中的 render 方法。不过，像 propTypes 和
+            defaultProps 还是可以通过向方法设置静态属性来实现的。
+            在适合的情况下，我们都应该且必须使用无状态组件。无状态组件不像上述两种方法在调用
+            时会创建新实例，它创建时始终保持了一个实例，避免了不必要的检查和内存分配，做到了内部
+            优化
+            function MyComponent(){
+                    console.log(this); //此处的this是undefined，因为babel编译后开启了严格模式
+                    return <h2>我是用函数定义的组件(适用于【简单组件】的定义)</h2>
+                }
+                //2.渲染组件到页面
+                ReactDOM.render(<MyComponent/>,document.getElementById('test'))
+                /* 
+                    执行了ReactDOM.render(<MyComponent/>.......之后，发生了什么？
+                        1.React解析组件标签，找到了MyComponent组件。
+                        2.发现组件是使用函数定义的，随后调用该函数，将返回的虚拟DOM转为真实DOM，随后呈现在页面中。
+                */
 
     2. 类式组件
 
@@ -450,7 +462,21 @@ React 生命周期
             3. 卸载组件: 由ReactDOM.unmountComponentAtNode()触发
                 1.	componentWillUnmount()  =====> 常用
                     一般在这个钩子中做一些收尾的事，例如：关闭定时器、取消订阅消息
-
+        
+        源码分析组件生命周期
+            我们得到了组件的生命周期在不同状态下的执行顺序。
+                 当首次挂载组件时， 按顺序执行 getDefaultProps、 getInitialState、 componentWillMount、
+                render 和 componentDidMount。
+                 当卸载组件时，执行 componentWillUnmount。
+                 当重新挂载组件时，此时按顺序执行 getInitialState、 componentWillMount、 render 和
+                componentDidMount，但并不执行 getDefaultProps。
+                 当再次渲染组件时，组件接受到更新状态，此时按顺序执行 componentWillReceiveProps、
+                shouldComponentUpdate、 componentWillUpdate、 render 和 componentDidUpdate。 
+        注意:createClass 是创建自定义组件的入口方法，负责管理生命周期中的 getDefaultProps。该方
+            法在整个生命周期中只执行一次，这样所有实例初始化的 props 将会被共享。  
+            当使用 ES6 classes 编写 React 组件时， class MyComponent extends React.Component 其实就
+            是调用内部方法 createClass 创建组件   
+        注意:禁止在 shouldComponentUpdate 和 componentWillUpdate 中调用 setState，这会造成循环调用，直至耗光浏览器内存后崩溃。     
 Diff算法
     1). react/vue中的key有什么作用？（key的内部原理是什么？）
     2). 为什么遍历列表时，key最好不要用index?
@@ -596,7 +622,34 @@ React 路由
             HashRouter刷新后对导致路由state参数的丢失
         4. HashRouter可以用于解决一些路径错误相关的问题     
 
-        
+Redux 三大原则
+
+    想要理解 Redux，必须要知道 Redux 设计和使用的三大原则。
+        1. 单一数据源
+            因为在 Redux 的思想里，一个应用永远只有唯一的数据源,使用单一数据源的好处在于整个应用状态都保存在一个对象中，
+            这样我们随时可以提取出整个应用的状态进行持久化（比如实现一个针对整个应用的即时保存功能）
+        2. 状态是只读的
+            在 Redux 中，我们并不会自己用代码来定义一个 store。取而代之的是，我们定义一个 reducer，它的功能是根据当前触发的 action 
+            对当前应用的状态（state）进行迭代，这里我们并没有直接修改应用的状态，而是返回了一份全新的状态。
+            Redux 提供的 createStore 方法会根据 reducer 生成 store。 最后，我们可以利用 store. dispatch方法来达到修改状态的目的
+        3. 状态修改均由纯函数完成
+            在 Redux 里，我们通过定义 reducer 来确定状态的修改，而每一个 reducer 都是纯函数，这意味着它没有副作用，即接受一定的输入，必定会得到一定的输出。
+
+    Redux 核心 API
+        1.store(store 用于保存state)
+            Redux 的核心是一个 store， 这个 store 由 Redux 提供的 createStore(reducers[, initialState])
+            方法生成。从函数签名看出，要想生成 store，必须要传入 reducers，同时也可以传入第二个可选
+            参数初始化状态（ initialState）。
+            通过 createStore 方法创建的 store 是一个对象，它本身又包含 4 个方法。
+                 getState()：获取 store 中当前的状态。
+                 dispatch(action)：分发一个 action，并返回这个 action，这是唯一能改变 store 中数据的
+                方式。
+                 subscribe(listener)：注册一个监听者，它在 store 发生变化时被调用。
+                 replaceReducer(nextReducer)：更新当前 store 里的 reducer，一般只会在开发模式中调用
+                该方法。
+
+
+
 
     
 
