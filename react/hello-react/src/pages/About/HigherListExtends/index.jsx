@@ -4,15 +4,12 @@ import {HigherOrderExtends} from '../HigherOrderExtends/index'
      state = {
          name:'li'
      }
-    constructor(props) {
-        super(props)
-    }
     
     render() {
         console.log(this)
         return (
             <div>
-                HIGHERORDEREXTENDS {this.props.name}
+                HIGHERORDEREXTENDS {this.props.sex}
             </div>
         )
     }

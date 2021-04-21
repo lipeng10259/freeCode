@@ -3,13 +3,13 @@ import React, { Component } from 'react'
 import HigherOrderExtends from './HigherListExtends/index'
 export default class About extends Component {
     render() {
-        console.log(<HigherOrderExtends/>)
+        console.log(HigherOrderExtends)
         return (
             <div>
                 about
                 {/* <HigherList item = {{a:1,b:2}}></HigherList> */}
                 
-                <HigherOrderExtends sex = 'oooo'/>
+                <HigherOrderExtends/>
             </div>
         )
     }

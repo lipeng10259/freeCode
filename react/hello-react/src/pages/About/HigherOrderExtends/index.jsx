@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom'
 
 export  function HigherOrderExtends  (WrapComponent) {
     return class extends WrapComponent {
-        constructor(props) {
-            super(props)
-        }
         // componentDidMount () {
         //     this.setState({
         //         age:12
@@ -27,15 +24,14 @@ export  function HigherOrderExtends  (WrapComponent) {
             if (tree && tree.type === 'input') {
                 newProps.value = 'something here';
             }
-            const props = {
+            const props1 = {
                 ...tree.props,
                 ...newProps,
             };
-            const newTree = React.cloneElement(tree, props, tree.props.children);
+            const newTree = React.cloneElement(tree, props1,tree.props.children);
             
-            console.log(newTree)
-            console.log(this.props)
-            return newTree;
+            // console.log(newTree)
+            return <div className = 'tt'>{newTree}</div> ;
         }
 
     }
