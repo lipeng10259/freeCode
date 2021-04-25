@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <iframe id = 'iframeNode' src="./iframe.html" frameborder="0"></iframe>
+    <script>
+    //     let obj = {
+    //         a:1
+    //     }
+    //     let sb1 = Symbol('1')
+    //     let sbObj = Symbol(obj)
+    //     console.log(sb1.toString() + 'a')
+    //     console.log(sbObj)
+
+    //     const log = {};
+
+    //     log.levels = {
+    //     DEBUG: Symbol('debug'),
+    //     INFO: Symbol('info'),
+    //     WARN: Symbol('warn')
+    //     };
+    //     console.log(log.levels.DEBUG, 'debug message');
+    //     console.log(log.levels.INFO, 'info message');
+    //     let iframeNode= document.getElementById('iframeNode');
+    //     let sys = Symbol.for('foo')
+    //     console.log(iframeNode.contentWindow.Symbol.for('foo') === sys)
+
+
+    //     let arr1 = ['c', 'd'];
+    //     ['a', 'b'].concat(arr1, 'e') // ['a', 'b', 'c', 'd', 'e']
+    //    console.log(arr1[Symbol.isConcatSpreadable]) // undefined
+
+    //     let arr2 = ['c', 'd'];
+    //     console.log(arr2[Symbol.isConcatSpreadable] = false)
+    //     ['a', 'b'].concat(arr2, 'e') // ['a', 'b', ['c','d'], 'e']
+
+    let arr = ['a', 'b', 'c'];
+let iter = arr[Symbol.iterator]();
+
+iter.next() // { value: 'a', done: false }
+iter.next() // { value: 'b', done: false }
+iter.next() // { value: 'c', done: false }
+iter.next() // { value: undefined, done: true }
+
+
+str = 'abcdefgh'
+
+// str[Symbol.iterator]()
+
+// for (const iterator of str) {
+//     console.log(iterator)
+// }
+
+var setList = new Set([1,2,3,4,5,6,7,8,9,0])
+
+// setList.forEach(element => {
+//     console.log(element)
+// });
+
+// for (const key of setList) {
+//     console.log(key)
+// }
+
+async function  fnc () {
+ 
+        let set = new Promise((resolve,reject)=>{
+            setTimeout(()=>{
+                resolve(1000)
+            },1000)
+        })
+    let num = await set;
+   
+    let num2 = await set
+    return num2;
+}
+fnc().then(res=>{
+    console.log(res)
+})
+
+async function f() {
+    return setTimeout(()=>{
+        return 'hello world hello world';
+    },1000)
+ 
+}
+
+f().then(v => console.log(v))
+
+
+
+function sleep(interval) {
+  return new Promise(resolve => {
+    setTimeout(resolve, interval);
+  })
+}
+
+// 用法
+async function one2FiveInAsync() {
+  for(let i = 1; i <= 5; i++) {
+    console.log(i);
+    await sleep(1000);
+  }
+}
+
+one2FiveInAsync(); 
+
+
+    </script>
+</body>
+</html>

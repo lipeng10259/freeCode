@@ -1,0 +1,139 @@
+this
+    JavaScript 的this 总是指向一个对象，而具体指向哪个对象是在
+    运行时基于函数的执行环境动态绑定的，而非函数被声明时的环境。
+    this的指向
+        this 的指向大致可以分为以下4 种。
+             作为对象的方法调用。
+                当函数作为对象的方法被调用时，this 指向该对象
+             作为普通函数调用。
+                当函数不作为对象的属性被调用时，也就是我们常说的普通函数方式，此时的this 总是指向全局对象。
+             构造器调用。
+                构造器里的this 就指向返回的这个对象
+
+             Function.prototype.call 或Function.prototype.apply 调用。
+                跟普通的函数调用相比，用Function.prototype.call 或Function.prototype.apply 
+                可以动态地改变传入函数的this
+call和apply的区别
+    区别
+        apply 接受两个参数，第一个参数指定了函数体内this 对象的指向，第二个参数为一个带下标的集合，这个集合可以为数组
+        call 传入的参数数量不固定，跟apply 相同的是，第一个参数也是代表函数体内的this 指向，从第二个参数开始往后是字符串
+    作用
+        改变this 指向
+            call 和apply 最常见的用途是改变函数内部的this 指向
+        借用其他对象的方法
+闭包
+    一个函数可以访问另一个函数里面的变量
+    变量的作用域
+        变量的作用域，就是指变量的有效范
+    变量的生存周期
+        对于全局变量来说，全局变量的生存周期当然是永久的，除非我们主动销毁这个全局变量。
+        而对于在函数内用var 关键字声明的局部变量来说，当退出函数时，这些局部变量即失去了
+        它们的价值，它们都会随着函数调用的结束而被销毁
+    作用
+        1. 封装变量
+            闭包可以帮助把一些不需要暴露在全局的变量封装成“私有变量”
+        2. 延续局部变量的寿命
+            var report = (function(){
+                    var imgs = [];
+                    return function( src ){
+                    var img = new Image();
+                    imgs.push( img );
+                    img.src = src;
+                }
+            })();
+    缺点: 
+        闭包容易造成内存泄露
+高阶函数
+    高阶函数是指至少满足下列条件之一的函数。
+         函数可以作为参数被传递；
+         函数可以作为返回值输出。
+    应用场景
+        1. 回调函数
+        2. Array.prototype.sort
+        3. 函数节流
+            var throttle = function ( fn, interval ) {
+                var __self = fn, // 保存需要被延迟执行的函数引用
+                timer, // 定时器
+                firstTime = true; // 是否是第一次调用
+                return function () {
+                    var args = arguments,
+                    __me = this;
+                    if ( firstTime ) { // 如果是第一次调用，不需延迟执行
+                        __self.apply(__me, args);
+                        return firstTime = false;
+                    }
+                    if ( timer ) { // 如果定时器还在，说明前一次延迟执行还没有完成
+                        return false;
+                    }
+                    timer = setTimeout(function () { // 延迟一段时间执行
+                            clearTimeout(timer);
+                            timer = null;
+                            __self.apply(__me, args);
+                        }, interval || 500 );
+                    };
+                };
+                window.onresize = throttle(function(){
+                    console.log( 1 );
+                }, 500 );
+            4. 分时函数
+                var timeChunk = function( ary, fn, count ){
+                    var obj,
+                    t;
+                    var len = ary.length;
+                    var start = function(){
+                        for ( var i = 0; i < Math.min( count || 1, ary.length ); i++ ){
+                                var obj = ary.shift();
+                                fn( obj );
+                            }
+                        };
+                        return function(){
+                            t = setInterval(function(){
+                                if ( ary.length === 0 ){ // 如果全部节点都已经被创建好
+                                    return clearInterval( t );
+                                }
+                                start();
+                            }, 200 ); // 分批执行的时间间隔，也可以用参数的形式传入
+                        };
+                    };
+        4. 分时函数
+            var timeChunk = function( ary, fn, count ){
+                var obj,
+                t;
+                var len = ary.length;
+                var start = function(){
+                    for ( var i = 0; i < Math.min( count || 1, ary.length ); i++ ){
+                        var obj = ary.shift();
+                        fn( obj );
+                    }
+                };
+                return function(){
+                    t = setInterval(function(){
+                        if ( ary.length === 0 ){ // 如果全部节点都已经被创建好
+                            return clearInterval( t );
+                        }
+                        start();
+                    }, 200 ); // 分批执行的时间间隔，也可以用参数的形式传入
+                };
+            };            
+        5. 惰性加载函数
+            。此时addEvent 依然被声明为一个普通函
+            数，在函数里依然有一些分支判断。但是在第一次进入条件分支之后，在函数内部会重写这个函
+            数，重写之后的函数就是我们期望的addEvent 函数，在下一次进入addEvent 函数的时候，addEvent
+            函数里不再存在条件分支语句
+            var addEvent = function( elem, type, handler ){
+                if ( window.addEventListener ){
+                    addEvent = function( elem, type, handler ){
+                    elem.addEventListener( type, handler, false );
+                }
+                }else if ( window.attachEvent ){
+                    addEvent = function( elem, type, handler ){
+                        elem.attachEvent( 'on' + type, handler );
+                    }
+                }
+                    addEvent( elem, type, handler );
+                };
+
+单例模式 
+    单例模式的定义是：保证一个类仅有一个实例，并提供一个访问它的全局访问点。
+
+
