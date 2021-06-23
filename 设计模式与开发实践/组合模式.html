@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id = 'refresh'>refresh</button>
+    <button>add</button>
+    <button>del</button>
+    <button>refresh</button>
+    <script>
+        (()=>{
+            // 闭包命令模式
+            var setCommand = function(button,func) {
+                button.onclick = function () {
+                    func.execute()
+                }
+            }
+
+            var MenuBar = {
+                refresh:function () {
+                    console.log('刷新页面')
+                }
+            }
+
+            var RefreshMenuBarCommand = function(receiver) {
+                return {
+                    execute:function(){
+                        receiver.refresh()
+                    }
+                    
+                }
+            }
+
+            var refreshMenuBarCommand = RefreshMenuBarCommand(MenuBar);
+
+            setCommand(document.getElementById('refresh'),refreshMenuBarCommand)
+        })()
+        
+
+    </script>
+</body>
+</html>
