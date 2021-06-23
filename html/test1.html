@@ -1,115 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <iframe id = 'iframeNode' src="./iframe.html" frameborder="0"></iframe>
-    <script>
-    //     let obj = {
-    //         a:1
-    //     }
-    //     let sb1 = Symbol('1')
-    //     let sbObj = Symbol(obj)
-    //     console.log(sb1.toString() + 'a')
-    //     console.log(sbObj)
+<!doctype html> <html> <head> <meta charset="utf-8"> <title>品字布局</title> <style> * {margin: 0; padding: 0; }body { overflow: hidden; }div { margin: auto 0; width: 100px; height: 100px; background: red; font-size: 40px; line-height: 100px; color: #fff; text-align: center; }.div1 { margin: 100px auto 0; }.div2 { margin-left: 50%; background: green; float: left;transform: translateX(-100%); }.div3 { background: blue; float: left; transform: translateX(-100%); } </style> </head> <body> <div class="div1">1</div> <div class="div2">2</div> <div class="div3">3</div> 
+<script>
 
-    //     const log = {};
+function Parent5 () { this.name = 'parent5'; this.play = [1, 2, 3]; }
+function Child5() { Parent5.call(this); this.type = 'child5'; }
+Child5.prototype = Object.create(Parent5.prototype); 
+Child5.prototype.constructor = Child5;
+console.log(Child5.prototype)
 
-    //     log.levels = {
-    //     DEBUG: Symbol('debug'),
-    //     INFO: Symbol('info'),
-    //     WARN: Symbol('warn')
-    //     };
-    //     console.log(log.levels.DEBUG, 'debug message');
-    //     console.log(log.levels.INFO, 'info message');
-    //     let iframeNode= document.getElementById('iframeNode');
-    //     let sys = Symbol.for('foo')
-    //     console.log(iframeNode.contentWindow.Symbol.for('foo') === sys)
+var p = new Promise((resolve,reject)=>{
+
+    setTimeout(()=>{
+        resolve(1)
+    },2000)
 
 
-    //     let arr1 = ['c', 'd'];
-    //     ['a', 'b'].concat(arr1, 'e') // ['a', 'b', 'c', 'd', 'e']
-    //    console.log(arr1[Symbol.isConcatSpreadable]) // undefined
-
-    //     let arr2 = ['c', 'd'];
-    //     console.log(arr2[Symbol.isConcatSpreadable] = false)
-    //     ['a', 'b'].concat(arr2, 'e') // ['a', 'b', ['c','d'], 'e']
-
-    let arr = ['a', 'b', 'c'];
-let iter = arr[Symbol.iterator]();
-
-iter.next() // { value: 'a', done: false }
-iter.next() // { value: 'b', done: false }
-iter.next() // { value: 'c', done: false }
-iter.next() // { value: undefined, done: true }
-
-
-str = 'abcdefgh'
-
-// str[Symbol.iterator]()
-
-// for (const iterator of str) {
-//     console.log(iterator)
-// }
-
-var setList = new Set([1,2,3,4,5,6,7,8,9,0])
-
-// setList.forEach(element => {
-//     console.log(element)
-// });
-
-// for (const key of setList) {
-//     console.log(key)
-// }
-
-async function  fnc () {
- 
-        let set = new Promise((resolve,reject)=>{
-            setTimeout(()=>{
-                resolve(1000)
-            },1000)
-        })
-    let num = await set;
-   
-    let num2 = await set
-    return num2;
-}
-fnc().then(res=>{
-    console.log(res)
 })
 
-async function f() {
-    return setTimeout(()=>{
-        return 'hello world hello world';
-    },1000)
- 
+p.then(data=>{
+    console.log(data)
+})
+
+var arr = [1,2,3,4,5,6,7,8,9,10]
+
+function func (arr) {
+    let numArr = []
+    for (let i = 0;i<arr.length;i++) {
+        for (let j = i + 1;i<arr.length;j++) {
+            if(arr[i] + arr[j] === 9) {
+                numArr.push({i,j})
+            }
+        }
+    }
+    return numArr
 }
 
-f().then(v => console.log(v))
+console.log(func(arr))
 
+</script>
 
-
-function sleep(interval) {
-  return new Promise(resolve => {
-    setTimeout(resolve, interval);
-  })
-}
-
-// 用法
-async function one2FiveInAsync() {
-  for(let i = 1; i <= 5; i++) {
-    console.log(i);
-    await sleep(1000);
-  }
-}
-
-one2FiveInAsync(); 
-
-
-    </script>
-</body>
-</html>
+</body> </html>

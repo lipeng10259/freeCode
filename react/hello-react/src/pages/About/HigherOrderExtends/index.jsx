@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
+
 
 export  function HigherOrderExtends  (WrapComponent) {
     return class extends WrapComponent {

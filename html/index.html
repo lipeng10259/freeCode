@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+var arr = [1,2,3,4,5,6,7,8,9,10]
+
+function func (arr,target) {
+    let numArr = []
+    for (let i = 0;i<arr.length;i++) {
+        for (let j = (i + 1);j < arr.length;j++) {
+            if(arr[i] + arr[j] === target) {
+                numArr.push({i,j})
+            }
+        }
+    }
+    return numArr
+}
+
+var arr1 = [['1','2','3'],['b','c'],['a','b','c','d']]
+let str = '';
+// function arrAdd (arr) {
+//     for(let i = 0; i < arr.length; i++) {
+//         if(Array.isArray(arr[i])){
+//             arrAdd(arr[i])
+//         } else {
+//             console.log(arr[i])
+//         }
+//     }  
+// }
+
+
+for (var i = 0;i<arr1.length;i++){
+    let arr2 = arr1[i];
+    let str = ''
+    for (var j = 0;j < arr2.length;j++){
+        str+=arr2[j]
+    }
+
+    console.log(str)
+}
+
+
+arr1.reduce((pre,next)=>{
+    console.log(pre,next)
+},[])
+
+var stringLength = 'abcrtyudce'
+
+
+var lengthOfLongestSubstring = function(s) {
+    var arr = [],max = 0;
+    for(var i = 0;i<s.length;i++){
+        let index = arr.indexOf(s[i])
+        if(index !== -1) {
+            arr.splice(0,index + 1)
+            console.log(index)
+        } 
+       
+        arr.push(s.charAt(i)) 
+        console.log(arr)
+    }
+
+    return Math.max(arr.length,max)
+
+};
+
+console.log(lengthOfLongestSubstring(stringLength))
+
+// function strFunc (stringLength) {
+//     let str = stringLength.substr(0,1)
+//     console.log(str)
+// }
+
+// strFunc(stringLength)
+// function arrLength () {
+//    for(var i = 0; i <curArr.length;i++){
+
+//     if(curArr.indexOf(curArr[i],0)!== -1){
+
+//     }
+// } 
+// }
+
+
+
+
+// console.log(arrAdd(arr1))
+
+
+
+
+console.log(func(arr,9))
+
+
+
+// 1 1 2 3 5 8 13 
+
+function numEarch(num) {
+    let num1 = 1
+    let num2 = 1
+    for(var i = 1;i < num;i++){
+        if(i < 3) {
+            console.log(1,',')
+        } else {
+            let c = num1 + num2;
+            console.log(c); 
+            num2 = num1
+            num1 = c
+        }
+    }
+}
+
+
+
+
+numEarch(8)
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
+

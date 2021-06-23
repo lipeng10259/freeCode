@@ -5,11 +5,472 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .wrapper {
+            width: 900px;
+            height: 900px;
+            background-color: gray;
+            display: table-cell;
+            vertical-align: middle;
+            }
+            .content {
+            background-color: red;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+        /* .wrapper {
+            height: 900px;
+            background-color: gray;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .content {
+            background-color: red;
+            width: 300px;
+            height: 300px;
+        } */
+    </style>
 </head>
 <body>
-    iframe
-    <script>
+    <div class="wrapper">
+        <div class="content">
+iframe
+        </div>
+    </div>
+    
+    <!-- <script>
         let iframeSymbol = Symbol.for('foo')
+        const obj1 = {};
+        const obj2 = new Object();
+        function func1() {
+
+        }
+        const obj3 = new func1();
+        const func2 = new function() {
+
+        }
+        const func3 = new Function()
+        console.dir(obj1);  // object
+        console.log(typeof obj1);  // object
+        console.log(typeof obj2);  // object
+        console.dir(obj3);  // object
+        console.log(typeof obj3);  // object
+        console.log(typeof func1);  // function
+        console.dir(func1);  // function
+        console.dir(func3);  // function
+        console.log(typeof func2);  // function
+        console.log(typeof func3);  // function
+    </script> -->
+    <!-- <script>
+        //定义三种状态
+        const PENDING = "pending";
+        const FULFILLED = "fulfilled";
+        const REJECTED = "rejected";
+
+        function MyPromise (executor) {
+            let self = this
+            self.value = null
+            self.error = null
+            self.status = PENDING
+            self.onFulfilled = null; //成功的回调函数
+            self.onRejected = null; //失败的回调函数
+
+            const resolve = (value)=>{
+                if(self.status!== PENDING) return;
+                setTimeout(()=>{
+                    self.status = FULFILLED
+                    self.value = value;
+                    self.onFulfilled(self.value)
+                })
+            }
+            const rejected = (value)=>{
+                if(self.status!== PENDING) return;
+                setTimeout(()=>{
+                    self.status = REJECTED
+                    self.error = value;
+                    self.onRejected(self.error)
+                })
+            }
+
+            executor(resolve,rejected)
+        }
+
+        MyPromise.prototype.then = function(onFulfilled, onRejected) {
+            if(this.status === PENDING) {
+                this.onFulfilled = onFulfilled;
+                this.onRejected = onRejected;
+            }else if (this.status === FULFILLED) {
+                //如果状态是fulfilled，直接执行成功回调，并将成功值传入
+                onFulfilled(this.value)
+            } else {
+                //如果状态是rejected，直接执行失败回调，并将失败原因传入
+                onRejected(this.error)
+            }
+                return this;
+            }
+
+            let promise1 = new MyPromise((resolve, reject) => {
+                setTimeout(() => {
+                    if(!true){
+                        resolve(1);
+                    }else {
+                        reject(2);
+                    }
+                },1000)
+            });
+            promise1.then(
+                res=>{
+                console.log(res)
+            },
+            error=>{
+                console.log(error)
+            }
+            )
+
+
+            function* A() {
+console.log("我是A");
+yield B(); // A停住，在这里转交线程执行权给B
+console.log("结束了");
+}
+function B() {
+console.log("我是B");
+return 100;// 返回，并且将线程执行权还给A
+}
+let gen = A();
+gen.next();
+gen.next();
+gen.next();
+gen.next();
+gen.next();
+    </script> -->
+    <script>
+
+// let isType = (type) => {
+//     return (obj) => {
+//         return Object.prototype.toString.call(obj) === `[object ${type}]`;
+//     }
+// }
+
+// const gen = function* () {
+//     const data1 = yield readFileThunk('001.txt')
+//     console.log(data1.toString())
+//     const data2 = yield readFileThunk('002.txt')
+//     console.log(data2.toString)
+// }
+
+
+// Array.prototype.myMap = function(fn, context){
+// var arr = Array.prototype.slice.call(this);//由于是ES5所以就不用...展开符了
+// var mappedArr = [];
+// for (var i = 0; i < arr.length; i++ ){
+// mappedArr.push(fn.call(context, arr[i], i, this));
+// }
+// return mappedArr;
+// }
+
+
+// Array.prototype.myMap = function (fn) {
+
+//     var arr = []
+
+//     var curArr = Array.prototype.slice.call(this)
+
+//     for(var i = 0;i< curArr.length;i++){
+
+//         arr.push(fn.call(this,curArr[i],i,this))
+
+//     }
+//     return arr;
+// }
+
+// var arr = [1,2,3,4,5]
+
+// console.log(arr.myMap(function (i,idx,ar) {
+//     console.log(i,idx,arr)
+//     return i;
+// }))
+// setTimeout(_ => console.log(4))
+
+// new Promise(resolve => {
+//   resolve()
+//   console.log(1)
+// }).then(_ => {
+//   console.log(3)
+// })
+
+// console.log(2)
+
+
+// function* gen() {
+// console.log("enter");
+// let a = yield 1;
+// let b = yield (function () {return 2})();
+// return 3;
+// }
+// var g = gen() // 阻塞住，不会执行任何语句
+// console.log(typeof g) // object 看到了吗？不是"function"
+// console.log(g.next())
+// console.log(g.next())
+// console.log(g.next())
+// console.log(g.next())
+// console.log(1)
+
+
+// const readFileThunk = function (t) {
+//     return (callback)=>{
+//        setTimeout(callback.bind(null,t), 2000);
+//     }
+// }
+
+
+// function *gen () {
+//     yield readFileThunk(1)
+//     yield readFileThunk(12)
+    
+//     return 109
+
+
+// }
+
+// var g = gen()
+// g.next().value(function (txt){
+//     console.log(txt)
+
+// })
+
+// g.next().value(function (txt){
+//         console.log(txt)
+//     })
+// console.log(123)
+
+// function run (gen) {
+//    const next = function (txt) {
+//         let res = gen.next()
+//         console.log(txt)
+//         if(res.done) return;
+//         res.value(next)
+//     }
+//     next()
+// }
+// run(g)
+
+// ;(()=>{
+
+//     function promiseRead (txt) {
+//         return new Promise((resolve,reject)=>{
+//             setTimeout(() => {
+//                 resolve(txt)
+//             }, 2000);
+//         })
+//     }
+
+//     function *promiseGen () {
+//         yield promiseRead(123)
+//         yield promiseRead(1234)
+//         return 
+//     }
+//     let g = promiseGen(); 
+  
+//     function getGenPromise (gen,data) {
+//         return gen.next(data).value
+//     }
+
+//     getGenPromise(g).then(data1 => {
+//         console.log(data1)
+//         return getGenPromise(g, data1);
+//     }).then(data2 => {
+//         console.log(data2)
+      
+//     })
+
+// })()
+
+;(()=>{
+
+    Array.prototype.MyMap = function (fn,context) {
+
+        let self = this
+        let arr = []
+        for (var i = 0; i< this.length;i++) {
+            arr.push(fn.call(context,self[i],i,self))
+
+        }
+
+        return arr
+    }
+    var a = [1,2,3,4,5]
+    console.log(a.MyMap((data,idx,arr)=>{
+        return data * 2
+    }))
+
+
+})()
+
+;(()=>{
+
+Array.prototype.MyReduce = function (fn,initVal) {
+
+    var self = Array.prototype.slice.call(this);
+
+    var res = initVal ? initVal : self[0]
+
+    var startIdx = initVal ? 0 : 1
+    
+    for (var i = startIdx; i< self.length; i++) {
+
+        res = fn.call(null,res,self[i],i,this)
+
+    }
+
+    return res
+}
+var a = [1,2,3,4,5]
+console.log(a.MyReduce((prev,curval,idx,arr)=>{
+    console.log(prev,curval)
+    return prev + curval
+}))
+
+
+})()
+;(()=>{
+
+Function.prototype.MyCall = function (context,...args) {
+    var context = context ? context : window
+    let fnc = this
+
+    let fn = Symbol('fn')
+
+    context[fn] = fnc
+
+    let res = context[fn](...args)
+
+    delete context[fn];
+
+    return res
+}
+var a = {
+    say:function(arg){
+        console.log(arg)
+    }
+}
+
+a.say.MyCall(null,'你好')
+
+
+})()
+;(()=>{
+
+Function.prototype.MyApp = function (context,args) {
+    var context = context ? context : window
+    let fnc = this
+
+    let fn = Symbol('fn')
+
+    context[fn] = fnc
+
+    let res = context[fn](args)
+
+    delete context[fn];
+
+    return res
+}
+var a = {
+    say:function(arg){
+        console.log(arg)
+    }
+}
+
+a.say.MyCall(null,['你','好'])
+
+var obj = {
+    age:1,
+    name:2
+}
+
+
+var obj2 = Object.create(obj)
+
+console.log(obj2.prototype)
+console.dir(obj2.__proto__ === obj)
+
+})()
+;(()=>{
+
+    Object.prototype.MyCreate = function (context) {
+        function F () {}
+        F.prototype = context
+        F.prototype.constructor = F;
+        return new F()
+}
+var a = {
+    say:function(arg){
+        console.log(arg)
+    }
+}
+
+console.log(Object.MyCreate(a))
+
+var obj = {
+    age:1,
+    name:2
+}
+
+
+var obj2 = Object.create(obj,{c:{get: function(){
+            console.log('getTaste')
+            return 'good'
+        }}})
+
+console.log(obj2)
+
+
+})()
+;(()=>{
+
+Function.prototype.MyBind = function (context,...args) {
+
+    let self = this
+
+    let fd = function () {
+        return self.apply(this instanceof fd ? this : context || window , args.concat(Array.prototype.slice(arguments)))
+    }
+
+    fd.prototype = Object.create(this.prototype)
+
+    return fd;
+
+}
+var a = {
+say:function(arg){
+    console.log(arg)
+}
+}
+
+console.log(Object.MyCreate(a))
+
+var obj = {
+age:1,
+name:2
+}
+
+
+var obj2 = Object.create(obj,{c:{get: function(){
+        console.log('getTaste')
+        return 'good'
+    }}})
+
+console.log(obj2)
+
+
+})()
+
+
     </script>
+
+
 </body>
 </html>

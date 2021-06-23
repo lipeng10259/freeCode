@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            overflow: hidden;
+        }
+        .div1 { 
+            width: 100%;
+            height: 200px; margin: 20px 0; background-color: red; 
+            overflow: hidden;
+  
+        }
+        .div2 {
+            width: 100%;
+            
+            height: 100px; margin: 50px 0; background-color: blue;  
+            /* overflow: hidden;   */
+        }
+        .parent p { clear:both }.left { float: left; height: 200px; width: 100px; background-color: red; }.right { float: right; height: 200px; width: 100px; background-color: blue; }
+    </style>
+</head>
+<body>
+    <!-- <div id="div1">
+        <button id="btn">按钮</button>
+    </div> -->
+    <!-- <div class="div1"> 
+        <div class="div2"></div>
+
+    </div>  -->
+    <div class="parent"> <div class="left"></div> <div class="right"></div> <p></p> </div>
+    
+<script>
+    // var btn = document.getElementById("btn");
+    // var div1 = document.getElementById("div1");
+
+    // //事件冒泡
+    // btn.onclick = function(){
+    //     console.log("冒泡1.Click btn");
+    // }
+    // div1.onclick = function(){
+    //     console.log("冒泡1.5 Click div1");
+    // }
+    // document.body.onclick = function(){
+    //     console.log("冒泡2.Click Body");
+    // }
+    // document.onclick = function(){
+    //     console.log("冒泡3.Click document");
+    // }
+    // window.onclick = function(){
+    //     console.log("冒泡4.Click window");
+    // }
+
+    // //事件捕获
+    // window.addEventListener("click",function(){
+    //     console.log("捕获4.Click window");
+    // },true);
+    // document.addEventListener("click",function(){
+    //     console.log("捕获3.Click document");
+    // },true);
+    // document.body.addEventListener("click",function(){
+    //     console.log("捕获2.Click body");
+    // },true);
+    // div1.addEventListener("click",function(){
+    //     console.log("捕获1.5 Click div1");
+    // },true);
+    // btn.addEventListener("click",function(){
+    //     console.log("捕获1.Click btn");
+    // },true);
+
+    function intan (left ,right) {
+        // //基本数据类型直接返回false 
+        if((typeof left !== 'object' && typeof left !== 'function') || left === null) return false;
+
+         //getProtypeOf是Object对象自带的一个方法，能够拿到参数的原型对象
+        let proto = Object.getPrototypeOf(left); 
+        while(true) { 
+            //查找到尽头，还没找到
+            if(proto == null) return false; 
+            //找到相同的原型对象
+            if(proto == right.prototype) return true; 
+            proto = Object.getPrototypeOf(proto); 
+        }
+        // if(typeof left !== 'object' || left === null) return false;
+        //     let protoObject = right.prototype
+        //     let proto = left.__proto__
+        //     console.log(proto===protoObject)
+        //     while(true) {
+        //         if(proto === null) return false
+        //         else if (proto!==protoObject) return false
+        //         else if (proto===protoObject) return true
+        //         proto = Object.getPrototypeOf(proto)
+        //     }
+    }
+
+    var obj = new Function()
+
+    // console.dir(obj)
+
+    function f () {}
+
+    let f1 = new f()
+    console.log(intan(f1,f),10)
+    console.log(f1 instanceof Object,12);
+    console.log(obj instanceof Function,13);
+    console.log(intan(obj,Function),14);
+    console.log(typeof obj);
+    // console.dir(obj.__proto__ === Function.prototype)
+    for(let i = 1; i <= 5; i++){ setTimeout(function timer(){ console.log(i) },1000) }
+</script>
+
+</body>
+</html>

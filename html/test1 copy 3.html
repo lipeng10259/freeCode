@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<script>
+   function F () {}
+    
+   F.prototype.say = function  () {}
+   F.prototype.name = 'li'
+
+   var f = new F()
+   var f1 = new F()
+
+
+   // new Object() 方式创建
+// var a = {  rep : 'apple' }
+// var b = new Object(a)
+// console.log(b) // {rep: "apple"}
+// console.log(b.__proto__) // {}
+// console.log(b.rep) // {rep: "apple"}
+
+// Object.create() 方式创建
+var a = { rep: 'apple' }
+var b = Object.create(a)
+console.log(b)  // {}
+console.log(b.__proto__ === a) // {rep: "apple"}
+console.log(b.rep) // {rep: "apple"}
+
+var ar = [1, [2, [3, [4, 5]]], 6];
+
+var curArr = []
+
+function fl (arr) {
+    if(Array.isArray(arr)) {
+        for(var i = 0;i<arr.length;i++) {
+            if(Array.isArray(arr[i])){
+                fl(arr[i]) 
+            } else {
+                curArr.push(arr[i])
+            }
+        }
+    }
+}
+fl(ar)
+console.log(curArr)
+console.log(ar.flat(Infinity));
+
+console.log(JSON.stringify(ar).replace(/\[|\]/g,'').split(','))
+console.log(JSON.parse("["+(JSON.stringify(ar).replace(/\[|\]/g,''))+"]"))
+
+function flatten (arr) {
+    return arr.reduce((pre,nxt,arr)=>{
+        return pre.concat(Array.isArray(nxt) ? flatten(nxt) : nxt)
+    },[]) 
+}
+console.log(flatten(ar))
+
+
+//只要有一个元素有数组，那么循环继续
+ while (ar.some(Array.isArray)) { 
+     ar = [].concat(...ar); 
+}
+
+console.log(ar,12233)
+
+
+// function *ger () {
+//     yield 1
+//     yield  setTimeout(()=>{console.log(4) },1000)
+//     yield 3 
+//     return 1
+// }
+
+// var g = ger()
+
+// console.log(11)
+// console.log(g.next())
+// console.log(22)
+// console.log(g.next())
+// console.log(33)
+// console.log(g.next())
+// console.log(44)
+// console.log(g.next())
+
+
+async function ger () {
+    let a = await setTimeout(()=>{console.log(4); },1500)
+    await  setTimeout(()=>{console.log(5) },1600)
+    await setTimeout(()=>{console.log(6) },1000) 
+}
+
+var g = ger()
+
+console.log(g)
+
+// console.log(11)
+// console.log(g.next())
+// console.log(22)
+// console.log(g.next())
+// console.log(33)
+// console.log(g.next())
+// console.log(44)
+// console.log(g.next())
+
+
+</script>
+</body>
+</html>
